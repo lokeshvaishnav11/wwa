@@ -81,7 +81,7 @@ const Routers = () => {
           path: '/',
           element: <Main />,
           children: [
-            { index: true, element: <Dashboard /> },
+            { index: true, element: <NewDashboard /> },
             { path: 'dashbaord', element: <Dashboard /> },
             // { path: 'match/:sportId', element: <Dashboard /> },
             { path: 'match/:sportId', element: <NewDashboard /> },

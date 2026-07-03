@@ -1814,7 +1814,7 @@ def checkAllOddsConditon(payload):
         if (errors):
             return {"message": "failed", "notification": f"{errors}"}
 
-def checkMaxlimit(payload,userInfo):
+def(payload,userInfo):
     try:
         market_id = payload['marketId']
         user_id = userInfo['_id']

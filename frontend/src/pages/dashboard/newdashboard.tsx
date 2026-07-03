@@ -301,9 +301,7 @@ const Dashboard = () => {
         {/* {!isMobile ? <Fav /> : ""} */}
         {/* {!isMobile ? <GameTab sportId={sportId} sportListState={sportListState} /> : ''} */}
         {/**/}
-        <div className="back-main-menu my-2">
-      <CustomLink to="/">BACK TO MAIN MENU</CustomLink>
-   </div>
+       
         <div className="tab-content">
           <div className="tab-pane active">
             <div className="matchlist   coupon-card-first">
@@ -325,13 +323,13 @@ const Dashboard = () => {
                   matchList={matchList}
                 />
               )}
-              {location.pathname.includes("in-play") || !isMobile ? (
+              {isMobile && location.pathname.includes("/match/4")  ? (
                 <div className="home-page">
-                  {/* <div className='casino-list mt-2' style={{marginLeft:!isMobile?"-6px":""}}>
-                  <div className='section-title'>Live Casino</div>
+                  <div className='casino-list mt-2' style={{marginLeft:!isMobile?"-6px":""}}>
+                  {/* <div className='section-title'>Live Casino</div> */}
                   <CasinoListItem />
-                  gjhkjlk
-                </div> */}
+              
+                </div>
                 </div>
               ) : (
                 ""
@@ -340,9 +338,9 @@ const Dashboard = () => {
             {/* <Newhome/> */}
           </div>
         </div>
-        <div className="back-main-menu my-2">
+        {/* <div className="back-main-menu my-2">
       <CustomLink to="/">BACK TO MAIN MENU</CustomLink>
-   </div>
+   </div> */}
       </div>
     </>
   );

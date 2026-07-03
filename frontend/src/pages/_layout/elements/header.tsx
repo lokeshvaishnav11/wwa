@@ -190,36 +190,37 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
   return (
     <header className="header">
       <div className="container-fluidu">
-        <div className="ro" style={{backgroundColor:"black"}}>
+        <div className="ro" style={{backgroundColor:"#123a7c"}}>
           <div className="container-fluid text-white py-2">
             <div className="d-flex align-items-center justify-content-between flex-wrap">
               {/* Logo */}
-              <div className="d-flex align-items-center">
-                <CustomLink to="/" className="d-flex logo align-items-center">
+              <div className="d-flex align-items-center" style={{fontWeight:"bold",fontSize: "27px"}}>
+                {/* <CustomLink to="/" className="d-flex logo align-items-center">
                   <img
                     src="/imgs/profiletop.png"
                     className="img-fluid "
                     // style={{ maxHeight: "40px" }}
                     alt="Logo"
                   />
-                </CustomLink>
+                </CustomLink> */}
+                7Horse
               </div>
 
               {/* User Info */}
-              <div className="d-flex flex-column text-center text-md-end flex-grow-1 px-3" style={{color:"white"}}>
-                <p className="mb-1 fw-bold ">
+              <div className="d-flex flex-column text-center text-md-end px-3" style={{color:"white"}}>
+                {/* <p className="mb-1 fw-bold ">
                   {userState?.user?.username}({userAlldata?.code})
-                </p>
+                </p> */}
 
                 <div className="mb-1">
-  <span>Coins: </span>
-  <b>{Math.max(0, (balance.balance || 0) - (balance.exposer || 0)).toFixed(2)}</b>
+  <span style={{color:"#e8e800"}}>₹ : </span>
+  <b style={{color:"#e8e800"}}>{Math.max(0, (balance.balance || 0) - (balance.exposer || 0)).toFixed(2)}</b>
 </div>
 
                 {!selectHideBal.exposer && (
                   <div>
-                    <a href="#" onClick={getExposer}  style={{color:"white"}}>Expo: </a>
-                    <b>
+                    <a href="#" onClick={getExposer}  style={{color:"#e8e800"}}>Expo: </a>
+                    <b style={{color:"red"}}>
                       {balance.exposer > 0 ? balance.exposer?.toFixed(2) : 0}
                     </b>
                   </div>
@@ -227,7 +228,7 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
               </div>
 
               {/* Logout */}
-              <div className="text-center">
+              {/* <div className="text-center">
                 <a
                   onClick={logoutUser}
                   href="#"
@@ -240,7 +241,7 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
                   />
                   <span className="mt-2" style={{color:"white"}}>Logout</span>
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
 

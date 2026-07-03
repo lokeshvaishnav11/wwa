@@ -353,9 +353,7 @@ const getAccountStmt = async (pageNumber: number) => {
     <>
       <div className={!isMobile ? " mt-1" : "padding-custom"}>
         <div className="body-wrap">
-          <div className="back-main-menu my-3">
-            <a href="/">BACK TO MAIN MENU</a>
-          </div>
+          
 
           <div className="">
             <div
@@ -676,9 +674,7 @@ const getAccountStmt = async (pageNumber: number) => {
             </div>
           </div>
 
-          <div className="back-main-menu my-2">
-            <a href="/">BACK TO MAIN MENU</a>
-          </div>
+          
         </div>
       </div>
       <ReactModal

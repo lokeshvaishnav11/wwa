@@ -164,3 +164,132 @@
   justify-content: center;
   align-items: center;
 }
+
+
+
+/* new css  */
+
+/* ===== MATCH LIST — reference-matched styles ===== */
+
+.ml-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.ml-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eef0f2;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- LEFT SIDE ---------- */
+.ml-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  text-decoration: none;
+  flex: 1;
+}
+
+.ml-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.ml-badge-live {
+  background: #1fa851;
+  color: #fff;
+}
+
+.ml-badge-completed {
+  background: #b0b5ba;
+  /* color: #fff; */
+}
+
+.ml-badge-upcoming {
+  background: #d9dcdf;
+  color: #333;
+}
+
+.ml-teamname {
+  margin: 0;
+  color: #0d2c54;
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* ---------- RIGHT SIDE ---------- */
+.ml-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.ml-date {
+  color: #e02d2d;
+  font-weight: 600;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+.ml-sport-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0d2c54;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.ml-sport-e {
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.ml-sport-divider {
+  width: 1px;
+  height: 11px;
+  background: #fff;
+  transform: skewX(-20deg);
+  opacity: 0.9;
+}
+
+.ml-sport-name {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #fff;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 340px) {
+  .ml-teamname {
+    font-size: 11px;
+  }
+  .ml-date {
+    font-size: 9.5px;
+  }
+}

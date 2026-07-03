@@ -30,6 +30,7 @@ import { isMobile } from "react-device-detect";
 
 import Welcome from "../Rules/welcome";
 import { useWebsocketUser } from "../../context/webSocketUser";
+import MobileFooter from "./elements/MobileFoter";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -138,6 +139,7 @@ const Main = () => {
         )}
       </div>
       <Footer />
+       {isMobile && <MobileFooter />}
       {/* {welcomeState.status ? <Welcome /> : ""} */}
     </div>
   );

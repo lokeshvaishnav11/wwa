@@ -217,6 +217,181 @@
 // export default Login;
 
 
+// import React from "react";
+// import User from "../../models/User";
+// import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+// import { loginAction } from "../../redux/actions/login/login.action";
+// import { selectUserData } from "../../redux/actions/login/loginSlice";
+// import { useWebsocketUser } from "../../context/webSocketUser";
+// import { useNavigateCustom } from "../_layout/elements/custom-link";
+// import { isMobile } from "react-device-detect";
+// import api from "../../utils/api";
+// import SubmitButton from "../../components/SubmitButton";
+
+// const Login = () => {
+//   const dispatch = useAppDispatch();
+//   const userState = useAppSelector(selectUserData);
+//   const { socketUser } = useWebsocketUser();
+//   const navigate = useNavigateCustom();
+
+//   const [loginForm, setLoginForm] = React.useState<User>({
+//     username: "",
+//     password: "",
+//     logs: "",
+//     isDemo: false,
+//   });
+
+//   const [isDemoLogin, setIsDemoLogin] = React.useState(false);
+//   const [showPassword, setShowPassword] = React.useState(false); // 👁 eye toggle
+
+//   React.useEffect(() => {
+//     api.get(`${process.env.REACT_APP_IP_API_URL}`).then((res) => {
+//       setLoginForm((prev) => ({ ...prev, logs: res.data }));
+//     });
+//   }, []);
+
+//   React.useEffect(() => {
+//     if (userState.status === "done") {
+//       const { _id, role, sessionId } = userState.user;
+
+//       socketUser.emit("login", {
+//         role,
+//         sessionId,
+//         _id,
+//       });
+
+//       localStorage.setItem("login-session", sessionId);
+//       navigate.go("/");
+//     }
+//   }, [userState]);
+
+//   const handleForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmitDemoLogin = () => {
+//     setLoginForm({ ...loginForm, isDemo: true });
+//     setIsDemoLogin(true);
+//   };
+
+//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     dispatch(loginAction(loginForm));
+//     setIsDemoLogin(false);
+//   };
+
+//   return (
+//     <div>
+//       <div className="login">
+//         <div className="loginInner1">
+//           <div
+//             className="featured-box-login featured-box-secundary default"
+//             style={{
+//               boxShadow: "0px 0px 30px rgb(0 0 0 / 82%)",
+//               background: "transparent",
+//             }}
+//           >
+//             <div className="log-logo m-b-20 text-center">
+//               <img src="/imgs/logo.png" className="logo-login" />
+//             </div>
+
+//             <form onSubmit={handleSubmit} autoComplete="off">
+//               {/* USERNAME */}
+//               <div className="form-group m-b-20">
+//                 <input
+//                   name="username"
+//                   placeholder="User Name"
+//                   type="text"
+//                   className="form-control"
+//                   onChange={handleForm}
+//                   required={!isDemoLogin}
+//                 />
+//                 <i className="fas fa-user text-dark"></i>
+//               </div>
+
+//               {/* PASSWORD */}
+//               <div className="form-group m-b-20 position-relative">
+//                 <input
+//                   name="password"
+//                   placeholder="Password"
+//                   type={showPassword ? "text" : "password"}
+//                   className="form-control"
+//                   onChange={handleForm}
+//                   required={!isDemoLogin}
+//                 />
+
+//                 <i className="fas fa-key text-dark"></i>
+
+//                 {/* 👁 Eye Icon */}
+//                 <i
+//                   className={`fas ${
+//                     showPassword ? "fa-eye-slash" : "fa-eye"
+//                   }`}
+//                   onClick={() => setShowPassword(!showPassword)}
+//                   style={{
+//                     position: "absolute",
+//                     right: "15px",
+//                     top: "50%",
+//                     transform: "translateY(-50%)",
+//                     cursor: "pointer",
+//                     color: "#333",
+//                   }}
+//                 ></i>
+
+//                 {userState.error && (
+//                   <small className="text-danger">{userState.error}</small>
+//                 )}
+//               </div>
+
+//               {/* BUTTONS */}
+//               <div className="form-group text-center mb-0">
+//                 <SubmitButton
+//                   type="submit"
+//                   className="btn btn-submit btn-login mb-10"
+//                   style={{ backgroundColor: "#11283E" }}
+//                 >
+//                   Login
+//                   {userState.status === "loading" ? (
+//                     <i className="ml-2 fas fa-spinner fa-spin"></i>
+//                   ) : (
+//                     <i className="ml-2 fas fa-sign-in-alt"></i>
+//                   )}
+//                 </SubmitButton>
+
+//                 <SubmitButton
+//                   type="submit"
+//                   onClick={handleSubmitDemoLogin}
+//                   className="btn btn-submit btn-login mb-10"
+//                   style={{ backgroundColor: "#11283E" }}
+//                 >
+//                   Login with Demo ID
+//                   {userState.status === "loading" ? (
+//                     <i className="ml-2 fas fa-spinner fa-spin"></i>
+//                   ) : (
+//                     <i className="ml-2 fas fa-sign-in-alt"></i>
+//                   )}
+//                 </SubmitButton>
+//               </div>
+//             </form>
+//           </div>
+//         </div>
+//       </div>
+
+//       <section className="footer footer-login">
+//         <div className="footer-top">
+//           <div className="support-detail">
+//             <h2>Note : This site is not for Indian Territory</h2>
+//           </div>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+
+
 import React from "react";
 import User from "../../models/User";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -261,7 +436,7 @@ const Login = () => {
       });
 
       localStorage.setItem("login-session", sessionId);
-      navigate.go("/");
+      navigate.go("/match/4");
     }
   }, [userState]);
 
@@ -281,107 +456,87 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <div className="login">
-        <div className="loginInner1">
-          <div
-            className="featured-box-login featured-box-secundary default"
-            style={{
-              boxShadow: "0px 0px 30px rgb(0 0 0 / 82%)",
-              background: "transparent",
-            }}
-          >
-            <div className="log-logo m-b-20 text-center">
-              <img src="/imgs/logo.png" className="logo-login" />
-            </div>
-
-            <form onSubmit={handleSubmit} autoComplete="off">
-              {/* USERNAME */}
-              <div className="form-group m-b-20">
-                <input
-                  name="username"
-                  placeholder="User Name"
-                  type="text"
-                  className="form-control"
-                  onChange={handleForm}
-                  required={!isDemoLogin}
-                />
-                <i className="fas fa-user text-dark"></i>
-              </div>
-
-              {/* PASSWORD */}
-              <div className="form-group m-b-20 position-relative">
-                <input
-                  name="password"
-                  placeholder="Password"
-                  type={showPassword ? "text" : "password"}
-                  className="form-control"
-                  onChange={handleForm}
-                  required={!isDemoLogin}
-                />
-
-                <i className="fas fa-key text-dark"></i>
-
-                {/* 👁 Eye Icon */}
-                <i
-                  className={`fas ${
-                    showPassword ? "fa-eye-slash" : "fa-eye"
-                  }`}
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#333",
-                  }}
-                ></i>
-
-                {userState.error && (
-                  <small className="text-danger">{userState.error}</small>
-                )}
-              </div>
-
-              {/* BUTTONS */}
-              <div className="form-group text-center mb-0">
-                <SubmitButton
-                  type="submit"
-                  className="btn btn-submit btn-login mb-10"
-                  style={{ backgroundColor: "#11283E" }}
-                >
-                  Login
-                  {userState.status === "loading" ? (
-                    <i className="ml-2 fas fa-spinner fa-spin"></i>
-                  ) : (
-                    <i className="ml-2 fas fa-sign-in-alt"></i>
-                  )}
-                </SubmitButton>
-
-                <SubmitButton
-                  type="submit"
-                  onClick={handleSubmitDemoLogin}
-                  className="btn btn-submit btn-login mb-10"
-                  style={{ backgroundColor: "#11283E" }}
-                >
-                  Login with Demo ID
-                  {userState.status === "loading" ? (
-                    <i className="ml-2 fas fa-spinner fa-spin"></i>
-                  ) : (
-                    <i className="ml-2 fas fa-sign-in-alt"></i>
-                  )}
-                </SubmitButton>
-              </div>
-            </form>
+    <div className="bh-login-page">
+      {/* HERO / BACKGROUND IMAGE (pure CSS background, no <img> tag) */}
+      <div className="bh-hero">
+        {/* Badge / Logo circle sitting over the hero-card junction */}
+        <div className="bh-badge">
+          <div className="bh-badge-inner">
+            <span style={{    fontSize: "22px"}}>7horse</span>
+            {/* <span></span> */}
           </div>
         </div>
       </div>
 
-      <section className="footer footer-login">
-        <div className="footer-top">
-          <div className="support-detail">
-            <h2>Note : This site is not for Indian Territory</h2>
+      {/* LOGIN CARD */}
+      <div className="bh-card">
+        <h1 className="bh-title">LOGIN</h1>
+
+        <form onSubmit={handleSubmit} autoComplete="off" className="bh-form">
+          {/* USERNAME */}
+          <div className="bh-input-wrap">
+            <input
+              name="username"
+              placeholder="Username"
+              type="text"
+              className="bh-input"
+              onChange={handleForm}
+              required={!isDemoLogin}
+            />
           </div>
+
+          {/* PASSWORD */}
+          <div className="bh-input-wrap">
+            <input
+              name="password"
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              className="bh-input"
+              onChange={handleForm}
+              required={!isDemoLogin}
+            />
+
+            <i
+              className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"} bh-eye`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+          </div>
+
+          {userState.error && (
+            <small className="text-danger bh-error">{userState.error}</small>
+          )}
+
+          {/* BUTTONS */}
+          <div className="bh-btn-group">
+            <SubmitButton type="submit" className="bh-btn-login">
+              Login
+              {userState.status === "loading" ? (
+                <i className="ml-2 fas fa-spinner fa-spin"></i>
+              ) : null}
+            </SubmitButton>
+
+            <SubmitButton
+              type="submit"
+              onClick={handleSubmitDemoLogin}
+              className="bh-btn-demo"
+            >
+              Login with Demo ID
+              {userState.status === "loading" ? (
+                <i className="ml-2 fas fa-spinner fa-spin"></i>
+              ) : null}
+            </SubmitButton>
+          </div>
+        </form>
+      </div>
+
+      {/* FOOTER */}
+      <section className="bh-footer">
+        <div className="bh-footer-note">
+          <h2>Note : This site is not for Indian Territory</h2>
+        </div>
+        <div className="bh-powered">
+          <span>Powered by</span>
+          <img src="/imgs/betfair-logo.png" alt="betfair" />
         </div>
       </section>
     </div>
