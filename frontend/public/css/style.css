@@ -9295,3 +9295,320 @@ footer p {
 
 
 
+/* custome css for 7 horse */
+
+/* ===== BETHUB24PRO LOGIN — reference-matched styles ===== */
+
+/* ===== BETHUB24PRO LOGIN — reference-matched styles ===== */
+
+.bh-login-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #0b1f38;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- HERO IMAGE (CSS background) ---------- */
+.bh-hero {
+  position: relative;
+  width: 100%;
+
+  /* height is tied to width via aspect-ratio so it never
+     collapses to 0 and never stretches too tall on wide screens */
+  aspect-ratio: 16 / 11;
+  min-height: 260px;
+  max-height: 480px;
+
+  background-image: url("https://bethub24pro.co/bet99expro/login-bg-bethub24.png");
+  background-size: cover;
+  /* "top center" keeps the faces/subject in frame instead of
+     getting cropped from the sides on narrow phone screens */
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+/* Circular logo badge overlapping hero + card */
+.bh-badge {
+  position: absolute;
+  right: 20px;
+  bottom: -55px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #0b2a52;
+  border: 4px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  z-index: 5;
+}
+
+.bh-badge-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* ---------- CARD ---------- */
+.bh-card {
+  background: #0d2c54;
+  border-radius: 28px 28px 0 0;
+  margin-top: -28px;
+  padding: 40px 24px 30px;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+.bh-title {
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+.bh-form {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ---------- INPUTS ---------- */
+.bh-input-wrap {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.bh-input {
+  width: 100%;
+  height: 54px;
+  border-radius: 30px;
+  border: 2px solid #e5286a;
+  background: #fff;
+  padding: 0 22px;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+}
+
+.bh-input::placeholder {
+  color: #9a9a9a;
+}
+
+.bh-eye {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+.bh-error {
+  display: block;
+  color: #ff6b81;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* ---------- BUTTONS ---------- */
+.bh-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.bh-btn-login {
+  height: 54px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(180deg, #ef2d78, #d81a63);
+  color: #fff;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(216, 26, 99, 0.4);
+}
+
+.bh-btn-login:hover {
+  filter: brightness(1.05);
+}
+
+.bh-btn-demo {
+  height: 50px;
+  border-radius: 30px;
+  border: 2px solid #ef2d78;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.bh-btn-demo:hover {
+  background: rgba(239, 45, 120, 0.15);
+}
+
+/* ---------- FOOTER ---------- */
+.bh-footer {
+  background: #081b33;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.bh-footer-note h2 {
+  color: #cfd8e3;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.bh-powered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #9fb0c3;
+  font-size: 13px;
+}
+
+.bh-powered img {
+  height: 18px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (min-width: 768px) {
+  .bh-hero {
+    aspect-ratio: 21 / 9;
+    max-height: 420px;
+  }
+}
+
+/* ===== CASINO GRID — 3 items per row, reference-matched ===== */
+
+/* ===== CASINO GRID (chub- prefix to avoid clashing with any existing global classes) ===== */
+
+/* ===== CATEGORY SCROLLER (All / Crash / Teenpatti / ...) ===== */
+
+.chub-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: #0d2c54;
+  padding: 10px 10px;
+  scrollbar-width: none; /* firefox */
+}
+
+.chub-tabs::-webkit-scrollbar {
+  display: none; /* chrome/safari */
+}
+
+.chub-tab {
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  color: #cfd8e3;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+.chub-tab-active {
+  background: #ffffff;
+  color: #0d2c54;
+}
+
+/* ===== CASINO GRID (chub- prefix to avoid clashing with any existing global classes) ===== */
+
+.chub-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 10px !important;
+  padding: 10px !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chub-card {
+  width: 100%;
+}
+
+.chub-link {
+  display: block;
+  text-decoration: none;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background: #0d2c54;
+}
+
+/* image wrapper keeps a consistent square-ish box even before the
+   image finishes loading, so the grid never collapses/jumps */
+.chub-img-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  background: #1a3a63;
+  overflow: hidden;
+}
+
+.chub-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Dark navy title bar under the image — allows 2 lines so longer
+   game names (e.g. "Amar Akbar Anthony") don't get cut off */
+.chub-title {
+  background: #0d2c54;
+  color: #fff;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 6px 4px;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 32px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 340px) {
+  .chub-grid {
+    gap: 8px !important;
+    padding: 8px !important;
+  }
+  .chub-title {
+    font-size: 10px;
+  }
+  .chub-tab {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .chub-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 14px !important;
+    padding: 14px !important;
+  }
+}
