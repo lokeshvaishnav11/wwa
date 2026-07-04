@@ -1018,12 +1018,18 @@ const fetchData = async (type: string) => {
     // type = type ===  ""
 
     const tableDataResponse = await axios.get(
-      `http://69.62.123.205:5005/tabledata2/${type}`
-    );
+      `https://docs.vkmster.com/casinoapi/casinoData?gtype=${type}`, {
+      headers: {
+        "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+        "x-api-secret":
+          "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+      },
+    }
+    )
     // const iframeResponse = await axios.get(`http://69.62.123.205:3000/iframe/${type}`);
-    const casinoResultResponse = await axios.get(
-      `http://69.62.123.205:5005/casinoresult2/${type}`
-    );
+    // const casinoResultResponse = await axios.get(
+    //   `http://69.62.123.205:5005/casinoresult2/${type}`
+    // );
     const iframeResponse: any = {};
 
     // console.log(tableDataResponse.data, "Table Data Response");
@@ -1031,9 +1037,9 @@ const fetchData = async (type: string) => {
     // console.log(casinoResultResponse.data, "Casino Result Response");
 
     return {
-      tableData: tableDataResponse?.data,
-      iframeData: iframeResponse?.data,
-      casinoResult: casinoResultResponse?.data || {},
+      tableData: tableDataResponse?.data?.data?.data,
+      iframeData: iframeResponse,
+      casinoResult: tableDataResponse?.data.results?.data|| {},
     };
     // const data = await axios.get(`http://69.62.123.205:3000/tabledata/${type}`)
     // console.log(data,"datafvcd fvbghnbgvfjk")
@@ -1230,8 +1236,14 @@ const sids = async (data: any, type: any) => {
 const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
   try {
     const res = await axios.get(
-      `http://69.62.123.205:3000/detailresult2/${slug}/${mid}`
-    );
+      `https://docs.vkmster.com/casinoapi/casinoResult?gtype=${slug}&mid=${mid}`, {
+      headers: {
+        "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+        "x-api-secret":
+          "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+      },
+    }
+    )
     console.log(res.data, "Response for resultDetails");
 
     let xyz: any = slug;
@@ -1292,7 +1304,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
 
       // await axios.post("http://localhost:3010/api/save-casino-match",convertResult)
       await axios.post(
-        "https://api.taj44.com/api/save-casino-match",
+        "https://api.7horse.online/api/save-casino-match",
         convertResult
       );
 
@@ -1696,7 +1708,7 @@ export default class CasinoController extends ApiController {
     }
 
     const { tableData, iframeData, casinoResult } = result;
-    console.log(tableData,casinoResult)
+    console.log(tableData, casinoResult)
     let markets: any[] = [];
     let results: any[] = [];
     let t3: any = null;
@@ -1837,20 +1849,20 @@ export default class CasinoController extends ApiController {
                 bhav = parseFloat(bhav) - 0.01;
               } else if (name.includes(" Card ")) {
                 bhav = parseFloat(bhav) - 1;
-              }else if (name == "Tie"){
+              } else if (name == "Tie") {
                 bhav = parseFloat(bhav) - 5
               }
-            }else if (xyz == "teen20"){
+            } else if (xyz == "teen20") {
               let name = templateRunner.RunnerName;
               // console.log("Hahahahhahah",name)
-              if(name == "Player A"){
+              if (name == "Player A") {
                 // console.log(name,"fghjkfghjklghjkl")
                 bhav = parseFloat(bhav) - 0.01;
                 // console.log(bhav,"bhva of player a")
-              }else if( name == "Player B"){
+              } else if (name == "Player B") {
                 bhav = parseFloat(bhav) - 0.03;
+              }
             }
-          }
 
             return {
               RunnerName: templateRunner.RunnerName,
@@ -1996,12 +2008,12 @@ export default class CasinoController extends ApiController {
         sid?: string | undefined; // Ensure sid is always a string (no undefined allowed)
         nat?: string | undefined;
         b?: number;
-        l?:number | 0;
+        l?: number | 0;
         max: number;
         min: number;
         gstatus?: string | undefined;
         b1?: number; // Optional if missing in API
-        l1?:any;
+        l1?: any;
         runnerName?: string | undefined;
         title?: string;
       }
@@ -2033,7 +2045,7 @@ export default class CasinoController extends ApiController {
       console.log(singleMarket, "singleMarket");
       let bhav: any = singleMarket?.b;
 
-      if (type === "lucky7" ) {
+      if (type === "lucky7") {
         if (
           singleMarket?.nat === "High Card" ||
           singleMarket?.nat === "Low Card"
@@ -2050,7 +2062,7 @@ export default class CasinoController extends ApiController {
         ) {
           bhav = parseFloat(bhav) - 1;
         }
-      } else if (type === "dt20"|| type==="dt202") {
+      } else if (type === "dt20" || type === "dt202") {
         let name = singleMarket?.nat;
         if (name === "Dragon" || name === "Tiger") {
           bhav = parseFloat(bhav) - 0.03;
@@ -2064,18 +2076,18 @@ export default class CasinoController extends ApiController {
           bhav = parseFloat(bhav) - 0.01;
         } else if (name && name.includes(" Card ")) {
           bhav = parseFloat(bhav) - 1;
-        }else if(name && name == "Tie"){
+        } else if (name && name == "Tie") {
           bhav = parseFloat(bhav) - 5;
         }
       }
-      else if (type === "teen20"){
+      else if (type === "teen20") {
         let name = singleMarket?.nat;
-        if(name == "Player A"){
+        if (name == "Player A") {
           bhav = parseFloat(bhav) - 0.01;
-        }else if( name == "Player B"){
+        } else if (name == "Player B") {
           bhav = parseFloat(bhav) - 0.03;
+        }
       }
-     }
 
 
       // Ensure singleMarketData has all required properties, with default values where needed
@@ -2084,7 +2096,7 @@ export default class CasinoController extends ApiController {
           sid: singleMarket?.sid ?? "defaultSid", // Default value for sid
           nat: singleMarket?.nat ?? "", // Default empty string for optional string fields
           b1: bhav.toString() ?? 0,
-          l1:singleMarket?.l?.toString(),// Default 0 for numbers
+          l1: singleMarket?.l?.toString(),// Default 0 for numbers
           max: singleMarket?.max ?? 0,
           min: singleMarket?.min ?? 0,
           gstatus: singleMarket?.gstatus ?? "",
@@ -2131,14 +2143,14 @@ export default class CasinoController extends ApiController {
     type = type === "1-CARD-ONE-DAY" ? "teen1" : type;
     type = type === "1-CARD-ONE-DAY" ? "teen1" : type;
     type = type === "fivewicket" ? "cricketv3" : type;
-    type = type === "AAA"? "aaa":type
+    type = type === "AAA" ? "aaa" : type
 
     try {
       // const iframeResponse = await axios.get(
       //   `http://69.62.123.205:3000/iframe2/${type}`
       // );
       // console.log(iframeResponse.data, "ifrmmmamamamamam");
-      return res.status(200).json({ tv: `https://live.cricketid.xyz/casino-tv?id=${type}`});
+      return res.status(200).json({ tv: `https://live.cricketid.xyz/casino-tv?id=${type}` });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Internal Server Error" });

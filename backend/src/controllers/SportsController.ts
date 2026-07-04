@@ -240,7 +240,7 @@ class SportsController extends ApiController {
   async marketesData(match: IMatch, syncData: boolean) {
     const markets = await sportsService.getMarkets(match)
 
-        console.log(markets.data.sports, "markets data from backend ibn ths codew sw")
+    console.log(markets.data.sports, "markets data from backend ibn ths codew sw")
 
 
     if (markets?.data?.sports?.length > 0)
@@ -334,51 +334,51 @@ class SportsController extends ApiController {
   //     }
   //     })
   //   }
-    
+
   //     return markets.data.sports.length > 0
   //   }
   //   return false
   // }
 
   async bookmakermarketesData(match: IMatch) {
-  const markets = await sportsService.getBookmakerMarkets(match);
+    const markets = await sportsService.getBookmakerMarkets(match);
 
-  if (!markets?.data?.sports?.length) return false;
+    if (!markets?.data?.sports?.length) return false;
 
-  let bookmakerSaved = false;
+    let bookmakerSaved = false;
 
-  for (const market of markets.data.sports) {
-    // ✅ ONLY BOOKMAKER
-    if (market.marketName !== "Bookmaker") continue;
+    for (const market of markets.data.sports) {
+      // ✅ ONLY BOOKMAKER
+      if (market.marketName !== "Bookmaker") continue;
 
-    // ✅ already one bookmaker saved → ignore others
-    if (bookmakerSaved) break;
+      // ✅ already one bookmaker saved → ignore others
+      if (bookmakerSaved) break;
 
-    const marketsData: IMarket = {
-      seriesId: match.seriesId,
-      sportId: match.sportId,
-      matchId: match.matchId,
-      marketId: market.marketId,
-      marketName: "Bookmaker",
-      marketStartTime: market.marketStartTime,
-      runners: market.runners.sort(
-        (a: any, b: any) => a.sortPriority - b.sortPriority
-      ),
-      isActive: true,
-      oddsType: OddsType.BM,
-    };
+      const marketsData: IMarket = {
+        seriesId: match.seriesId,
+        sportId: match.sportId,
+        matchId: match.matchId,
+        marketId: market.marketId,
+        marketName: "Bookmaker",
+        marketStartTime: market.marketStartTime,
+        runners: market.runners.sort(
+          (a: any, b: any) => a.sortPriority - b.sortPriority
+        ),
+        isActive: true,
+        oddsType: OddsType.BM,
+      };
 
-    await Market.findOneAndUpdate(
-      { marketId: market.marketId, matchId: match.matchId },
-      marketsData,
-      { upsert: true, new: true }
-    );
+      await Market.findOneAndUpdate(
+        { marketId: market.marketId, matchId: match.matchId },
+        marketsData,
+        { upsert: true, new: true }
+      );
 
-    bookmakerSaved = true;
+      bookmakerSaved = true;
+    }
+
+    return bookmakerSaved;
   }
-
-  return bookmakerSaved;
-}
 
 
   async t10MarketesData(match: IMatch) {
@@ -422,26 +422,26 @@ class SportsController extends ApiController {
     //   )
 
     const fancyone = fancy?.data?.sports?.filter((m: any) => {
-  const name = m?.RunnerName || "";
+      const name = m?.RunnerName || "";
 
-  return (
-    (m.gtype === "session" || m.gtype === "fancy1") &&
+      return (
+        (m.gtype === "session" || m.gtype === "fancy1") &&
 
-    // must include
-    ! name.includes(".3 over ") &&
-    ! name.includes(" ball run ") &&
+        // must include
+        !name.includes(".3 over ") &&
+        !name.includes(" ball run ") &&
 
-    // must NOT include
-    !name.includes(" run bhav ") &&
-    !name.includes(" run bhav") &&
-    !name.includes(" Run bhav ") &&
-    !name.includes(" bhav ") &&
-    !name.includes(" Caught out ") &&
-    !name.includes(" ball No ") &&
-    !name.includes(" Nextman ") &&
-    !name.includes("Power Surge ")
-  );
-});
+        // must NOT include
+        !name.includes(" run bhav ") &&
+        !name.includes(" run bhav") &&
+        !name.includes(" Run bhav ") &&
+        !name.includes(" bhav ") &&
+        !name.includes(" Caught out ") &&
+        !name.includes(" ball No ") &&
+        !name.includes(" Nextman ") &&
+        !name.includes("Power Surge ")
+      );
+    });
     console.log(fancyone, "fancy one data from backend ibn ths codew sw")
     if (fancy.data.sports) {
       await fancyone?.map(async (market: any) => {
@@ -745,217 +745,217 @@ class SportsController extends ApiController {
   //   }
   // }
 
-// async getFancyList(req: Request, res: Response): Promise<Response> {
-//   try {
-//     const { matchId, gtype }: any = req.query;
+  // async getFancyList(req: Request, res: Response): Promise<Response> {
+  //   try {
+  //     const { matchId, gtype }: any = req.query;
 
-//     const fancy = await Fancy.find({
-//       matchId,
-//       active: true,
-//     }).sort({ sr_no: 1, marketId: 1 });
+  //     const fancy = await Fancy.find({
+  //       matchId,
+  //       active: true,
+  //     }).sort({ sr_no: 1, marketId: 1 });
 
-//     // Priority groups
-//     const priorityOrder = [
-//       " over run ",      // 1st priority (SINGULAR)
-//       " over runs ",     // 2nd priority (PLURAL)
-//       " Fall of ",
-//       "  run",
-//       " Boundaries",
-//       " pship Boundaries ",
-//     ];
+  //     // Priority groups
+  //     const priorityOrder = [
+  //       " over run ",      // 1st priority (SINGULAR)
+  //       " over runs ",     // 2nd priority (PLURAL)
+  //       " Fall of ",
+  //       "  run",
+  //       " Boundaries",
+  //       " pship Boundaries ",
+  //     ];
 
-//     // Common sessions ASC
-//     const commonSessions = [10, 15, 20, 25, 30, 35, 40, 45, 50];
+  //     // Common sessions ASC
+  //     const commonSessions = [10, 15, 20, 25, 30, 35, 40, 45, 50];
 
-//     const extractSessionNumber = (name: string) => {
-//       const match = name?.match(/\b(\d+)\b/);
-//       return match ? parseInt(match[1]) : null;
-//     };
+  //     const extractSessionNumber = (name: string) => {
+  //       const match = name?.match(/\b(\d+)\b/);
+  //       return match ? parseInt(match[1]) : null;
+  //     };
 
-//     const sortedFancy = fancy.sort((a: any, b: any) => {
-//       const nameA = a?.fancyName?.toLowerCase() || "";
-//       const nameB = b?.fancyName?.toLowerCase() || "";
+  //     const sortedFancy = fancy.sort((a: any, b: any) => {
+  //       const nameA = a?.fancyName?.toLowerCase() || "";
+  //       const nameB = b?.fancyName?.toLowerCase() || "";
 
-//       // Get priority rank (lower = higher rank)
-//       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
-//       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
+  //       // Get priority rank (lower = higher rank)
+  //       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
+  //       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
 
-//       const rankA = indexA === -1 ? 999 : indexA;
-//       const rankB = indexB === -1 ? 999 : indexB;
+  //       const rankA = indexA === -1 ? 999 : indexA;
+  //       const rankB = indexB === -1 ? 999 : indexB;
 
-//       // 1️⃣ Sort first by priority group
-//       if (rankA !== rankB) return rankA - rankB;
+  //       // 1️⃣ Sort first by priority group
+  //       if (rankA !== rankB) return rankA - rankB;
 
-//       // 2️⃣ For "over run" AND "over runs" → apply session number logic
-//       const isOverRunA =
-//         nameA.includes(" over run ") || nameA.includes(" over runs ");
-//       const isOverRunB =
-//         nameB.includes(" over run ") || nameB.includes(" over runs ");
+  //       // 2️⃣ For "over run" AND "over runs" → apply session number logic
+  //       const isOverRunA =
+  //         nameA.includes(" over run ") || nameA.includes(" over runs ");
+  //       const isOverRunB =
+  //         nameB.includes(" over run ") || nameB.includes(" over runs ");
 
-//       if (isOverRunA || isOverRunB) {
-//         const numA = extractSessionNumber(nameA) || -1;
-//         const numB = extractSessionNumber(nameB) || -1;
+  //       if (isOverRunA || isOverRunB) {
+  //         const numA = extractSessionNumber(nameA) || -1;
+  //         const numB = extractSessionNumber(nameB) || -1;
 
-//         const aCommon = commonSessions.includes(numA);
-//         const bCommon = commonSessions.includes(numB);
+  //         const aCommon = commonSessions.includes(numA);
+  //         const bCommon = commonSessions.includes(numB);
 
-//         // 3️⃣ Common sessions at top
-//         if (aCommon && !bCommon) return -1;
-//         if (!aCommon && bCommon) return 1;
+  //         // 3️⃣ Common sessions at top
+  //         if (aCommon && !bCommon) return -1;
+  //         if (!aCommon && bCommon) return 1;
 
-//         // 4️⃣ Both common → ASC
-//         if (aCommon && bCommon) return numA - numB;
+  //         // 4️⃣ Both common → ASC
+  //         if (aCommon && bCommon) return numA - numB;
 
-//         // 5️⃣ Both uncommon → DESC
-//         return numB - numA;
-//       }
+  //         // 5️⃣ Both uncommon → DESC
+  //         return numB - numA;
+  //       }
 
-//       // 6️⃣ fallback alphabetical sorting
-//       return nameA.localeCompare(nameB);
-//     });
+  //       // 6️⃣ fallback alphabetical sorting
+  //       return nameA.localeCompare(nameB);
+  //     });
 
-//     return this.success(res, sortedFancy);
-//   } catch (e: any) {
-//     return this.fail(res, e);
-//   }
-// }
+  //     return this.success(res, sortedFancy);
+  //   } catch (e: any) {
+  //     return this.fail(res, e);
+  //   }
+  // }
 
-// async getFancyList(req: Request, res: Response): Promise<Response> {
-//   try {
-//     const { matchId, gtype }: any = req.query;
+  // async getFancyList(req: Request, res: Response): Promise<Response> {
+  //   try {
+  //     const { matchId, gtype }: any = req.query;
 
-//     const fancy = await Fancy.find({
-//       matchId,
-//       active: true,
-//     }).sort({ sr_no: 1, marketId: 1 });
+  //     const fancy = await Fancy.find({
+  //       matchId,
+  //       active: true,
+  //     }).sort({ sr_no: 1, marketId: 1 });
 
-//     const priorityOrder = [
-//       " over runs ",
-//       " over run ",
-      
-//       "fall of",
-//       " run",
-//       "boundaries",
-//       "pship boundaries",
-//     ];
+  //     const priorityOrder = [
+  //       " over runs ",
+  //       " over run ",
 
-//     const commonSessions = [6,10, 15, 20, 25, 30, 35, 40, 45, 50];
+  //       "fall of",
+  //       " run",
+  //       "boundaries",
+  //       "pship boundaries",
+  //     ];
 
-//     const extractSessionNumber = (name: string) => {
-//       const match = name?.match(/\b(\d+)\b/);
-//       return match ? parseInt(match[1]) : null;
-//     };
+  //     const commonSessions = [6,10, 15, 20, 25, 30, 35, 40, 45, 50];
 
-//     const sortedFancy = fancy.sort((a: any, b: any) => {
-//       const nameA = a?.fancyName?.toLowerCase() || "";
-//       const nameB = b?.fancyName?.toLowerCase() || "";
+  //     const extractSessionNumber = (name: string) => {
+  //       const match = name?.match(/\b(\d+)\b/);
+  //       return match ? parseInt(match[1]) : null;
+  //     };
 
-//       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
-//       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
-//       const rankA = indexA === -1 ? 999 : indexA;
-//       const rankB = indexB === -1 ? 999 : indexB;
+  //     const sortedFancy = fancy.sort((a: any, b: any) => {
+  //       const nameA = a?.fancyName?.toLowerCase() || "";
+  //       const nameB = b?.fancyName?.toLowerCase() || "";
 
-//       if (rankA !== rankB) return rankA - rankB;
+  //       const indexA = priorityOrder.findIndex((p) => nameA.includes(p));
+  //       const indexB = priorityOrder.findIndex((p) => nameB.includes(p));
+  //       const rankA = indexA === -1 ? 999 : indexA;
+  //       const rankB = indexB === -1 ? 999 : indexB;
 
-//       const isOverRunA =
-//         nameA.includes(" over run ") || nameA.includes(" over runs ");
-//       const isOverRunB =
-//         nameB.includes(" over run ") || nameB.includes(" over runs ");
+  //       if (rankA !== rankB) return rankA - rankB;
 
-//       if (isOverRunA || isOverRunB) {
-//         const numA = extractSessionNumber(nameA) || -1;
-//         const numB = extractSessionNumber(nameB) || -1;
+  //       const isOverRunA =
+  //         nameA.includes(" over run ") || nameA.includes(" over runs ");
+  //       const isOverRunB =
+  //         nameB.includes(" over run ") || nameB.includes(" over runs ");
 
-//         const aCommon = commonSessions.includes(numA);
-//         const bCommon = commonSessions.includes(numB);
+  //       if (isOverRunA || isOverRunB) {
+  //         const numA = extractSessionNumber(nameA) || -1;
+  //         const numB = extractSessionNumber(nameB) || -1;
 
-//         if (aCommon && !bCommon) return -1;
-//         if (!aCommon && bCommon) return 1;
+  //         const aCommon = commonSessions.includes(numA);
+  //         const bCommon = commonSessions.includes(numB);
 
-//         if (aCommon && bCommon) return numA - numB;
+  //         if (aCommon && !bCommon) return -1;
+  //         if (!aCommon && bCommon) return 1;
 
-//         // ⭐ NEW → both uncommon → ASCENDING
-//         return numA - numB;
-//       }
+  //         if (aCommon && bCommon) return numA - numB;
 
-//       return nameA.localeCompare(nameB);
-//     });
+  //         // ⭐ NEW → both uncommon → ASCENDING
+  //         return numA - numB;
+  //       }
 
-//     return this.success(res, sortedFancy);
-//   } catch (e: any) {
-//     return this.fail(res, e);
-//   }
-// }
+  //       return nameA.localeCompare(nameB);
+  //     });
 
-async getFancyList(req: Request, res: Response): Promise<Response> {
-  try {
-    const { matchId }: any = req.query;
+  //     return this.success(res, sortedFancy);
+  //   } catch (e: any) {
+  //     return this.fail(res, e);
+  //   }
+  // }
 
-    const fancy = await Fancy.find({
-      matchId,
-      active: true,
-    }).sort({ sr_no: 1, marketId: 1 });
+  async getFancyList(req: Request, res: Response): Promise<Response> {
+    try {
+      const { matchId }: any = req.query;
 
-    const extractSessionNumber = (name: string) => {
-      const match = name?.match(/\b(\d+)\b/);
-      return match ? parseInt(match[1]) : null;
-    };
+      const fancy = await Fancy.find({
+        matchId,
+        active: true,
+      }).sort({ sr_no: 1, marketId: 1 });
 
-    const overRunsPriority = [6, 10, 15, 20];
+      const extractSessionNumber = (name: string) => {
+        const match = name?.match(/\b(\d+)\b/);
+        return match ? parseInt(match[1]) : null;
+      };
 
-    const sortedFancy = fancy.sort((a: any, b: any) => {
-      const nameA = a?.fancyName?.toLowerCase() || "";
-      const nameB = b?.fancyName?.toLowerCase() || "";
+      const overRunsPriority = [6, 10, 15, 20];
 
-      const isOverRunsA = nameA.includes(" over runs ");
-      const isOverRunsB = nameB.includes(" over runs ");
+      const sortedFancy = fancy.sort((a: any, b: any) => {
+        const nameA = a?.fancyName?.toLowerCase() || "";
+        const nameB = b?.fancyName?.toLowerCase() || "";
 
-      const isOverRunA = nameA.includes(" over run ");
-      const isOverRunB = nameB.includes(" over run ");
+        const isOverRunsA = nameA.includes(" over runs ");
+        const isOverRunsB = nameB.includes(" over runs ");
 
-      /** 1️⃣ Over Runs first */
-      if (isOverRunsA && !isOverRunsB) return -1;
-      if (!isOverRunsA && isOverRunsB) return 1;
+        const isOverRunA = nameA.includes(" over run ");
+        const isOverRunB = nameB.includes(" over run ");
 
-      /** 2️⃣ Over Run after Over Runs */
-      if (isOverRunA && !isOverRunB && !isOverRunsA) return -1;
-      if (!isOverRunA && isOverRunB && !isOverRunsB) return 1;
+        /** 1️⃣ Over Runs first */
+        if (isOverRunsA && !isOverRunsB) return -1;
+        if (!isOverRunsA && isOverRunsB) return 1;
 
-      /** Over Runs internal sorting */
-      if (isOverRunsA && isOverRunsB) {
-        const numA = extractSessionNumber(nameA) ?? 999;
-        const numB = extractSessionNumber(nameB) ?? 999;
+        /** 2️⃣ Over Run after Over Runs */
+        if (isOverRunA && !isOverRunB && !isOverRunsA) return -1;
+        if (!isOverRunA && isOverRunB && !isOverRunsB) return 1;
 
-        const indexA = overRunsPriority.indexOf(numA);
-        const indexB = overRunsPriority.indexOf(numB);
+        /** Over Runs internal sorting */
+        if (isOverRunsA && isOverRunsB) {
+          const numA = extractSessionNumber(nameA) ?? 999;
+          const numB = extractSessionNumber(nameB) ?? 999;
 
-        // ⭐ 6,10,15,20 first
-        if (indexA !== -1 || indexB !== -1) {
-          if (indexA === -1) return 1;
-          if (indexB === -1) return -1;
-          return indexA - indexB;
+          const indexA = overRunsPriority.indexOf(numA);
+          const indexB = overRunsPriority.indexOf(numB);
+
+          // ⭐ 6,10,15,20 first
+          if (indexA !== -1 || indexB !== -1) {
+            if (indexA === -1) return 1;
+            if (indexB === -1) return -1;
+            return indexA - indexB;
+          }
+
+          // baaki Over Runs → ascending
+          return numA - numB;
         }
 
-        // baaki Over Runs → ascending
-        return numA - numB;
-      }
+        /** Over Run internal sorting */
+        if (isOverRunA && isOverRunB) {
+          const numA = extractSessionNumber(nameA) ?? 999;
+          const numB = extractSessionNumber(nameB) ?? 999;
+          return numA - numB;
+        }
 
-      /** Over Run internal sorting */
-      if (isOverRunA && isOverRunB) {
-        const numA = extractSessionNumber(nameA) ?? 999;
-        const numB = extractSessionNumber(nameB) ?? 999;
-        return numA - numB;
-      }
+        /** Remaining fancy → default */
+        return nameA.localeCompare(nameB);
+      });
 
-      /** Remaining fancy → default */
-      return nameA.localeCompare(nameB);
-    });
-
-    return this.success(res, sortedFancy);
-  } catch (e: any) {
-    return this.fail(res, e);
+      return this.success(res, sortedFancy);
+    } catch (e: any) {
+      return this.fail(res, e);
+    }
   }
-}
 
 
 
@@ -1340,44 +1340,44 @@ async getFancyList(req: Request, res: Response): Promise<Response> {
   }
 
 
-  getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
-    try {
-      const { EventTypeID } = req.query
-      if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
-      const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
-      const matchIds = alreadyAdded.map((match: any) => match.matchId)
-      const response = await sportsApi
-        .get(`/get-series-redis/${EventTypeID}`)
-        .then(async (series: any) => {
-          console.log(series,"series is here hahhahahahahahaha")
-          const getMatches = series.data.data.map(async (s: any) => {
-            return s.match.map((fm: any) => {
-              fm.series = s.competition
-              fm.matchId = fm.event.id
-              fm.matchDateTime = fm.event.openDate
-              fm.name = fm.event.name
-              fm.seriesId = s.competition?.id
-              fm.sportId = EventTypeID
-              fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
-              return fm
-            })
-          })
-          return Promise.all([...getMatches])
-        })
-        .then((m) => {
-          return m
-            .filter((element: any) => {
-              return !Array.isArray(element) || element.length !== 0
-            })
-            .flat()
-        })
-        .catch((e) => console.log('error', e))
+  // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
+  //   try {
+  //     const { EventTypeID } = req.query
+  //     if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
+  //     const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
+  //     const matchIds = alreadyAdded.map((match: any) => match.matchId)
+  //     const response = await sportsApi
+  //       .get(`/get-series-redis/${EventTypeID}`)
+  //       .then(async (series: any) => {
+  //         console.log(series,"series is here hahhahahahahahaha")
+  //         const getMatches = series.data.data.map(async (s: any) => {
+  //           return s.match.map((fm: any) => {
+  //             fm.series = s.competition
+  //             fm.matchId = fm.event.id
+  //             fm.matchDateTime = fm.event.openDate
+  //             fm.name = fm.event.name
+  //             fm.seriesId = s.competition?.id
+  //             fm.sportId = EventTypeID
+  //             fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
+  //             return fm
+  //           })
+  //         })
+  //         return Promise.all([...getMatches])
+  //       })
+  //       .then((m) => {
+  //         return m
+  //           .filter((element: any) => {
+  //             return !Array.isArray(element) || element.length !== 0
+  //           })
+  //           .flat()
+  //       })
+  //       .catch((e) => console.log('error', e))
 
-      return this.success(res, response, '')
-    } catch (e: any) {
-      return this.fail(res, e)
-    }
-  }
+  //     return this.success(res, response, '')
+  //   } catch (e: any) {
+  //     return this.fail(res, e)
+  //   }
+  // }
 
 
   // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
@@ -1498,6 +1498,101 @@ async getFancyList(req: Request, res: Response): Promise<Response> {
   //     return this.fail(res, e)
   //   }
   // }
+
+  // diamond api
+
+  getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { EventTypeID } = req.query
+      if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
+      const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
+      console.log(alreadyAdded, "Hello  World")
+      const matchIds = alreadyAdded.map((match: any) => match.matchId)
+
+      const response = await axios.get(
+        "https://docs.vkmster.com/sportapi/match-list?sportsid=4",
+        {
+          headers: {
+            "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+            "x-api-secret":
+              "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+          },
+        }
+      )
+        .then(async (series: any) => {
+          // console.log(series, "series from api");
+
+          if (EventTypeID == "10" || EventTypeID == "65") {
+
+            console.log("hello world")
+
+            var getMatches =
+              series?.data?.data?.data?.t1?.flatMap((s: any) =>
+                (s.children || []).flatMap((c: any) =>
+                  (c.children || []).map((cc: any) => ({
+                    event: {
+                      id: cc.gmid,
+                      name: c.ename,
+                      timezone: "GMT",
+                      openDate: cc.stime,
+                    },
+                    series: {
+                      id: s.cid.toString(),
+                      name: s.cname,
+                    },
+                    matchId: cc.gmid,
+                    matchDateTime: cc.stime,
+                    name: c.ename,
+                    seriesId: s.cid.toString(),
+                    sportId: EventTypeID,
+                    active: matchIds.includes(parseInt(cc.gmid)),
+                  }))
+                )
+              ) || [];
+
+          }
+
+          else {
+
+            var getMatches = series?.data?.data?.t1?.flatMap((s: any) => {
+              return {
+                event: {
+                  id: s.gmid,
+                  name: s.ename,
+                  timezone: "GMT",
+                  openDate: s.stime,
+                },
+                series: {
+                  id: s.cid.toString(),
+                  name: s.cname,
+                },
+                matchId: s.gmid,
+                matchDateTime: s.stime,
+                name: s.ename,
+                seriesId: s.cid.toString(),
+                sportId: EventTypeID,
+                active: matchIds.includes(parseInt(s.gmid)),
+              }
+            }) || [];
+
+          }
+
+          return Promise.all([...getMatches]);
+        })
+        .then((matches) => {
+          return matches.filter(Boolean); // remove undefined/null if any
+        })
+        .catch((e) => {
+          console.log('error', e);
+          return [];
+        });
+      // console.log(response, "response is here")
+
+      return this.success(res, response, '')
+    } catch (e: any) {
+      return this.fail(res, e)
+    }
+  }
 
   getSeriesWithMarketWithDate = async (req: Request, res: Response): Promise<any> => {
     try {
