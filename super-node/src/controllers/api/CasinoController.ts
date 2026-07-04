@@ -1993,10 +1993,16 @@ export default class CasinoController extends ApiController {
 
       if (type === "AAA") type = "aaa";
 
-      let response = await axios.get(
-        `http://69.62.123.205:3000/tabledata2/${type}`
-      );
-      let data = response.data;
+      let response =await axios.get(
+      `https://docs.vkmster.com/casinoapi/casinoData?gtype=${type}`, {
+      headers: {
+        "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+        "x-api-secret":
+          "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+      },
+    }
+    )
+      let data = response?.data?.data?.data
 
       console.log(data, "data hjkl");
 
