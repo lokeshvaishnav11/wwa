@@ -1272,7 +1272,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
       // Success: return true
       // console.log(res.data.data, "Response for resultDetails");
       // console.log("hhhhhhhhhhhhhh",res.data.data.t1)
-      let t1 = res.data.data.t1;
+      let t1 = res?.data?.data?.data?.t1;
       console.log(t1, res.data, "hello world");
       const sidsstring = await sids(t1, slug);
       //  console.log(sidarr)
