@@ -211,7 +211,7 @@ export const AvailableToBackLay = React.memo(({ selections, market, runner }: Pr
   const onBet = (isBack = false, back: { price: number; size: number }) => {
     const ipAddress = authService.getIpAddress();
     if (market.oddsType === OddsType.BM && back.size === 0) return;
-       const odds = back.price * 100 - 100;
+       const odds = back.price;
      if (allowSuspension && odds > 100 ) {
     return; // ❌ Don't allow bet on suspended odds
     }
