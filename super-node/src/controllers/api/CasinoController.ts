@@ -1268,7 +1268,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
     xyz = xyz === "worli" ? "worliinstant" : xyz;
     xyz = xyz === "teen1" ? "1-CARD-ONE-DAY" : xyz;
 
-    if (res.data?.msg?.toLowerCase() === "success" && res.data.data.t1.rdesc.length > 0) {
+    if (res.data?.data?.msg?.toLowerCase() === "success" && res.data?.data?.data.t1.rdesc.length > 0) {
       // Success: return true
       // console.log(res.data.data, "Response for resultDetails");
       // console.log("hhhhhhhhhhhhhh",res.data.data.t1)
