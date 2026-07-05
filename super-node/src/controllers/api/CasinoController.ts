@@ -1271,7 +1271,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
     if (res.data?.data?.msg?.toLowerCase() === "success" && res.data?.data?.data.t1.rdesc.length > 0) {
       // Success: return true
       // console.log(res.data.data, "Response for resultDetails");
-      // console.log("hhhhhhhhhhhhhh",res.data.data.t1)
+      console.log("hhhhhhhhhhhhhh",res.data.data.t1)
       let t1 = res?.data?.data?.data?.t1;
       console.log(t1, res.data, "hello world");
       const sidsstring = await sids(t1, slug);
@@ -1304,7 +1304,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
 
       // await axios.post("http://localhost:3010/api/save-casino-match",convertResult)
       await axios.post(
-        "https://api.7horse.online/api/save-casino-match",
+        "https://napi.7horse.online/api/save-casino-match",
         convertResult
       );
 
