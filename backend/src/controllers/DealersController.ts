@@ -312,6 +312,7 @@ export class DealersController extends ApiController {
         creditRefrences,
         exposerLimit,
         userSetting,
+        comm,
         // transactionPassword,
       } = req.body
 
@@ -332,6 +333,14 @@ export class DealersController extends ApiController {
 
       if (share > pshare) {
         return this.fail(res, 'Share must be less than or equal to Parent Share')
+      }
+
+      let newcomm;
+
+      if(comm){
+       newcomm = comm
+      }else{
+        newcomm = currentUserData.comm
       }
 
       const parentUser: any = await User.findOne({ username: parent })
@@ -397,6 +406,7 @@ export class DealersController extends ApiController {
         exposerLimit,
         changePassAndTxn,
         userSetting: updatedUserSetting,
+        comm:newcomm
       }
 
       const newUser = new User(userData)
