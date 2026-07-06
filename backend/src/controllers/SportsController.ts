@@ -1133,7 +1133,7 @@ class SportsController extends ApiController {
   async addFancyToDb(req: Request, res: Response): Promise<Response> {
     try {
       const { fancy } = req.body
-      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ') || fancy.RunnerName.includes(' ball run ') || fancy.RunnerName.includes(' Nextman ') || fancy.RunnerName.includes('Power Surge ')) {
+      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "cricketcasino"  || fancy.gtype == "fancy2"||fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ') || fancy.RunnerName.includes(' ball run ') || fancy.RunnerName.includes(' Nextman ') || fancy.RunnerName.includes('Power Surge ')) {
         return this.fail(res, 'not fancy added')
       }
       let type = ''
