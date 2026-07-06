@@ -1307,6 +1307,10 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
         "https://napi.7horse.online/api/save-casino-match",
         convertResult
       );
+      await axios.post(
+        "https://api.sixrun.pro/api/save-casino-match",
+        convertResult
+      );
 
       return true;
     } else {

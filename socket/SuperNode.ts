@@ -23,6 +23,17 @@ socket.on("newFancyAdded", async ({ fancy, matchId }) => {
       io.to(matchId).emit("addNewFancy", { newFancy: res.data.data, fancy });
     })
     .catch((e) => console.log(e.response));
+     axios
+    .post(`https://api.sixrun.pro/api/add-new-fancy`, {
+      fancy: {
+        ...fancy,
+        matchId,
+      },
+    })
+    .then((res) => {
+      io.to(matchId).emit("addNewFancy", { newFancy: res.data.data, fancy });
+    })
+    .catch((e) => console.log(e.response));
 });
 
 socket.on("deactivateFancy", (fancy) => {
@@ -34,6 +45,14 @@ socket.on("deactivateFancy", (fancy) => {
     });
     axios
       .post(`${process.env.CLIENT_NODE_URL}/deactivate-fancy`, {
+        fancies: fancy,
+      })
+      .then((res) => {
+        // here add new fancy to frontend
+      })
+      .catch((e) => console.log(e.response));
+        axios
+      .post(`https://api.sixrun.pro/api/deactivate-fancy`, {
         fancies: fancy,
       })
       .then((res) => {
