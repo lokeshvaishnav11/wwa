@@ -335,13 +335,7 @@ export class DealersController extends ApiController {
         return this.fail(res, 'Share must be less than or equal to Parent Share')
       }
 
-      let newcomm;
-
-      if(comm){
-       newcomm = comm
-      }else{
-        newcomm = currentUserData.comm
-      }
+      const newcomm = comm !== undefined ? comm : currentUserData.comm;
 
       const parentUser: any = await User.findOne({ username: parent })
 
