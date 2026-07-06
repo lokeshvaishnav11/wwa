@@ -153,12 +153,12 @@ const AllReport = () => {
 
       const filteredData = isFilterApplied
         ? rawData?.filter((item: any) => {
-            const createdAt = new Date(item.createdAt);
-            const from = startDate ? new Date(startDate) : null;
-            const to = endDate ? new Date(endDate) : null;
+          const createdAt = new Date(item.createdAt);
+          const from = startDate ? new Date(startDate) : null;
+          const to = endDate ? new Date(endDate) : null;
 
-            return (!from || createdAt >= from) && (!to || createdAt <= to);
-          })
+          return (!from || createdAt >= from) && (!to || createdAt <= to);
+        })
         : rawData;
 
       const grouped: Record<string, GroupedLedger & { updownTotal: number }> =
@@ -301,13 +301,13 @@ const AllReport = () => {
     if (startDate && endDate) {
       handleDateFilter(true);
     }
-  
+
     // agar dono blank ho jaye to full data dikhao
     if (!startDate && !endDate) {
       handleDateFilter(false);
     }
   }, [startDate, endDate]);
-  
+
 
   return (
     <div style={{ zoom: 0.4 }}>
@@ -433,38 +433,45 @@ const AllReport = () => {
                   >
                     Total
                   </th>
-                  <th
-                    className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                    rowSpan={1}
-                    colSpan={1}
-                    style={{ width: "36px" }}
-                  >
-                    M.Com
-                  </th>
-                  <th
-                    className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                    rowSpan={1}
-                    colSpan={1}
-                    style={{ width: "34px" }}
-                  >
-                    S.Com
-                  </th>
-                  <th
-                    className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                    rowSpan={1}
-                    colSpan={1}
-                    style={{ width: "34px" }}
-                  >
-                    MT.Com
-                  </th>
-                  <th
-                    className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                    rowSpan={1}
-                    colSpan={1}
-                    style={{ width: "33px" }}
-                  >
-                    T.Com
-                  </th>
+                  {userState?.user?.comm === true && (
+                    <>
+                      <th
+                        className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                        rowSpan={1}
+                        colSpan={1}
+                        style={{ width: "36px" }}
+                      >
+                        M.Com
+                      </th>
+
+                      <th
+                        className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                        rowSpan={1}
+                        colSpan={1}
+                        style={{ width: "34px" }}
+                      >
+                        S.Com
+                      </th>
+
+                      <th
+                        className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                        rowSpan={1}
+                        colSpan={1}
+                        style={{ width: "34px" }}
+                      >
+                        MT.Com
+                      </th>
+
+                      <th
+                        className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                        rowSpan={1}
+                        colSpan={1}
+                        style={{ width: "33px" }}
+                      >
+                        T.Com
+                      </th>
+                    </>
+                  )}
                   <th
                     className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
                     rowSpan={1}
@@ -551,26 +558,33 @@ const AllReport = () => {
                         </span>
                       </td>
 
-                      <td className="ng-scope">
-                        <span className="text-danger">
-                          {row.mCom.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="ng-scope">
-                        <span className="text-danger">
-                          {row.sCom.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="ng-scope">
-                        <span className="text-danger">
-                          {row.mtCom.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="ng-scope">
-                        <span className="text-danger">
-                          {row.tCom.toFixed(2)}
-                        </span>
-                      </td>
+                      {userState?.user?.comm && (
+                        <>
+                          <td className="ng-scope">
+                            <span className="text-danger">
+                              {row.mCom.toFixed(2)}
+                            </span>
+                          </td>
+
+                          <td className="ng-scope">
+                            <span className="text-danger">
+                              {row.sCom.toFixed(2)}
+                            </span>
+                          </td>
+
+                          <td className="ng-scope">
+                            <span className="text-danger">
+                              {row.mtCom.toFixed(2)}
+                            </span>
+                          </td>
+
+                          <td className="ng-scope">
+                            <span className="text-danger">
+                              {row.tCom.toFixed(2)}
+                            </span>
+                          </td>
+                        </>
+                      )}
 
                       <td className="ng-scope">
                         <span

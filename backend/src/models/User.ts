@@ -51,6 +51,7 @@ export interface IUser {
   pshare?:number
   mcom?:number
   scom?:number
+  comm?:boolean
 
   matcom?:number
   matkalimit?:number
@@ -95,11 +96,12 @@ export const userSchema: Schema = new Schema(
     isDemo: Boolean,
     share:Number,
     pshare:Number,
-    mcom:Number,
-    scom:Number,
+    mcom:{type:Number,default:0},
+    scom:{type:Number,default:0},
     code:String,
     matcom:{type:Number,default:0},
     matkalimit:{type:Number,default:0},
+    comm:{type:Boolean,default:false}
   },
   {
     timestamps: true,

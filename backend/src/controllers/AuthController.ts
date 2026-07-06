@@ -302,6 +302,7 @@ export class AuthController extends ApiController {
         code: user.code,
         role: user.role,
         _id: user._id,
+        comm:user?.comm
       });
 
     } catch (e: any) {
@@ -309,10 +310,19 @@ export class AuthController extends ApiController {
     }
   };
 
+async getUser(req: Request, res: Response): Promise<Response> {
+  // @ts-ignore
+  const user_new = await User.findOne({ username: req.user.username });
 
-  async getUser(req: Request, res: Response): Promise<Response> {
-    return this.success(res, { user: req.user })
+  console.log(user_new, "lokesh");
+
+  if (user_new) {
+    // @ts-ignore
+    req.user.comm = user_new.comm;
   }
+
+  return this.success(res, { user: req.user });
+}
 
   async refreshToken(req: Request, res: Response): Promise<Response> {
     const { token } = req.body

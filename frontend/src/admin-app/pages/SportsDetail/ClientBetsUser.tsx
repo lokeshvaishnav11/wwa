@@ -468,14 +468,13 @@ const ClientBetsUser = () => {
                       <tr key={index}>
                         <td className="pt-1 pb-1">{team?.runnerName}</td>
                         <td
-                          className={`pt-1 pb-1 ${
-                            ((team?.totalStack || 0) +
-                              (team?.profitLoss || 0)) *
-                              (shared * 0.01) >
+                          className={`pt-1 pb-1 ${((team?.totalStack || 0) +
+                            (team?.profitLoss || 0)) *
+                            (shared * 0.01) >
                             0
-                              ? "text-red-500"
-                              : "text-green-500"
-                          }`}
+                            ? "text-red-500"
+                            : "text-green-500"
+                            }`}
                         >
                           {/* <p>{team?.profitLoss}</p> */}
                           {(
@@ -574,17 +573,16 @@ const ClientBetsUser = () => {
                           {bet?.parentData
                             ?.slice(
                               bet?.parentData.indexOf(userState.user.username) +
-                                1
+                              1
                             )
                             .join("/")}
                           /{bet?.userName}/({bet?.userCode})
                         </td>
                         <td
-                          className={`pt-2 pb-1 ${
-                            bet?.profitLoss < 0
-                              ? "text-black-500"
-                              : "text-black-500"
-                          }`}
+                          className={`pt-2 pb-1 ${bet?.profitLoss < 0
+                            ? "text-black-500"
+                            : "text-black-500"
+                            }`}
                         >
                           {bet?.stack}
                         </td>
@@ -876,11 +874,10 @@ const ClientBetsUser = () => {
     </td> */}
                                           {bet?.status == "pending" && (
                                             <td
-                                              className={`pt-2 pb-1 ${
-                                                bet?.profitLoss < 0
-                                                  ? "text-black-500"
-                                                  : "text-black-500"
-                                              }`}
+                                              className={`pt-2 pb-1 ${bet?.profitLoss < 0
+                                                ? "text-black-500"
+                                                : "text-black-500"
+                                                }`}
                                             >
                                               {bet?.stack}
                                             </td>
@@ -888,11 +885,10 @@ const ClientBetsUser = () => {
 
                                           {bet?.status == "completed" && (
                                             <td
-                                              className={`pt-2 pb-1 ${
-                                                bet?.profitLoss < 0
-                                                  ? "text-red-500"
-                                                  : "text-green-500"
-                                              }`}
+                                              className={`pt-2 pb-1 ${bet?.profitLoss < 0
+                                                ? "text-red-500"
+                                                : "text-green-500"
+                                                }`}
                                             >
                                               {bet?.profitLoss}
                                             </td>
@@ -953,7 +949,7 @@ const ClientBetsUser = () => {
                             </div>
                             <div
                               className="book-badges d-flex flex-wrap gap-2 overflow-auto mt-2 p-2 border rounded"
-                              // style={{ maxHeight: "70px" }}
+                            // style={{ maxHeight: "70px" }}
                             >
                               {Object.keys(book).length > 0 &&
                                 Object.keys(book).map((itemKey) => {
@@ -1060,30 +1056,36 @@ const ClientBetsUser = () => {
                           >
                             Total
                           </th>
-                          <th
-                            className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                            rowSpan={1}
-                            colSpan={1}
-                            style={{ width: "36px" }}
-                          >
-                            M.Com
-                          </th>
-                          <th
-                            className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                            rowSpan={1}
-                            colSpan={1}
-                            style={{ width: "34px" }}
-                          >
-                            S.Com
-                          </th>
-                          <th
-                            className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
-                            rowSpan={1}
-                            colSpan={1}
-                            style={{ width: "33px" }}
-                          >
-                            T.Com
-                          </th>
+                          {userState?.user?.comm && (
+                            <>
+                              <th
+                                className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                                rowSpan={1}
+                                colSpan={1}
+                                style={{ width: "36px" }}
+                              >
+                                M.Com
+                              </th>
+
+                              <th
+                                className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                                rowSpan={1}
+                                colSpan={1}
+                                style={{ width: "34px" }}
+                              >
+                                S.Com
+                              </th>
+
+                              <th
+                                className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
+                                rowSpan={1}
+                                colSpan={1}
+                                style={{ width: "33px" }}
+                              >
+                                T.Com
+                              </th>
+                            </>
+                          )}
                           <th
                             className="navbar-bet99 text-dark pt-2 pb-2 small sorting_disabled"
                             rowSpan={1}
@@ -1176,21 +1178,27 @@ const ClientBetsUser = () => {
                                 </span>
                               </td>
 
-                              <td className="ng-scope">
-                                <span className="text-danger">
-                                  {row.mCom.toFixed(2)}
-                                </span>
-                              </td>
-                              <td className="ng-scope">
-                                <span className="text-danger">
-                                  {row.sCom.toFixed(2)}
-                                </span>
-                              </td>
-                              <td className="ng-scope">
-                                <span className="text-danger">
-                                  {row.tCom.toFixed(2)}
-                                </span>
-                              </td>
+                              {userState?.user?.comm && (
+                                <>
+                                  <td className="ng-scope">
+                                    <span className="text-danger">
+                                      {(row.mCom ?? 0).toFixed(2)}
+                                    </span>
+                                  </td>
+
+                                  <td className="ng-scope">
+                                    <span className="text-danger">
+                                      {(row.sCom ?? 0).toFixed(2)}
+                                    </span>
+                                  </td>
+
+                                  <td className="ng-scope">
+                                    <span className="text-danger">
+                                      {(row.tCom ?? 0).toFixed(2)}
+                                    </span>
+                                  </td>
+                                </>
+                              )}
 
                               <td className="ng-scope">
                                 <span
@@ -1318,15 +1326,21 @@ const ClientBetsUser = () => {
                       <th className="navbar-bet99 text-dark pt-1 pb-1 small">
                         Total
                       </th>
-                      <th className="navbar-bet99 text-dark pt-1 pb-1 small">
-                        M.Com
-                      </th>
-                      <th className="navbar-bet99 text-dark pt-1 pb-1 small">
-                        S.Com
-                      </th>
-                      <th className="navbar-bet99 text-dark pt-1 pb-1 small">
-                        T.Com
-                      </th>
+                      {userState?.user?.comm && (
+                        <>
+                          <th className="navbar-bet99 text-dark pt-1 pb-1 small">
+                            M.Com
+                          </th>
+
+                          <th className="navbar-bet99 text-dark pt-1 pb-1 small">
+                            S.Com
+                          </th>
+
+                          <th className="navbar-bet99 text-dark pt-1 pb-1 small">
+                            T.Com
+                          </th>
+                        </>
+                      )}
                       <th className="navbar-bet99 text-dark pt-1 pb-1 small">
                         G. Total
                       </th>
@@ -1369,30 +1383,36 @@ const ClientBetsUser = () => {
                           )}
                         </span>
                       </td>
-                      <td className="pt-1 pb-1">
-                        <span
-                          ng-class="totalPandL.match_comm > 0 ? 'text-danger' : 'text-danger'"
-                          className="ng-binding text-danger"
-                        >
-                          {ledgerTotal?.mCom?.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="pt-1 pb-1">
-                        <span
-                          ng-class="totalPandL.sess_comm > 0 ? 'text-danger' : 'text-danger'"
-                          className="ng-binding text-danger"
-                        >
-                          {ledgerTotal?.sCom?.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="pt-1 pb-1">
-                        <span
-                          ng-class="totalPandL.total_comm > 0 ? 'text-danger' : 'text-danger'"
-                          className="ng-binding text-danger"
-                        >
-                          {ledgerTotal?.tCom?.toFixed(2)}
-                        </span>
-                      </td>
+                      {userState?.user?.comm && (
+                        <>
+                          <td className="pt-1 pb-1">
+                            <span
+                              ng-class="totalPandL.match_comm > 0 ? 'text-danger' : 'text-danger'"
+                              className="ng-binding text-danger"
+                            >
+                              {(ledgerTotal?.mCom ?? 0).toFixed(2)}
+                            </span>
+                          </td>
+
+                          <td className="pt-1 pb-1">
+                            <span
+                              ng-class="totalPandL.sess_comm > 0 ? 'text-danger' : 'text-danger'"
+                              className="ng-binding text-danger"
+                            >
+                              {(ledgerTotal?.sCom ?? 0).toFixed(2)}
+                            </span>
+                          </td>
+
+                          <td className="pt-1 pb-1">
+                            <span
+                              ng-class="totalPandL.total_comm > 0 ? 'text-danger' : 'text-danger'"
+                              className="ng-binding text-danger"
+                            >
+                              {(ledgerTotal?.tCom ?? 0).toFixed(2)}
+                            </span>
+                          </td>
+                        </>
+                      )}
                       <td className="pt-1 pb-1">
                         <span
                           ng-class="totalPandL.total_amount > 0 ? 'text-success' : 'text-danger'"
