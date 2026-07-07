@@ -109,12 +109,13 @@ const formattedFancyData = async () => {
 
       // ✅ FIXED FILTER (must be &&)
       const fancydata = data
-        .filter(
-          (fb) =>
-            fb.mname !== "Bookmaker" &&
-            fb.mname !== "MATCH_ODDS" &&
-            fb.mname !== "TIED_MATCH"
-        )
+       .filter(
+  (fb) =>
+    !fb.mname.includes("Bookmaker") &&
+    fb.mname !== "MATCH_ODDS" &&
+    fb.mname !== "TIED_MATCH" &&
+    fb.gtype !== "cricketcasino"
+)
         .flatMap((f) =>
           (f.section || []).map((fa) => ({
             BackPrice1: fa?.odds?.[0]?.odds || 0,
