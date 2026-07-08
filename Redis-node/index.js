@@ -297,7 +297,7 @@ const start = async () => {
   setInterval(formattedFancyData, 1000);
   setInterval(BookMakerOddsData, 900);
 
-  const PORT = 3030;
+  const PORT = 3031;
   server.listen(PORT, () => {
     console.log(`🚀 Socket Server running on port ${PORT}`);
   });
