@@ -312,16 +312,16 @@ const Dashboard = () => {
                   matchList={matchList}
                 />
               ) : (
-                // <MatchListMobile
-                //   currentMatch={currentMatch}
-                //   memoOdds={memoOdds}
-                //   matchList={matchList}
-                // />
-                <MatchList
+                <MatchListMobile
                   currentMatch={currentMatch}
                   memoOdds={memoOdds}
                   matchList={matchList}
                 />
+                // <MatchList
+                //   currentMatch={currentMatch}
+                //   memoOdds={memoOdds}
+                //   matchList={matchList}
+                // />
               )}
               {isMobile && location.pathname.includes("/match/4")  ? (
                 <div className="home-page">
