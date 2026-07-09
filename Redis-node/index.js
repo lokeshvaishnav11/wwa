@@ -286,7 +286,7 @@ const BookMakerOddsData = async () => {
 const getPendingFancyList = async () => {
   try {
     const { data } = await axios.get(
-      "https://api.7horse.online/api/get-business-fancy-list"
+      "https://napi.7horse.online/api/get-business-fancy-list"
     );
     console.log("lokesh")
     return data?.data?.list || [];
@@ -330,7 +330,7 @@ const getProviderResult = async (matchId) => {
 const declareFancyResult = async (payload) => {
   try {
     await axios.post(
-      "https://api.7horse.online/api/update-fancy-result",
+      "https://napi.7horse.online/api/update-fancy-result",
       payload
     );
   } catch (e) {
