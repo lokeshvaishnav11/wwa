@@ -283,6 +283,136 @@ const BookMakerOddsData = async () => {
   }
 };
 
+const getPendingFancyList = async () => {
+  try {
+    const { data } = await axios.get(
+      "https://api.7horse.online/api/get-business-fancy-list"
+    );
+    console.log("lokesh")
+    return data?.data?.list || [];
+  } catch (e) {
+    console.log("Pending Fancy Error", e.message);
+    return [];
+  }
+};
+
+const groupFancyByMatch = (list) => {
+  return list.reduce((acc, item) => {
+    if (!acc[item.matchId]) {
+      acc[item.matchId] = [];
+    }
+
+    acc[item.matchId].push(item);
+
+    return acc;
+  }, {});
+};
+
+const getProviderResult = async (matchId) => {
+  try {
+    const { data } = await axios.get(
+          `https://docs.vkmster.com/sportapi/sportsResult?sportsid=4&gmid=${matchId}`,        {
+          headers: {
+            "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+            "x-api-secret":
+              "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+          },
+        }
+      ) 
+      console.log(data,"data")
+    return data?.markets || [];
+  } catch (e) {
+    console.log("Provider Error", matchId, e.message);
+    return [];
+  }
+};
+
+const declareFancyResult = async (payload) => {
+  try {
+    await axios.post(
+      "https://api.7horse.online/api/update-fancy-result",
+      payload
+    );
+  } catch (e) {
+    console.log("Declare Error", e.message);
+  }
+};
+
+const processMatchResult = async (matchId, pendingFancy) => {
+
+    const markets = await getProviderResult(matchId);
+
+    if (!markets.length)
+        return;
+
+    const jobs = [];
+
+    for (const fancy of pendingFancy) {
+
+        const market = markets.find(
+            x =>
+                x.marketName.trim().toLowerCase() ===
+                fancy.selectionName.trim().toLowerCase()
+        );
+
+        if (!market)
+            continue;
+
+        if (market.status !== "SETTLE")
+            continue;
+
+        jobs.push(
+
+            declareFancyResult({
+
+                message: "ok",
+
+                result: String(market.winnerId),
+
+                runnerName: fancy.selectionName,
+
+                matchId: fancy.matchId,
+
+                isRollback: false
+
+            })
+
+        );
+
+    }
+
+    await Promise.allSettled(jobs);
+
+}
+
+const processPendingFancyResult = async () => {
+
+    const list = await getPendingFancyList();
+
+    if (!list.length)
+        return;
+
+    const grouped = groupFancyByMatch(list);
+
+    const jobs = [];
+
+    for (const matchId in grouped) {
+
+        jobs.push(
+
+            processMatchResult(
+                Number(matchId),
+                grouped[matchId]
+            )
+
+        );
+
+    }
+
+    await Promise.allSettled(jobs);
+
+}
+
 // ---------------- Start App ----------------
 const start = async () => {
   await setConnection();
@@ -296,6 +426,7 @@ const start = async () => {
   setInterval(getFancyDataApi, 1000);
   setInterval(formattedFancyData, 1000);
   setInterval(BookMakerOddsData, 900);
+  setInterval(processPendingFancyResult,2000);
 
   const PORT = 3031;
   server.listen(PORT, () => {
