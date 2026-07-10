@@ -359,29 +359,29 @@ class Fancy extends React.Component<
     return (
       <div className="table-header text-dark">
         <div
-          style={{ fontSize: "18px" ,backgroundColor: "#8fd9a8"  }}
+          style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)" }}
           className={`float-left ${
-            isMobile ? "text-dark" : " text-dark"
+            isMobile ? "bg-theme text-dark" : " text-dark"
           } country-name box-6`}
         >
           {isMobile ? title : ""}
-          <p style={{ fontSize: "18px", backgroundColor: "#8fd9a8" }}>
+          <p style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)",color:"white" }}>
             Session
           </p>
         </div>
         <div
-          style={{ fontSize: "18px", backgroundColor: "#8fd9a8" }}
+          style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)" }}
           className={`${
             isMobile ? "box-2" : "box-1"
-          } float-left lay text-center`}
+          } float-left  text-center text-white`}
         >
           <b>NOT</b>
         </div>
         <div
-          style={{ fontSize: "18px", backgroundColor: "#8fd9a8" }}
+          style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)" }}
           className={`${
             isMobile ? "box-2" : "box-1"
-          } float-left back text-center`}
+          } float-left text-white text-center`}
         >
           <b>YES</b>
         </div>

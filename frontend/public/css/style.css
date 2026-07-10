@@ -1592,7 +1592,7 @@ footer {
   min-width: 23.9%;
   margin-top: 2px;
   float: left;
-  background-color: var(--theme2-bg);
+  background-color: rgb(18, 58, 124);
   color: #fff;
   font-weight: bold;
   font-size: 17px;
@@ -3417,7 +3417,7 @@ marquee.casino-remark {
 }
 
 .table-row {
-  background-color: black;
+  background-color: rgb(93 95 97);
 }
 
 .fancy-market .table-row {
