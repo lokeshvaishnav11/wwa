@@ -359,9 +359,9 @@ class Fancy extends React.Component<
     return (
       <div className="table-header text-dark">
         <div
-          style={{ fontSize: "18px" }}
+          style={{ fontSize: "18px" ,backgroundColor: "#8fd9a8"  }}
           className={`float-left ${
-            isMobile ? "bg-theme text-dark" : " text-dark"
+            isMobile ? "text-dark" : " text-dark"
           } country-name box-6`}
         >
           {isMobile ? title : ""}
