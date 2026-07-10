@@ -230,7 +230,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    color: "black",
+                   
                     borderRadius: "8px",
                   }}
                 >
