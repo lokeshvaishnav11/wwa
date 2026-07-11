@@ -208,7 +208,7 @@ class MatchOdds extends React.PureComponent<
                 </div>
                 <div className="table-header">
                   <div
-                    style={{ fontSize: "18px", backgroundColor: "#8fd9a8" }}
+                    style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)",color:"white" }}
                     className={`float-left country-name ${classforheadingfirst} min-max`}
                   >
                     <b />
@@ -235,8 +235,10 @@ class MatchOdds extends React.PureComponent<
 
                   <div
                     style={{
-                      backgroundColor: "#8fd9a8",
-                      borderColor: "#8fd9a8",
+                      backgroundColor: "rgb(18, 58, 124)",
+                      borderColor: "rgb(18, 58, 124)",
+                                            color:"white"
+
                     }}
                     className={`back ${classforheading} float-left text-center`}
                   >
@@ -244,8 +246,9 @@ class MatchOdds extends React.PureComponent<
                   </div>
                   <div
                     style={{
-                      backgroundColor: "#8fd9a8",
-                      borderColor: "#8fd9a8",
+                      backgroundColor: "rgb(18, 58, 124)",
+                      borderColor: "rgb(18, 58, 124)",
+                      color:"white"
                     }}
                     className={`lay ${classforheading} float-left text-center`}
                   >

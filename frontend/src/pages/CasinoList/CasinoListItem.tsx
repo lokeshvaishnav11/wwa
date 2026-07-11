@@ -150,6 +150,7 @@ const CasinoListItem = (props: any) => {
           padding: 10px !important;
           margin: 0 !important;
           list-style: none !important;
+          width:100vw;
         }
         .${P}-tab {
           flex: 0 0 auto !important;
@@ -171,7 +172,6 @@ const CasinoListItem = (props: any) => {
           grid-template-columns: repeat(3, 1fr) !important;
           gap: 10px !important;
           padding: 10px !important;
-          width: 53% !important;
           box-sizing: border-box !important;
           margin: 0 !important;
           list-style: none !important;

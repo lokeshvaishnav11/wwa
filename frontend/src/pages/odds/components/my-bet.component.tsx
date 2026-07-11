@@ -751,6 +751,9 @@ const MyBetComponent = () => {
 
   return (
     <div className="table-responsive-new" style={{ maxHeight: 400, overflowY: "auto" }}>
+      <h6 className="p-2 w-100 m-0 bg-info text-white text-center">
+        Place Bets
+      </h6>
       
       {/* ================= MATCH ODDS TABLE ================= */}
       {matchBets.length > 0 && (
