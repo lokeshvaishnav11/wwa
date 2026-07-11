@@ -668,7 +668,7 @@ const CasinoWrapper = (props: any) => {
           <div>
             <div>
               <div className="card m-b-10 my-bet">
-                <div className="card-header casino" style={{background:"#525252"}}>
+                <div className="card-header casino" style={{background:"rgb(18, 58, 124)"}}>
                   {/* <h6 className="card-title d-inline-block">
                     {casinoMatchData?.title || ""}
                     {gameCode == "race2020" &&

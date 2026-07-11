@@ -166,7 +166,7 @@ p {
 
 .btn-theme {
   color: var(--primary-color) !important;
-  background: black !important;
+  background: rgb(18, 58, 124) !important;
   width: 100% !important;
   border-radius: 4px !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
@@ -7613,7 +7613,7 @@ footer p {
 
 .btn-theme {
   color: var(--primary-color) !important;
-  background: black !important;
+  background: rgb(18, 58, 124) !important;
   width: 100% !important;
   border-radius: 4px !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),

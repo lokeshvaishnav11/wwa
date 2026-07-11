@@ -305,7 +305,8 @@ const MobileFooter = () => {
     { label: "Account Statement", link: "/accountstatement" },
     { label: "Casino Results", link: "/casino-results" },
     { label: "Rules", link: "/rules" },
-    // { label: "Secure Auth Verification", link: "/secure-auth-verification" },
+    // { label: "Secure Auth Verification", link: "/secure-auth-verification" },\
+     { label: "My Profile", link: "/profile" },
     { label: "Change Password", link: "/changepassword" },
     // { label: "Old Data", link: "/old-data" },
     { label: "Logout", link: "/login", isLogout: true },

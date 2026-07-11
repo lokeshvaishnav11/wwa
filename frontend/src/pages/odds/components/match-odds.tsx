@@ -343,9 +343,7 @@ class MatchOdds extends React.PureComponent<
                               </p>
                             </div>
 
-                            {/* <div style={{backgroundColor:"#e2dddd" , border:"none"}} className='box-1 float-left border-0' /> */}
-                            {/* <div style={{backgroundColor:"#e2dddd" , border:"none"}} className='box-1 float-left border-0' /><div style={{backgroundColor:"#e2dddd" , border:"none"}} className='box-1 float-left border-0' /> */}
-                            {/* <div style={{backgroundColor:"#e2dddd" , border:"none"}} className='box-1 float-left border-0' /> */}
+                         
                             <AvailableToBackLay
                               selections={runner.ex}
                               selectionsPrev={selectionsPrev}
