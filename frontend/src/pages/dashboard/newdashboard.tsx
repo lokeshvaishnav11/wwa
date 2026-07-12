@@ -273,18 +273,18 @@ const Dashboard = () => {
 
   const marketIdsEvent = (data: any, oddsData: any, event: string) => {
     console.log(data, oddsData, event, "market Event Data");
-    data.map((match: IMatch) => {
-      match.markets?.map((market) => {
-        if (market.marketName == "Match Odds" && !odds[market.marketId]) {
+    data.map((market: IMatch) => {
+      // match.markets?.map((market) => {
+        if (true) {
           // setOdds((prevOdds) => ({
           //   ...prevOdds,
           //   [market.marketId]:Array(6).fill('-'),
           // }));
         }
         setTimeout(() => {
-          socket.emit(event, market.marketId);
+          socket.emit(event, market.matchId);
         }, 200);
-      });
+      // });
     });
   };
 

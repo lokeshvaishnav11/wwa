@@ -253,9 +253,22 @@ const CasinoListItem = (props: any) => {
                 </div>
                 <div className={`${P}-title`}>{Item.title}</div>
               </a>
+
             </div>
           )
         })}
+
+          <a href="/match/matka"  className={`${P}-link`}>
+                <div className={`${P}-imgwrap`}>
+                  <img
+                    src="https://sixrun.co/assets/matka_new-CYM3bRoj.png"
+                  
+                    className={`${P}-img`}
+                    loading="lazy"
+                  />
+                </div>
+                <div className={`${P}-title`}>matka</div>
+              </a>
       </div>
     </div>
   )

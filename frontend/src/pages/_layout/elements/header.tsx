@@ -245,7 +245,7 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
             </div>
           </div>
 
-          {/* <Marqueemessge message={notice?.fnotice || "."} /> */}
+          <Marqueemessge message={notice?.fnotice || "."} />
 
           {/* {!isMobile ? <NavMenu /> : <NavMobileMenu />} */}
           {/* {!isMobile ? <NavMenu /> : <NavMenu /> } */}
