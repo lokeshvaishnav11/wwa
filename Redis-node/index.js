@@ -313,9 +313,9 @@ const getProviderResult = async (matchId) => {
     const { data } = await axios.get(
           `https://docs.vkmster.com/sportapi/sportsResult?sportsid=4&gmid=${matchId}`,        {
           headers: {
-            "x-api-key": "ad555ec066072775e43d341ae92b57a3a0718fa2",
+            "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
             "x-api-secret":
-              "864d26332d6fb6649a2251750884bdec4df3bf42800f4253c90a52a179a210e7",
+              "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
           },
         }
       ) 
