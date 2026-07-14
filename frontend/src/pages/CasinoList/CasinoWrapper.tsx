@@ -569,9 +569,9 @@ const CasinoWrapper = (props: any) => {
                       height={isMobile ? "220" : "420"}
                       style={{ border: "0px" }}
                       // src={newtv}
-                      src={`https://cricketid.xyz/casino-tv?id=${gameId}`}
+                      // src={`https://cricketid.xyz/casino-tv?id=${gameId}`}
 
-                      // src={`https://stream-s-43.uhdmovies.online/casino-stream?id=${gameId}`}
+                      src={`https://stream-s-43.uhdmovies.online/casino-stream?id=${gameId}`}
                       // src={`https://sfront.starrexch.melok/casino-tv?id=${gameId}`}
                     ></iframe>
                   )}
@@ -705,8 +705,8 @@ const CasinoWrapper = (props: any) => {
                         // src={`https://casino-stream-v2.cricketid.xyz/casino-tv?id=${gameId}`}
 
                         // src={`https://live.cricketid.xyz/casino-tv?id=${gameId}`}
-                      //  src={`https://stream-s-43.uhdmovies.online/casino-stream?id=${gameId}`}
-                                            src={`https://cricketid.xyz/casino-tv?id=${gameId}`}
+                       src={`https://stream-s-43.uhdmovies.online/casino-stream?id=${gameId}`}
+                                            // src={`https://cricketid.xyz/casino-tv?id=${gameId}`}
 
                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                         seamless
