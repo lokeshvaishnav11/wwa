@@ -24,6 +24,7 @@ import { FancyController } from './FancyController'
 import UserSocket from '../sockets/user-socket'
 import axios from 'axios';
 import Operation from '../models/Operation';
+import { useridno } from '../models/UserId';
 
 export class DealersController extends ApiController {
   constructor() {
@@ -440,6 +441,18 @@ export class DealersController extends ApiController {
           { session },
         )
       }
+
+    await useridno.findOneAndUpdate(
+  {},
+  {
+    $inc: {
+      id: 1
+    }
+  },
+  {
+    new: true
+  }
+);
       await session.commitTransaction()
       session.endSession()
 
@@ -704,7 +717,296 @@ export class DealersController extends ApiController {
 
 
 
-  async getUserList(req: Request, res: Response): Promise<Response> {
+  async getUserListDea(req: Request, res: Response): Promise<Response> {
+    const { username, page, search, type, status } = req.query
+    console.log(req.query, "req.query")
+    // const pageNo = page ? (page as string) : '1'
+    const pageNo: any = page ? parseInt(page as string) : null
+    const pageLimit = pageNo ? 20 : 999999
+
+    const currentUser: any = req.user
+    console.log(currentUser, "curen")
+
+    const select = {
+      _id: 1,
+      username: 1,
+      share: 1,
+      password: 1,
+      pshare: 1,
+      mcom: 1,
+      matcom: 1,
+      matkalimit: 1,
+      scom: 1,
+      code: 1,
+      parentId: 1,
+      role: 1,
+      creditRefrences: 1,
+      exposerLimit: 1,
+      isLogin: 1,
+      betLock: 1,
+      betLock2: 1,
+      betLock3: 1,
+      partnership: 1,
+      parentStr: 1,
+      'balance.balance': 1,
+      'balance.exposer': 1,
+      'balance.profitLoss': 1,
+      'balance.mainBalance': 1,
+      'balance.casinoexposer': 1,
+      'balance.commision': 1,
+      'balance.matkaexposer': 1
+    }
+
+    // const aggregateFilter = [
+    //   {
+    //     $lookup: {
+    //       from: 'balances',
+    //       localField: '_id',
+    //       foreignField: 'userId',
+    //       as: 'balance',
+    //     },
+    //   },
+    //   {
+    //     $unwind: '$balance',
+    //   },
+    //   {
+    //     $project: select,
+    //   },
+    // ]
+    const aggregateFilter = [
+      {
+        $lookup: {
+          from: 'balances',
+          localField: '_id',
+          foreignField: 'userId',
+          as: 'balance',
+        },
+      },
+      {
+        $unwind: '$balance',
+      },
+      {
+        $lookup: {
+          from: 'users',
+          let: { userId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ['$parentId', '$$userId'] }
+              }
+            },
+            {
+              $lookup: {
+                from: 'balances',
+                localField: '_id',
+                foreignField: 'userId',
+                as: 'childBalanceData'
+              }
+            },
+            { $unwind: { path: '$childBalanceData', preserveNullAndEmptyArrays: true } },
+            {
+              $group: {
+                _id: null,
+                totalChildBalance: { $sum: '$childBalanceData.balance' }
+              }
+            }
+          ],
+          as: 'childBalanceArray'
+        }
+      },
+      {
+        $addFields: {
+          childBalance: {
+            $ifNull: [{ $arrayElemAt: ['$childBalanceArray.totalChildBalance', 0] }, 0]
+          }
+        }
+      },
+      {
+        $project: {
+          ...select,
+          childBalance: 1
+        }
+      }
+    ];
+
+    let filters: any = []
+
+    // if (username && search !== 'true') {
+    //   const user: IUserModel | null = await this.getUser(username)
+
+    //   if (!user) {
+    //     return res.status(404).json({ message: 'User not found' })
+    //   }
+
+    //   filters = paginationPipeLine(
+    //     pageNo,
+    //     [
+    //       {
+    //         $match: {
+    //           parentStr: { $elemMatch: { $eq: Types.ObjectId(user._id) } }
+    //         }
+    //       },
+    //       ...aggregateFilter,
+    //     ],
+    //     pageLimit,
+    //   )
+    // }else if (type) {
+    //   //if (username) const user: IUserModel | null = await this.getUser(username)
+    //   filters = paginationPipeLine(
+    //     pageNo || 1,
+    //     [
+    //       {
+    //         $match: {
+    //           role: type,
+    //           parentStr: { $elemMatch: { $eq: Types.ObjectId(currentUser._id) } },
+    //         },
+    //       },
+    //       ...aggregateFilter,
+    //     ],
+    //     pageLimit,
+    //   )
+    // } else if (username && search === 'true') {
+    //   filters = paginationPipeLine(
+    //     pageNo,
+    //     [
+    //       {
+    //         $match: {
+    //           username: new RegExp(username as string, 'i'),
+    //           parentStr: { $elemMatch: { $eq: Types.ObjectId(currentUser._id) } },
+    //         },
+    //       },
+    //       ...aggregateFilter,
+    //     ],
+    //     pageLimit,
+    //   )
+    // } else {
+    //   const { _id, role }: any = req?.user
+    //   if (status) {
+    //     filters = paginationPipeLine(
+    //       pageNo,
+    //       [
+    //         {
+    //           $match: {
+    //             parentId: Types.ObjectId(_id),
+    //             isLogin: status === 'true',
+    //           },
+    //         },
+    //         ...aggregateFilter,
+    //       ],
+    //       pageLimit,
+    //     )
+    //   } else {
+    //     if (role !== 'admin') {
+    //       filters = paginationPipeLine(
+    //         pageNo,
+    //         [{ $match: { parentId: Types.ObjectId(_id) } }, ...aggregateFilter],
+    //         pageLimit,
+    //       )
+    //     } else {
+    //       console.log(_id)
+    //       filters = paginationPipeLine(
+    //         pageNo,
+    //         [{ $match: { _id: Types.ObjectId(_id) } }, ...aggregateFilter],
+    //         pageLimit,
+    //       )
+    //     }
+    //   }
+    // }
+
+    const buildPipeline = (matchCondition: any) => {
+             matchCondition.isLogin = true;
+
+      const pipeline = [
+        { $match: matchCondition },
+        // ✅ YEH ADD KARO (IMPORTANT)
+        { $sort: { isLogin: -1 } }, // true first, false last
+        ...aggregateFilter
+      ]
+
+
+      // ✅ Pagination ONLY when type exists
+      if (pageNo && type) {
+        return paginationPipeLine(pageNo, pipeline, pageLimit)
+      }
+
+      return pipeline
+    }
+
+    // ✅ CASE 1
+    if (username && search !== 'true') {
+      const user: IUserModel | null = await this.getUser(username)
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' })
+      }
+
+      const matchCondition: any = {
+        parentStr: { $elemMatch: { $eq: Types.ObjectId(user._id) } }
+      }
+
+      // 👇 YEH ADD KARO
+      if (type) {
+        matchCondition.role = type
+      }
+
+      filters = buildPipeline(matchCondition)
+    }
+    // ✅ CASE 2 (TYPE FIXED)
+    else if (type) {
+
+      filters = buildPipeline({
+        role: type,
+        parentStr: { $elemMatch: { $eq: Types.ObjectId(currentUser._id) } }
+        // parentId: Types.ObjectId(currentUser._id)
+      })
+
+    }
+    // ✅ CASE 3
+    else if (username && search === 'true') {
+
+      filters = buildPipeline({
+        username: new RegExp(username as string, 'i'),
+        parentStr: { $elemMatch: { $eq: Types.ObjectId(currentUser._id) } }
+      })
+
+    }
+    else {
+      const { _id, role }: any = req?.user
+
+      if (status) {
+
+        filters = buildPipeline({
+          parentId: Types.ObjectId(_id),
+          isLogin: status === 'true'
+        })
+
+      } else {
+
+        if (role !== 'admin') {
+          filters = buildPipeline({
+            parentId: Types.ObjectId(_id)
+          })
+        } else {
+          filters = buildPipeline({
+            _id: Types.ObjectId(_id)
+          })
+        }
+
+      }
+    }
+
+
+    const users = await User.aggregate(filters)
+
+    if (pageNo && type) {
+      return this.success(res, { ...users[0] })
+    }
+
+    return this.success(res, { items: users })
+  }
+
+
+   async getUserList(req: Request, res: Response): Promise<Response> {
     const { username, page, search, type, status } = req.query
     console.log(req.query, "req.query")
     // const pageNo = page ? (page as string) : '1'
@@ -907,6 +1209,8 @@ export class DealersController extends ApiController {
         { $sort: { isLogin: -1 } }, // true first, false last
         ...aggregateFilter
       ]
+
+
       // ✅ Pagination ONLY when type exists
       if (pageNo && type) {
         return paginationPipeLine(pageNo, pipeline, pageLimit)
@@ -967,11 +1271,16 @@ export class DealersController extends ApiController {
 
         if (role !== 'admin') {
           filters = buildPipeline({
-            parentId: Types.ObjectId(_id)
+            parentId: Types.ObjectId(_id),
+                      isLogin: status === 'false'
+
           })
         } else {
           filters = buildPipeline({
-            _id: Types.ObjectId(_id)
+            _id: Types.ObjectId(_id),
+                                  isLogin: status === 'false'
+
+
           })
         }
 
@@ -988,6 +1297,8 @@ export class DealersController extends ApiController {
     return this.success(res, { items: users })
   }
 
+
+ 
 
   async getUserList2(req: Request, res: Response): Promise<Response> {
     const { username, page, search, type, status } = req.query

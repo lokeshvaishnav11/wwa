@@ -16,6 +16,10 @@ class UserService {
     return api.get(`/get-user-list?status=${getStatus}&page=${page}`)
   }
 
+
+
+
+
   getUserList2({ username, type, search, status, page }: any) {
     const getStatus = status ? status : ''
     if (username)
