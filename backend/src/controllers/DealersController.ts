@@ -479,7 +479,7 @@ export class DealersController extends ApiController {
       //   json: () => res, // dummy implementation for json
       // }
 
-      await axios.post("https://napi.7horse.online/api/user-account-balance", {
+      await axios.post("https://api.a2zlive.shop/api/user-account-balance", {
         userId: newUser._id,
         parentUserId: parentUser._id,
         amount: sendamount,

@@ -203,7 +203,7 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
                     alt="Logo"
                   />
                 </CustomLink> */}
-                7Horse
+                A2Z
               </div>
 
               {/* User Info */}

@@ -462,7 +462,7 @@ const Login = () => {
         {/* Badge / Logo circle sitting over the hero-card junction */}
         <div className="bh-badge">
           <div className="bh-badge-inner">
-            <span style={{    fontSize: "22px"}}>7horse</span>
+             <img src="/imgs/logon.jpeg" className="logo-login" />
             {/* <span></span> */}
           </div>
         </div>
