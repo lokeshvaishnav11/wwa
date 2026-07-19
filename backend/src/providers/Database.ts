@@ -13,7 +13,7 @@ export class Database {
     // const dsn = "mongodb://admin:StrongPasswordHere@69.62.123.205:27017/infa?retryWrites=true&authSource=admin&replicaSet=rs0"
    
    
-    const dsn = "mongodb://chero:chero0908nitin@62.72.58.167:27017/nchero?authSource=admin&replicaSet=rs0";
+    const dsn = "mongodb://atoz:chero0908nitin@62.72.58.167:27017/nchero?authSource=admin&replicaSet=rs0";
   // const dsn = "mongodb+srv://infayou:rahul1234@cluster0.zbf0n.mongodb.net/infa?retryWrites=true&w=majority&appName=Cluster0&tlsAllowInvalidCertificates=true";
 
     //const dsn = Locals.config().mongooseUrl 
