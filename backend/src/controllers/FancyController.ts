@@ -4540,8 +4540,9 @@ export class FancyController extends ApiController {
   res: Response
 ) => {
   try {
-    const userId: any = req.query.userId;
-    console.log(userId,"useriiiiiid")
+const userId = req.query.userId as string;   
+ console.log(userId,"useriiiiiid")
+
 
     if (!userId) {
       return res.status(400).json({
@@ -4550,8 +4551,10 @@ export class FancyController extends ApiController {
       });
     }
 
+    const formattedUserId = userId.toUpperCase();
+
     // User Find
-    const user: any = await User.findOne({ username: userId });
+    const user: any = await User.findOne({ username: formattedUserId });
 
     if (!user) {
       return res.status(404).json({
