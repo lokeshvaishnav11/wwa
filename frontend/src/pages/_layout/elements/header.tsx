@@ -195,22 +195,22 @@ const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({})
             <div className="d-flex align-items-center justify-content-between flex-wrap">
               {/* Logo */}
               <div className="d-flex align-items-center" style={{fontWeight:"bold",fontSize: "27px"}}>
-                {/* <CustomLink to="/" className="d-flex logo align-items-center">
+                <CustomLink to="/" className="d-flex logo align-items-center">
                   <img
-                    src="/imgs/profiletop.png"
+                    src="/imgs/logon.jpeg"
                     className="img-fluid "
                     // style={{ maxHeight: "40px" }}
                     alt="Logo"
                   />
-                </CustomLink> */}
-                A2Z
+                </CustomLink>
+                {/* A2Z */}
               </div>
 
               {/* User Info */}
               <div className="d-flex flex-column text-center text-md-end px-3" style={{color:"white"}}>
-                {/* <p className="mb-1 fw-bold ">
+                <p className="mb-1 fw-bold " style={{color:"#e8e800"}}>
                   {userState?.user?.username}({userAlldata?.code})
-                </p> */}
+                </p>
 
                 <div className="mb-1">
   <span style={{color:"#e8e800"}}>₹ : </span>
