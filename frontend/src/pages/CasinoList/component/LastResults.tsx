@@ -511,7 +511,7 @@ const LastResults = (props: any) => {
   return (
     <>
       <div className='card m-b-10 my-bet'>
-        <div className='card-header casino' style={{background:"rgb(18, 58, 124)"}} >
+        <div className='card-header casino' style={{background:"#020421"}} >
           <h6 className='card-title d-inline-block'>
             {'Last Result'}
             <span

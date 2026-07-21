@@ -166,7 +166,7 @@ p {
 
 .btn-theme {
   color: var(--primary-color) !important;
-  background: rgb(18, 58, 124) !important;
+  background: #020421 !important;
   width: 100% !important;
   border-radius: 4px !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
@@ -1594,7 +1594,7 @@ footer {
   min-width: 23.9%;
   margin-top: 2px;
   float: left;
-  background-color: rgb(18, 58, 124);
+  background-color: #020421;
   color: #fff;
   font-weight: bold;
   font-size: 17px;
@@ -1901,7 +1901,7 @@ footer {
 
 .login {
   width: 100%;
-  background-image: linear-gradient(135deg, #667eea, #764ba2);;
+  background-image: linear-gradient(135deg, #020421, #020421);;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7615,7 +7615,7 @@ footer p {
 
 .btn-theme {
   color: var(--primary-color) !important;
-  background: rgb(18, 58, 124) !important;
+  background: #020421 !important;
   width: 100% !important;
   border-radius: 4px !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
@@ -9322,7 +9322,7 @@ footer p {
   min-height: 260px;
   max-height: 480px;
 
-  background-image: url("https://bethub24pro.co/bet99expro/login-bg-bethub24.png");
+  background-image: url("https://t3.ftcdn.net/jpg/11/01/70/16/240_F_1101701656_OycelBJ33tgHzPLYcjZmk04PRP4GMY6d.jpg");
   background-size: cover;
   /* "top center" keeps the faces/subject in frame instead of
      getting cropped from the sides on narrow phone screens */
@@ -9332,7 +9332,7 @@ footer p {
 
 /* Circular logo badge overlapping hero + card */
 .bh-badge {
-  position: absolute;
+  /* position: absolute;
   right: 20px;
   bottom: -55px;
   width: 110px;
@@ -9344,7 +9344,21 @@ footer p {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-  z-index: 5;
+  z-index: 5; */
+
+  position: absolute;
+    right: 207px;
+    bottom: -33px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    /* background: #ff00d1; */
+    /* border: 4px solid #ffff; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgb(0 0 0 / 40%);
+    z-index: 5;
 }
 
 .bh-badge-inner {
@@ -9361,13 +9375,20 @@ footer p {
 
 /* ---------- CARD ---------- */
 .bh-card {
-  background: #0d2c54;
+  /* background: #020421;
   border-radius: 28px 28px 0 0;
   margin-top: -28px;
   padding: 40px 24px 30px;
   position: relative;
   z-index: 2;
-  flex: 1;
+  flex: 1; */
+      background: #020421;
+    border-radius: 28px 28px 0 0;
+    margin-top: -28px;
+    padding: 40px 24px 30px;
+    position: relative;
+    z-index: 2;
+    flex: 1;
 }
 
 .bh-title {
@@ -9377,12 +9398,20 @@ footer p {
   font-size: 26px;
   letter-spacing: 2px;
   margin-bottom: 28px;
+    margin-top: 45px;
 }
 
 .bh-form {
-  max-width: 420px;
-  margin: 0 auto;
+  /* max-width: 420px;
+  margin: 0 auto; */
+      max-width: 420px;
+    margin: 0 auto;
+    background: white;
+    padding: 29px;
+    border-radius: 8px;
+    padding: 47px;
 }
+
 
 /* ---------- INPUTS ---------- */
 .bh-input-wrap {
@@ -9391,7 +9420,7 @@ footer p {
 }
 
 .bh-input {
-  width: 100%;
+  /* width: 100%;
   height: 54px;
   border-radius: 30px;
   border: 2px solid #e5286a;
@@ -9399,9 +9428,17 @@ footer p {
   padding: 0 22px;
   font-size: 15px;
   color: #333;
-  outline: none;
+  outline: none; */
+      width: 100%;
+    height: 54px;
+    border-radius: 12px;
+    border: 2px solid #e5286a;
+    background: #fff;
+    padding: 0 22px;
+    font-size: 15px;
+    color: #333;
+    outline: none;
 }
-
 .bh-input::placeholder {
   color: #9a9a9a;
 }
@@ -9451,7 +9488,7 @@ footer p {
   height: 50px;
   border-radius: 30px;
   border: 2px solid #ef2d78;
-  background: transparent;
+  background:  #ef2d78;
   color: #fff;
   font-weight: 600;
   font-size: 15px;
@@ -9509,7 +9546,7 @@ footer p {
   gap: 6px;
   overflow-x: auto;
   white-space: nowrap;
-  background: #0d2c54;
+  background: #020421;
   padding: 10px 10px;
   scrollbar-width: none; /* firefox */
 }
@@ -9532,7 +9569,7 @@ footer p {
 
 .chub-tab-active {
   background: #ffffff;
-  color: #0d2c54;
+  color: #020421;
 }
 
 /* ===== CASINO GRID (chub- prefix to avoid clashing with any existing global classes) ===== */
@@ -9556,7 +9593,7 @@ footer p {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  background: #0d2c54;
+  background: #020421;
 }
 
 /* image wrapper keeps a consistent square-ish box even before the
@@ -9578,7 +9615,7 @@ footer p {
 /* Dark navy title bar under the image — allows 2 lines so longer
    game names (e.g. "Amar Akbar Anthony") don't get cut off */
 .chub-title {
-  background: #0d2c54;
+  background: #020421;
   color: #fff;
   text-align: center;
   font-size: 11.5px;

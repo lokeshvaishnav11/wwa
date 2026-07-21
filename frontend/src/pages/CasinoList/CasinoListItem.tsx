@@ -146,7 +146,7 @@ const CasinoListItem = (props: any) => {
           gap: 6px !important;
           overflow-x: auto !important;
           white-space: nowrap !important;
-          background: #0d2c54 !important;
+          background: #020421 !important;
           padding: 10px !important;
           margin: 0 !important;
           list-style: none !important;
@@ -165,7 +165,7 @@ const CasinoListItem = (props: any) => {
         }
         .${P}-tab-active {
           background: #ffffff !important;
-          color: #0d2c54 !important;
+          color: #020421 !important;
         }
         .${P}-grid {
           display: grid !important;
@@ -188,7 +188,7 @@ const CasinoListItem = (props: any) => {
           border-radius: 8px !important;
           overflow: hidden !important;
           box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
-          background: #0d2c54 !important;
+          background: #020421 !important;
         }
         /* padding-bottom trick = forces a perfect square box on every
            browser, even old ones that don't support aspect-ratio */
@@ -212,7 +212,7 @@ const CasinoListItem = (props: any) => {
           margin: 0 !important;
         }
         .${P}-title {
-          background: #0d2c54 !important;
+          background: #020421 !important;
           color: #fff !important;
           text-align: center !important;
           font-size: 11.5px !important;

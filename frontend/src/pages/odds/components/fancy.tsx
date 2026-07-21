@@ -359,18 +359,18 @@ class Fancy extends React.Component<
     return (
       <div className="table-header text-dark">
         <div
-          style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)" }}
+          style={{ fontSize: "18px", backgroundColor: "#020421" }}
           className={`float-left ${
             isMobile ? "bg-theme text-dark" : " text-dark"
           } country-name box-6`}
         >
           {isMobile ? title : ""}
-          <p style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)",color:"white" }}>
+          <p style={{ fontSize: "18px", backgroundColor: "#020421",color:"white" }}>
             Session
           </p>
         </div>
         <div
-          style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)" }}
+          style={{ fontSize: "18px", backgroundColor: "#020421" }}
           className={`${
             isMobile ? "box-2" : "box-1"
           } float-left  text-center text-white`}
@@ -378,7 +378,7 @@ class Fancy extends React.Component<
           <b>NOT</b>
         </div>
         <div
-          style={{ fontSize: "18px", backgroundColor: "rgb(18, 58, 124)" }}
+          style={{ fontSize: "18px", backgroundColor: "#020421" }}
           className={`${
             isMobile ? "box-2" : "box-1"
           } float-left text-white text-center`}
