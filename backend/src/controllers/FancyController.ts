@@ -24,7 +24,7 @@ import { cp } from "node:fs";
 import { BetStake } from "../models/BetStake";
 import Matka from "../models/Matka";
 import Matkagames from "../models/Matkagames";
-import {  useridno, UseridNo } from "../models/UserId";
+import { useridno, UseridNo } from "../models/UserId";
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -158,7 +158,7 @@ export class FancyController extends ApiController {
   //     const totalMatkaExposure = result[0]?.totalExposure || 0
   //     console.log(totalMatkaExposure + data.stack*data.odds,"makkttt", matakaLimit,data.stack*data.odds)
 
-     
+
   //     if(totalMatkaExposure + data.stack*data.odds > matakaLimit ){
   //       return this.fail(res,"This Number Matka Limit is complete")
   //     }
@@ -201,302 +201,302 @@ export class FancyController extends ApiController {
 
   // }
 
-// placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
-//   const getAndar = (num: number) => Math.floor(num / 10);
-//   const getBahar = (num: number) => num % 10;
+  // placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
+  //   const getAndar = (num: number) => Math.floor(num / 10);
+  //   const getBahar = (num: number) => num % 10;
 
-//   try {
-//     const data = req.body;
-//     const { _id }: any = req.user;
+  //   try {
+  //     const data = req.body;
+  //     const { _id }: any = req.user;
 
-//     if (!data) return this.fail(res, "Invalid data");
+  //     if (!data) return this.fail(res, "Invalid data");
 
-//     const userData = await User.findById(_id);
-//     const balanceData = await Balance.findOne({ userId: _id });
-//     const parentData = await User.findById(userData?.parentId);
+  //     const userData = await User.findById(_id);
+  //     const balanceData = await Balance.findOne({ userId: _id });
+  //     const parentData = await User.findById(userData?.parentId);
 
-//     if (!userData || !balanceData || !parentData)
-//       return this.fail(res, "Invalid user data");
+  //     if (!userData || !balanceData || !parentData)
+  //       return this.fail(res, "Invalid user data");
 
-//     const matkaLimit = parentData.matkalimit;
+  //     const matkaLimit = parentData.matkalimit;
 
-//     // 🔹 USER TOTAL EXPOSURE
-//     const pendingBets = await Matkabet.find({
-//       userId: _id,
-//       status: "pending",
-//     }).select({ betamount: 1 });
+  //     // 🔹 USER TOTAL EXPOSURE
+  //     const pendingBets = await Matkabet.find({
+  //       userId: _id,
+  //       status: "pending",
+  //     }).select({ betamount: 1 });
 
-//     const userExposure = pendingBets.reduce(
-//       (sum: number, b: any) => sum + b.betamount,
-//       0
-//     );
+  //     const userExposure = pendingBets.reduce(
+  //       (sum: number, b: any) => sum + b.betamount,
+  //       0
+  //     );
 
-//     // 🔹 CURRENT BET DETAILS
-//     const betType = data.gtype; // single | andar | bahar
-//     const selection = Number(data.selectionId);
+  //     // 🔹 CURRENT BET DETAILS
+  //     const betType = data.gtype; // single | andar | bahar
+  //     const selection = Number(data.selectionId);
 
-//     const andar = getAndar(selection);
-//     const bahar = getBahar(selection);
+  //     const andar = getAndar(selection);
+  //     const bahar = getBahar(selection);
 
-//     // 🔹 FETCH RELATED BETS (NO REGEX)
-//     const relatedBets = await Matkabet.find({
-//       parentId: ObjectId(userData.parentId),
-//       roundid: data.matchId,
-//       status: "pending",
-//     });
+  //     // 🔹 FETCH RELATED BETS (NO REGEX)
+  //     const relatedBets = await Matkabet.find({
+  //       parentId: ObjectId(userData.parentId),
+  //       roundid: data.matchId,
+  //       status: "pending",
+  //     });
 
-//     let existingExposure = 0;
+  //     let existingExposure = 0;
 
-//     for (const bet of relatedBets) {
-//       const betSel = Number(bet.selectionId);
-//       const betAndar = getAndar(betSel);
-//       const betBahar = getBahar(betSel);
+  //     for (const bet of relatedBets) {
+  //       const betSel = Number(bet.selectionId);
+  //       const betAndar = getAndar(betSel);
+  //       const betBahar = getBahar(betSel);
 
-//       let count = false;
+  //       let count = false;
 
-//       if (betType === "single") {
-//         if (
-//           bet.bettype === "single" && betSel === selection ||
-//           bet.bettype === "andar" && betSel === andar ||
-//           bet.bettype === "bahar" && betSel === bahar
-//         ) {
-//           count = true;
-//         }
-//       }
+  //       if (betType === "single") {
+  //         if (
+  //           bet.bettype === "single" && betSel === selection ||
+  //           bet.bettype === "andar" && betSel === andar ||
+  //           bet.bettype === "bahar" && betSel === bahar
+  //         ) {
+  //           count = true;
+  //         }
+  //       }
 
-//       if (betType === "andar") {
-//         if (
-//           bet.bettype === "andar" && betSel === selection ||
-//           bet.bettype === "single" && getAndar(betSel) === selection
-//         ) {
-//           count = true;
-//         }
-//       }
+  //       if (betType === "andar") {
+  //         if (
+  //           bet.bettype === "andar" && betSel === selection ||
+  //           bet.bettype === "single" && getAndar(betSel) === selection
+  //         ) {
+  //           count = true;
+  //         }
+  //       }
 
-//       if (betType === "bahar") {
-//         if (
-//           bet.bettype === "bahar" && betSel === selection ||
-//           bet.bettype === "single" && getBahar(betSel) === selection
-//         ) {
-//           count = true;
-//         }
-//       }
+  //       if (betType === "bahar") {
+  //         if (
+  //           bet.bettype === "bahar" && betSel === selection ||
+  //           bet.bettype === "single" && getBahar(betSel) === selection
+  //         ) {
+  //           count = true;
+  //         }
+  //       }
 
-//       if (count) {
-//         existingExposure += bet.betamount * bet.odds;
-//       }
-//     }
+  //       if (count) {
+  //         existingExposure += bet.betamount * bet.odds;
+  //       }
+  //     }
 
-//     const newExposure = data.stack * data.odds;
+  //     const newExposure = data.stack * data.odds;
 
-//     console.log("EXISTING:", existingExposure, "NEW:", newExposure);
+  //     console.log("EXISTING:", existingExposure, "NEW:", newExposure);
 
-//     if (existingExposure + newExposure > matkaLimit) {
-//       return this.fail(res, "Matka limit exceeded for this number");
-//     }
+  //     if (existingExposure + newExposure > matkaLimit) {
+  //       return this.fail(res, "Matka limit exceeded for this number");
+  //     }
 
-//     // 🔹 BALANCE CHECK
-//     if (
-//       userExposure + data.stack + balanceData.exposer >
-//       balanceData.balance
-//     ) {
-//       return this.fail(res, "Insufficient balance");
-//     }
+  //     // 🔹 BALANCE CHECK
+  //     if (
+  //       userExposure + data.stack + balanceData.exposer >
+  //       balanceData.balance
+  //     ) {
+  //       return this.fail(res, "Insufficient balance");
+  //     }
 
-//     // 🔹 SAVE BET
-//     const newBet = new Matkabet({
-//       gamename: data.matchName,
-//       id: data.marketId,
-//       result: "pending",
-//       selectionId: selection,
-//       roundid: data.matchId,
-//       odds: data.odds,
-//       betamount: data.stack,
-//       bettype: betType,
-//       userId: _id,
-//       parentstr: userData.parentStr,
-//       parentId: userData.parentId,
-//       bet_on: betType,
-//       status: "pending",
-//     });
+  //     // 🔹 SAVE BET
+  //     const newBet = new Matkabet({
+  //       gamename: data.matchName,
+  //       id: data.marketId,
+  //       result: "pending",
+  //       selectionId: selection,
+  //       roundid: data.matchId,
+  //       odds: data.odds,
+  //       betamount: data.stack,
+  //       bettype: betType,
+  //       userId: _id,
+  //       parentstr: userData.parentStr,
+  //       parentId: userData.parentId,
+  //       bet_on: betType,
+  //       status: "pending",
+  //     });
 
-//     await newBet.save();
+  //     await newBet.save();
 
-//     await balanceData.updateOne({
-//       matkaexposer: userExposure + data.stack,
-//     });
+  //     await balanceData.updateOne({
+  //       matkaexposer: userExposure + data.stack,
+  //     });
 
-//     return this.success(res, newBet, "Bet placed successfully");
-//   } catch (e: any) {
-//     console.error(e);
-//     return this.fail(res, e.message || "Something went wrong");
-//   }
-// };
+  //     return this.success(res, newBet, "Bet placed successfully");
+  //   } catch (e: any) {
+  //     console.error(e);
+  //     return this.fail(res, e.message || "Something went wrong");
+  //   }
+  // };
 
 
-placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
+  placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
 
-  // ================= HELPERS =================
-  const getPossibleResults = (bettype: string, selection: number): number[] => {
-    const results: number[] = [];
+    // ================= HELPERS =================
+    const getPossibleResults = (bettype: string, selection: number): number[] => {
+      const results: number[] = [];
 
-    // Single → sirf wahi number
-    if (bettype === "single") {
-      results.push(selection);
-    }
-
-    // Andar → 20–29 type
-    if (bettype === "andar") {
-      const start = selection * 10;
-      for (let i = start; i <= start + 9; i++) {
-        results.push(i);
+      // Single → sirf wahi number
+      if (bettype === "single") {
+        results.push(selection);
       }
-    }
 
-    // Bahar → 02,12,22...
-    if (bettype === "bahar") {
-      for (let i = 0; i <= 9; i++) {
-        results.push(i * 10 + selection);
+      // Andar → 20–29 type
+      if (bettype === "andar") {
+        const start = selection * 10;
+        for (let i = start; i <= start + 9; i++) {
+          results.push(i);
+        }
       }
-    }
 
-    return results;
+      // Bahar → 02,12,22...
+      if (bettype === "bahar") {
+        for (let i = 0; i <= 9; i++) {
+          results.push(i * 10 + selection);
+        }
+      }
+
+      return results;
+    };
+
+    try {
+      const data = req.body;
+      const { _id }: any = req.user;
+
+      if (!data) return this.fail(res, "Invalid data");
+
+      const userData = await User.findById(_id);
+      const balanceData = await Balance.findOne({ userId: _id });
+      const parentData = await User.findById(userData?.parentId);
+
+      if (!userData || !balanceData || !parentData) {
+        return this.fail(res, "Invalid user data");
+      }
+      if (!userData.betLock3) {
+        return this.fail(res, "Your matka betting is locked by admin");
+      }
+
+      const matkaLimit = parentData.matkalimit; // 👈 agent limit
+
+      const pendingUserBets = await Matkabet.find({
+        userId: _id,
+        status: "pending",
+      }).select({ betamount: 1 });
+
+      const userExposure = pendingUserBets.reduce(
+        (sum: number, b: any) => sum + b.betamount,
+        0
+      );
+
+      // ================= CURRENT BET =================
+      const betType: "single" | "andar" | "bahar" = data.gtype;
+      const selection = Number(data.selectionId);
+      const newWinAmount = data.stack * data.odds;
+
+      // ================= FETCH ALL PARENT BETS =================
+      const relatedBets = await Matkabet.find({
+        parentId: ObjectId(userData.parentId),
+        roundid: data.matchId,
+        status: "pending",
+      });
+
+      // ================= RESULT-WISE EXPOSURE MAP =================
+      // { 23: 1800, 33: 900, ... }
+      const exposureMap: Record<number, number> = {};
+
+      for (const bet of relatedBets) {
+        const betResults = getPossibleResults(
+          bet.bettype,
+          Number(bet.selectionId)
+        );
+
+        for (const result of betResults) {
+          exposureMap[result] =
+            (exposureMap[result] || 0) + bet.betamount * bet.odds;
+        }
+      }
+
+      // ================= FINAL LIMIT LOGIC =================
+      // Sirf max-loss wale result ko check karna
+      const newBetResults = getPossibleResults(betType, selection);
+
+      let maxLossAfterBet = 0;
+
+      for (let result = 0; result <= 99; result++) {
+        const existingLoss = exposureMap[result] || 0;
+
+        const newLoss = newBetResults.includes(result)
+          ? newWinAmount
+          : 0;
+
+        const totalLoss = existingLoss + newLoss;
+
+        if (totalLoss > maxLossAfterBet) {
+          maxLossAfterBet = totalLoss;
+        }
+      }
+
+
+      console.log(maxLossAfterBet, "cvbnjk")
+
+      if (maxLossAfterBet > matkaLimit) {
+        return this.fail(
+          res,
+          "Matka limit exceeded for this number"
+        );
+      }
+
+      // ================= BALANCE CHECK =================
+      if (
+        userExposure + data.stack + balanceData.exposer >
+        balanceData.balance
+      ) {
+        return this.fail(res, "Insufficient balance");
+      }
+
+      const matkastatus = await Matkagames.findOne({ roundid: data.matchId })
+      if (!matkastatus.isActive) {
+        return this.fail(res, "Matka closed");
+
+      }
+
+
+      // ================= SAVE BET =================
+      const newBet = new Matkabet({
+        gamename: data.matchName,
+        username: userData.username,
+        id: data.marketId,
+        result: "pending",
+        selectionId: selection,
+        roundid: data.matchId,
+        odds: data.odds,
+        betamount: data.stack,
+        bettype: betType,
+        userId: _id,
+        parentstr: userData.parentStr,
+        parentId: userData.parentId,
+        bet_on: "MATKA",
+        status: "pending",
+      });
+
+      await newBet.save();
+
+      // ================= UPDATE USER EXPOSURE =================
+      await balanceData.updateOne({
+        matkaexposer: userExposure + data.stack,
+      });
+
+      return this.success(res, newBet, "Bet placed successfully");
+
+    } catch (e: any) {
+      console.error(e);
+      return this.fail(res, e.message || "Something went wrong");
+    }
   };
-
-  try {
-    const data = req.body;
-    const { _id }: any = req.user;
-
-    if (!data) return this.fail(res, "Invalid data");
-
-    const userData = await User.findById(_id);
-    const balanceData = await Balance.findOne({ userId: _id });
-    const parentData = await User.findById(userData?.parentId);
-
-    if (!userData || !balanceData || !parentData) {
-      return this.fail(res, "Invalid user data");
-    }
-    if(!userData.betLock3){
-      return this.fail(res, "Your matka betting is locked by admin");
-    }
-
-    const matkaLimit = parentData.matkalimit; // 👈 agent limit
-
-    const pendingUserBets = await Matkabet.find({
-      userId: _id,
-      status: "pending",
-    }).select({ betamount: 1 });
-
-    const userExposure = pendingUserBets.reduce(
-      (sum: number, b: any) => sum + b.betamount,
-      0
-    );
-
-    // ================= CURRENT BET =================
-    const betType: "single" | "andar" | "bahar" = data.gtype;
-    const selection = Number(data.selectionId);
-    const newWinAmount = data.stack * data.odds;
-
-    // ================= FETCH ALL PARENT BETS =================
-    const relatedBets = await Matkabet.find({
-      parentId: ObjectId(userData.parentId),
-      roundid: data.matchId,
-      status: "pending",
-    });
-
-    // ================= RESULT-WISE EXPOSURE MAP =================
-    // { 23: 1800, 33: 900, ... }
-    const exposureMap: Record<number, number> = {};
-
-    for (const bet of relatedBets) {
-      const betResults = getPossibleResults(
-        bet.bettype,
-        Number(bet.selectionId)
-      );
-
-      for (const result of betResults) {
-        exposureMap[result] =
-          (exposureMap[result] || 0) + bet.betamount * bet.odds;
-      }
-    }
-
-    // ================= FINAL LIMIT LOGIC =================
-    // Sirf max-loss wale result ko check karna
-    const newBetResults = getPossibleResults(betType, selection);
-
-    let maxLossAfterBet = 0;
-
-    for (let result = 0; result <= 99; result++) {
-      const existingLoss = exposureMap[result] || 0;
-
-      const newLoss = newBetResults.includes(result)
-        ? newWinAmount
-        : 0;
-
-      const totalLoss = existingLoss + newLoss;
-
-      if (totalLoss > maxLossAfterBet) {
-        maxLossAfterBet = totalLoss;
-      }
-    }
-
-
-    console.log( maxLossAfterBet ,"cvbnjk")
-
-    if (maxLossAfterBet > matkaLimit) {
-      return this.fail(
-        res,
-        "Matka limit exceeded for this number"
-      );
-    }
-
-    // ================= BALANCE CHECK =================
-    if (
-      userExposure + data.stack + balanceData.exposer >
-      balanceData.balance
-    ) {
-      return this.fail(res, "Insufficient balance");
-    }
-
-    const matkastatus = await Matkagames.findOne({roundid:data.matchId})
-    if(!matkastatus.isActive){
-      return this.fail(res, "Matka closed");
-
-    }
-
-
-    // ================= SAVE BET =================
-    const newBet = new Matkabet({
-      gamename: data.matchName,
-      username:userData.username,
-      id: data.marketId,
-      result: "pending",
-      selectionId: selection,
-      roundid: data.matchId,
-      odds: data.odds,
-      betamount: data.stack,
-      bettype: betType,
-      userId: _id,
-      parentstr: userData.parentStr,
-      parentId: userData.parentId,
-      bet_on: "MATKA",
-      status: "pending",
-    });
-
-    await newBet.save();
-
-    // ================= UPDATE USER EXPOSURE =================
-    await balanceData.updateOne({
-      matkaexposer: userExposure + data.stack,
-    });
-
-    return this.success(res, newBet, "Bet placed successfully");
-
-  } catch (e: any) {
-    console.error(e);
-    return this.fail(res, e.message || "Something went wrong");
-  }
-};
 
 
 
@@ -504,7 +504,7 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
 
   matkaList66 = async (req: Request, res: Response) => {
     try {
-      const matkaList = await Matkagames.find({  result: 'pending'}).lean();
+      const matkaList = await Matkagames.find({ result: 'pending' }).lean();
 
       return this.success(res, matkaList);
     } catch (e: any) {
@@ -566,7 +566,7 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
         await this.cal9xbro(ItemBetList.userId, profitLossAmt, `Matka Bet Result for ${ItemBetList.selectioId}/${result}/${ItemBetList.roundid}`, ItemBetList.roundid, ItemBetList._id, "MATKA")
 
         userIdList.push(ObjectId(ItemBetList.userId));
-        await Matkabet.updateOne({ _id: ItemBetList._id }, { $set: { status: "completed" ,pl:profitLossAmt} });
+        await Matkabet.updateOne({ _id: ItemBetList._id }, { $set: { status: "completed", pl: profitLossAmt } });
       });
       await Promise.all(declare_result);
       const unique = [...new Set(userIdList)];
@@ -676,7 +676,7 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
         },
         { $set: { status: "pending" } }
       );
-     const processLedgers = async () => {
+      const processLedgers = async () => {
         const promises = userbet.flatMap((betGroup) =>
           betGroup.allBets.map(async (singleBet) => {
             const result = await ledger.deleteMany({ betId: singleBet._id });
@@ -823,7 +823,7 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
   };
 
 
-   activeFanciesnew = async (req: Request, res: Response): Promise<Response> => {
+  activeFanciesnew = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { matchId, gtype }: any = req.query;
       if (!matchId) return this.fail(res, "matchId is required field");
@@ -1602,7 +1602,7 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
   };
 
 
-   declarefancyresultnew = async (
+  declarefancyresultnew = async (
     req: Request,
     res: Response
   ): Promise<Response> => {
@@ -3788,11 +3788,11 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
               dmultixu = userData?.matcom || 0;
             }
             var commissionlegaf =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * multix) / 100;
             let commissiondegaf =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * dmultixu) / 100;
             // let share = -profit_loss * (p1info?.share / 100);
@@ -3902,11 +3902,11 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
             });
             // const currentBalancep1:any = ledgerDatap1 ? ledgerDatap1.money : 0;
             let ammount =
-             !(betstatus || matkabetstatus) && profit_loss > 0 ? -profit_loss : -profit_loss; // profit_loss - betdata.stack*multi
+              !(betstatus || matkabetstatus) && profit_loss > 0 ? -profit_loss : -profit_loss; // profit_loss - betdata.stack*multi
             let commissiondega =
-             !(betstatus || matkabetstatus) && profit_loss > 0 ? 0 : (commission_value * multi) / 100;
+              !(betstatus || matkabetstatus) && profit_loss > 0 ? 0 : (commission_value * multi) / 100;
             let commissionlega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * lmulti) / 100;
 
@@ -3971,11 +3971,11 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
             let commissionlega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * lmulti) / 100;
             let commissiondega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * dmulti) / 100;
 
@@ -4035,11 +4035,11 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
             let commissionlega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * lmulti) / 100;
             let commissiondega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * dmulti) / 100;
             let money = mainledgerBalance;
@@ -4099,11 +4099,11 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
             let commissionlega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * lmulti) / 100;
             let commissiondega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * dmulti) / 100;
 
@@ -4163,11 +4163,11 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
             // let ammount = profit_loss > 0 && !betstatus ? -profit_loss : ammoun; // profit_loss - betdata.stack*multi
 
             let commissionlega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * lmulti) / 100;
             let commissiondega =
-             !(betstatus || matkabetstatus) && profit_loss > 0
+              !(betstatus || matkabetstatus) && profit_loss > 0
                 ? 0
                 : (commission_value * dmulti) / 100;
 
@@ -4219,7 +4219,7 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
 
       return "success";
     } catch (error) {
-      console.error("Error in allClientLedger:", error,userId,matchId,profit_loss);
+      console.error("Error in allClientLedger:", error, userId, matchId, profit_loss);
       // res.status(500).send({ error: 'Internal server error' });
       // return this.success(res,"hello world")
       return error
@@ -4514,16 +4514,16 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
   };
 
   getUseridno = async (req: Request, res: Response) => {
-   
+
 
     try {
-     const data:any = await useridno.findOne({})
+      const data: any = await useridno.findOne({})
 
-     if (!data) {
-     await useridno.create({
-        id: 10000
-    });
-}
+      if (!data) {
+        await useridno.create({
+          id: 10000
+        });
+      }
 
       return res.json({ data, status: true });
     } catch (error) {
@@ -4533,6 +4533,67 @@ placeMatkabet = async (req: Request, res: Response): Promise<Response> => {
         .json({ msg: "Internal Server Error", status: false });
     }
   };
+
+  
+ getUserDetaliswithParents = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const userId: any = req.query.userId;
+    console.log(userId,"useriiiiiid")
+
+    if (!userId) {
+      return res.status(400).json({
+        status: false,
+        msg: "Enter User ID",
+      });
+    }
+
+    // User Find
+    const user: any = await User.findOne({ username: userId });
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        msg: "User not found",
+      });
+    }
+
+    // Parent Details
+    const parents = await User
+      .find(
+        {
+          _id: {
+            $in: user.parentStr.map((id: any) => ObjectId(id)),
+          },
+        },
+        {
+          username: 1,
+          code: 1,
+        }
+      )
+      .lean();
+
+    return res.json({
+      status: true,
+      data: {
+        user: {
+          username: user.username,
+          code: user.code,
+        },
+        parents,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      status: false,
+      msg: "Internal Server Error",
+    });
+  }
+};
 }
 
 // import axios from "axios";

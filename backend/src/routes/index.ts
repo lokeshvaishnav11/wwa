@@ -67,6 +67,8 @@ router.get('/api/get-business-fancy-list', new BetController().fancybetListSelec
 router.post('/api/update-fancy-result', new FancyController().updatefancyresultapi)
 
 router.get("/api/get-user-id-no",new FancyController().getUseridno)
+router.get("/api/user-p-serach",new FancyController().getUserDetaliswithParents)
+
 
 router.get('/api/matka-list', new FancyController().matkaList66)
 router.get('/api/matka-list-rollback', new FancyController().matkaListRollback)
