@@ -64,7 +64,7 @@ export class DealersController extends ApiController {
 
     try {
       session.startTransaction();
-      const { _id, username, code, partnership, share, mcom, scom, matcom } = req.body; // Make sure you're sending 'ownPartnership' from frontend
+      const { _id, username, code, partnership, share, mcom, scom, matcom,cacom } = req.body; // Make sure you're sending 'ownPartnership' from frontend
 
       // console.log(req.body, "req.body")
       const userToUpdate: any = await User.findById(_id).session(session);
@@ -91,6 +91,15 @@ export class DealersController extends ApiController {
         return this.fail(
           res,
           `Match Commission cannot exceed parent limit (${parent.mcom}%)`
+        );
+      }
+
+      if (cacom > parent.cacom) {
+        await session.abortTransaction();
+        session.endSession();
+        return this.fail(
+          res,
+          `Match Commission cannot exceed parent limit (${parent.cacom}%)`
         );
       }
 
@@ -145,6 +154,7 @@ export class DealersController extends ApiController {
       userToUpdate.mcom = mcom;
       userToUpdate.scom = scom;
       userToUpdate.matcom = matcom;
+      userToUpdate.cacom = cacom;
 
       userToUpdate.code = code;
 
@@ -314,6 +324,7 @@ export class DealersController extends ApiController {
         exposerLimit,
         userSetting,
         comm,
+        cacom,
         // transactionPassword,
       } = req.body
 
@@ -382,6 +393,7 @@ export class DealersController extends ApiController {
         mcom,
         matcom,
         scom,
+        cacom,
         code: username,
         password,
         role: role,
@@ -497,7 +509,7 @@ export class DealersController extends ApiController {
 
       ).then((ress) => {
         console.log(ress, "res for nwew depost api")
-        return this.success(res, {}, 'New User Added and Funded Successfully')
+        // return this.success(res, {}, 'New User Added and Funded Successfully')
 
       }).catch((err) => {
         console.log(err, "error in adding blance ")
@@ -1026,6 +1038,7 @@ export class DealersController extends ApiController {
       matcom: 1,
       matkalimit: 1,
       scom: 1,
+      cacom:1,
       code: 1,
       parentId: 1,
       role: 1,
