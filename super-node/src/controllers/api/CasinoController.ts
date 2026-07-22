@@ -1304,7 +1304,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
 
       // await axios.post("http://localhost:3010/api/save-casino-match",convertResult)
       await axios.post(
-        "https://napi.A2Z.online/api/save-casino-match",
+        "https://api.a2zlive.shop/api/save-casino-match",
         convertResult
       );
       await axios.post(
