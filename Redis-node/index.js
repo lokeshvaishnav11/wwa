@@ -728,7 +728,7 @@ const BookMakerOddsData = async () => {
 const getPendingFancyList = async () => {
   try {
     const { data } = await axios.get(
-      "https://napi.A2Z.online/api/get-business-fancy-list"
+      "https://api.a2zlive.shop/api/get-business-fancy-list"
     );
     return data?.data?.list || [];
   } catch (e) {
@@ -769,7 +769,7 @@ const getProviderResult = async (matchId) => {
 const declareFancyResult = async (payload) => {
   try {
     await axios.post(
-      "https://napi.A2Z.online/api/update-fancy-result",
+      "https://api.a2zlive.shop/api/update-fancy-result",
       payload
     );
   } catch (e) {
