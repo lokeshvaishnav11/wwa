@@ -448,7 +448,7 @@ const axios = require("axios").default;
 const Match = require("./models/Match.model");
 
 // Mongo DSN
-const dsn = process.env.MONGO_URI || "mongodb://chero:chero0908nitin@62.72.58.167:27017/nchero?authSource=admin&replicaSet=rs0";
+const dsn = process.env.MONGO_URI || "mongodb://chero:chero0908nitin@62.72.58.167:27017/atoz?authSource=admin&replicaSet=rs0";
 
 const app = express();
 const server = http.createServer(app);

@@ -240,7 +240,7 @@ class SportsController extends ApiController {
   async marketesData(match: IMatch, syncData: boolean) {
     const markets = await sportsService.getMarkets(match)
 
-    console.log(markets.data.sports, "markets data from backend ibn ths codew sw")
+    console.log(markets, "markets data from backend ibn ths codew sw")
 
 
     if (markets?.data?.sports?.length > 0)
