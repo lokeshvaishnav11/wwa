@@ -514,7 +514,8 @@ export class DealersController extends ApiController {
       }).catch((err) => {
         console.log(err, "error in adding blance ")
       })
-
+    
+      
 
       // })
     } catch (e: any) {
