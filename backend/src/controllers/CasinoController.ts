@@ -1098,15 +1098,23 @@ export class CasinoController extends ApiController {
       return this.fail(res, e.message)
     }
   }
-
-  htmlCards = async (req: Request, res: Response) => {
+ htmlCards = async (req: Request, res: Response) => {
     const { type, roundId } = req.params
-    console.log(type,roundId,"ddf")
     try {
-      let casinoType: any = await CasinoGameResult.findOne({ mid: roundId })
-      console.log(casinoType,"caisnotype")
-      // const html = casinoType?.data?.html old one
-      const html = casinoType?.data
+      // let casinoType: any = await CasinoGameResult.findOne({ mid: roundId })
+      // const resultApi1 = await axios.get(`http://130.250.191.212:3009/casino/detail_result?type=${type}&mid=${roundId}&key=dijbfuwd719e12rqhfbjdqdnkqnd11eqdqdnkanknakn`)
+      // console.log(resultApi,"CGHJK")
+
+       const resultApi = await axios.get(
+      `https://docs.vkmster.com/casinoapi/casinoResult?gtype=${type}&mid=${roundId}`, {
+      headers: {
+        "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
+        "x-api-secret":
+          "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
+      },
+    })
+      
+      const html = resultApi?.data?.data?.data.t1
       return this.success(res, { html })
     } catch (e: any) {
       return this.fail(res, e.stack)

@@ -509,7 +509,7 @@ export class DealersController extends ApiController {
 
       ).then((ress) => {
         console.log(ress, "res for nwew depost api")
-        // return this.success(res, {}, 'New User Added and Funded Successfully')
+        return this.success(res, {}, 'New User Added and Funded Successfully')
 
       }).catch((err) => {
         console.log(err, "error in adding blance ")
