@@ -303,7 +303,7 @@ const MobileFooter = () => {
     // { label: "My Commission", link: "/my-commission" },
     // { label: "Current Bets", link: "/current-bets" },
     { label: "Account Statement", link: "/accountstatement" },
-    { label: "Casino Results", link: "/casino-results" },
+    // { label: "Casino Results", link: "/casino-results" },
     { label: "Rules", link: "/rules" },
     // { label: "Secure Auth Verification", link: "/secure-auth-verification" },\
      { label: "My Profile", link: "/profile" },

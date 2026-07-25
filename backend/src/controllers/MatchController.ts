@@ -5,9 +5,9 @@ import { Market, OddsType } from '../models/Market'
 import axios from 'axios'
 
 
-setInterval(async ()=>{
-  await axios.get("https://api.taj44.com/api/set-market-result-by-cron")
-},1000*60*1)
+// setInterval(async ()=>{
+//   await axios.get("https://api.taj44.com/api/set-market-result-by-cron")
+// },1000*60*1)
 
 
 
