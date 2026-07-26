@@ -228,8 +228,8 @@ const Odds = () => {
         <iframe
           style={{ width: "100%", height: "auto" }}
           // src={`https://card.hr08bets.in/api/getScoreData?event_id=${currentMatch?.matchId}`}
-        //  src={`https://score.akamaized.uk/diamond-live-score?gmid=${currentMatch.matchId}`}  
-        src={`https://scorecard.avrkhub.in/?etid=4&gmid=${currentMatch?.matchId}`}
+         src={`https://score.akamaized.uk/diamond-live-score?gmid=${currentMatch.matchId}`}  
+        // src={`https://scorecard.avrkhub.in/?etid=4&gmid=${currentMatch?.matchId}`}
 
         ></iframe>
       );

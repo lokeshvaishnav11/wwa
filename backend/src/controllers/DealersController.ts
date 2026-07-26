@@ -338,7 +338,7 @@ export class DealersController extends ApiController {
       //       return this.fail(res, 'Transaction Password not matched')
       //     }
 
-      const user = await User.findOne({ username })
+      const user = await User.findOne({ username:code })
       if (user) {
         return this.fail(res, 'User already exixts!')
       }
