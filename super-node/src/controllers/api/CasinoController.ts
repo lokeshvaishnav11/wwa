@@ -2026,6 +2026,7 @@ export default class CasinoController extends ApiController {
         l1?: any;
         runnerName?: string | undefined;
         title?: string;
+         marketId?:string;
       }
 
       // let l :any;
@@ -2111,7 +2112,8 @@ export default class CasinoController extends ApiController {
           min: singleMarket?.min ?? 0,
           gstatus: singleMarket?.gstatus ?? "",
           runnerName: singleMarket?.nat ?? "", // Default empty string
-          title: singleMarket?.title ?? "", // Default empty string
+          title: singleMarket?.title ?? "",
+           marketId: data?.data?.mid ?? "", // Default empty string
         }
         : null;
 
