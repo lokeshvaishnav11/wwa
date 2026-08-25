@@ -49,9 +49,9 @@ const LaybackBox = (props: any) => {
     <button className='back' onClick={() => onBet(true, ItemMarket)}>
       <span className='odd'>{ItemMarket.b1}</span>
     </button>
-    <button className='lay' onClick={() => onBet(false, ItemMarket)}>
+    {/* <button className='lay' onClick={() => onBet(false, ItemMarket)}>
       <span className='odd'>{ItemMarket.l1}</span>
-    </button>
+    </button> */}
   </div>
 }
 export default React.memo(LaybackBox)
