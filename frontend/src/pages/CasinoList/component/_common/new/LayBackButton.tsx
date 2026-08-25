@@ -54,14 +54,14 @@ const LayButton = (props: any) => {
                 <span className='fw-12 laysize' style={{display:"block"}}>{nFormatter(ItemMarket.bs1, 2)}</span>
               </button>
             </td>
-            <td className={` teen-section ${clsnamename} ${liveMatchData?.slug == "AAA" ? "aaabuttonLay" : "lay" }`}>
+            {/* <td className={` teen-section ${clsnamename} ${liveMatchData?.slug == "AAA" ? "aaabuttonLay" : "lay" }`}>
               <button className={`${liveMatchData?.slug == "AAA" ? "" : "lay" } text-white `} onClick={() => onBet(false, ItemMarket)}>
                 <span className='odd'>
                   <b>{ItemMarket.l1}</b>
                 </span>
                 <span className='fw-12 laysize' style={{display:"block"}}>{nFormatter(ItemMarket.ls1, 2)}</span>
               </button>
-            </td>
+            </td> */}
     </>
 }
 export default React.memo(LayButton)
