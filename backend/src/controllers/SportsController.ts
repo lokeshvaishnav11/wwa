@@ -128,7 +128,8 @@ class SportsController extends ApiController {
           isFancy: isT10Fancy || isFancy,
           isBookMaker,
           isT10: isT10 || isT10Fancy,
-          resultstring: ""
+          resultstring: "",
+         
         }
 
         if (!syncData) {

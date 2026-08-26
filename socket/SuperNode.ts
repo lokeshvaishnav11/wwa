@@ -24,7 +24,7 @@ socket.on("newFancyAdded", async ({ fancy, matchId }) => {
     })
     .catch((e) => console.log(e.response));
      axios
-    .post(`https://api.sixrun.pro/api/add-new-fancy`, {
+    .post(`https://api.star-99.com/api/add-new-fancy`, {
       fancy: {
         ...fancy,
         matchId,
@@ -52,7 +52,7 @@ socket.on("deactivateFancy", (fancy) => {
       })
       .catch((e) => console.log(e.response));
         axios
-      .post(`https://api.sixrun.pro/api/deactivate-fancy`, {
+      .post(`https://api.star-99.com/api/deactivate-fancy`, {
         fancies: fancy,
       })
       .then((res) => {

@@ -1308,7 +1308,7 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
         convertResult
       );
       await axios.post(
-        "https://api.sixrun.pro/api/save-casino-match",
+        "https://api.star-99.com/api/save-casino-match",
         convertResult
       );
 
