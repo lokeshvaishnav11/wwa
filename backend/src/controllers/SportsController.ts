@@ -1554,27 +1554,31 @@ class SportsController extends ApiController {
 
           else {
 
-            var getMatches = series?.data?.data?.t1?.flatMap((s: any) => {
-              return {
-                event: {
-                  id: s.gmid,
-                  name: s.ename,
-                  timezone: "GMT",
-                  openDate: s.stime,
-                },
-                series: {
-                  id: s.cid.toString(),
-                  name: s.cname,
-                },
-                matchId: s.gmid,
-                matchDateTime: s.stime,
-                name: s.ename,
-                seriesId: s.cid.toString(),
-                sportId: EventTypeID,
-                active: matchIds.includes(parseInt(s.gmid)),
-              }
-            }) || [];
+           var getMatches:any = [
+  ...(series?.data?.data?.t1 || []),
+  ...(series?.data?.data?.t2 || []),
+].map((s: any) => {
+  return {
+    event: {
+      id: s.gmid,
+      name: s.ename,
+      timezone: "GMT",
+      openDate: s.stime,
+    },
 
+    series: {
+      id: s.cid.toString(),
+      name: s.cname,
+    },
+
+    matchId: s.gmid,
+    matchDateTime: s.stime,
+    name: s.ename,
+    seriesId: s.cid.toString(),
+    sportId: EventTypeID,
+    active: matchIds.includes(parseInt(s.gmid)),
+  };
+});
           }
 
           return Promise.all([...getMatches]);
