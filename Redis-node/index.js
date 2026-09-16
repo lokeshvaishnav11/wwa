@@ -724,28 +724,156 @@ const BookMakerOddsData = async () => {
   }
 };
 
+// // ---------------- Fancy Results Processors ----------------
+// const getPendingFancyList = async () => {
+//   try {
+//     const { data } = await axios.get(
+//       "https://api.a2zlive.shop/api/get-business-fancy-list"
+//     );
+//     return data?.data?.list || [];
+//   } catch (e) {
+//     console.log("Pending Fancy Error", e.message);
+//     return [];
+//   }
+// };
+
+// const groupFancyByMatch = (list) => {
+//   return list.reduce((acc, item) => {
+//     if (!acc[item.matchId]) {
+//       acc[item.matchId] = [];
+//     }
+//     acc[item.matchId].push(item);
+//     return acc;
+//   }, {});
+// };
+
+// const getProviderResult = async (matchId) => {
+//   try {
+//     const { data } = await axios.get(
+//       `https://docs.vkmster.com/sportapi/sportsResult?sportsid=4&gmid=${matchId}`,
+//       {
+//         headers: {
+//           "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
+//           "x-api-secret":
+//             "06926b1891e99df1dd28f123c4935cfb87d07e4b9641f21ac99bc6f31263f946",
+//         },
+//       }
+//     );
+//     return data?.markets || [];
+//   } catch (e) {
+//     console.log("Provider Error", matchId, e.message);
+//     return [];
+//   }
+// };
+
+// const declareFancyResult = async (payload) => {
+//   try {
+//     await axios.post(
+//       "https://api.a2zlive.shop/api/update-fancy-result",
+//       payload
+//     );
+//   } catch (e) {
+//     console.log("Declare Error", e.message);
+//   }
+// };
+
+// const processMatchResult = async (matchId, pendingFancy) => {
+//   const markets = await getProviderResult(matchId);
+//   if (!markets.length) return;
+
+//   const jobs = [];
+
+//   for (const fancy of pendingFancy) {
+//     const market = markets.find(
+//       (x) =>
+//         x.marketName.trim().toLowerCase() ===
+//         fancy.selectionName.trim().toLowerCase()
+//     );
+
+//     if (!market || market.status !== "SETTLE") continue;
+
+//     jobs.push(
+//       declareFancyResult({
+//         message: "ok",
+//         result: String(market.winnerId),
+//         runnerName: fancy.selectionName,
+//         matchId: fancy.matchId,
+//         isRollback: false,
+//       })
+//     );
+//   }
+
+//   await Promise.allSettled(jobs);
+// };
+
+// const processPendingFancyResult = async () => {
+//   const list = await getPendingFancyList();
+//   if (!list.length) return;
+
+//   const grouped = groupFancyByMatch(list);
+//   const jobs = [];
+
+//   for (const matchId in grouped) {
+//     jobs.push(processMatchResult(Number(matchId), grouped[matchId]));
+//   }
+
+//   await Promise.allSettled(jobs);
+// };
+
 // ---------------- Fancy Results Processors ----------------
+
+const FANCY_APIS = [
+  "https://api.a2zlive.shop",
+  "https://sixapi.vkmster.com",
+];
+
 const getPendingFancyList = async () => {
-  try {
-    const { data } = await axios.get(
-      "https://api.a2zlive.shop/api/get-business-fancy-list"
-    );
-    return data?.data?.list || [];
-  } catch (e) {
-    console.log("Pending Fancy Error", e.message);
-    return [];
-  }
+  const responses = await Promise.allSettled(
+    FANCY_APIS.map(async (baseUrl) => {
+      const { data } = await axios.get(
+        `${baseUrl}/api/get-business-fancy-list`
+      );
+
+      const list = data?.data?.list || [];
+
+      // Source backend save kar rahe hain,
+      // taaki result usi backend me declare ho.
+      return list.map((item) => ({
+        ...item,
+        __baseUrl: baseUrl,
+      }));
+    })
+  );
+
+  const finalList = [];
+
+  responses.forEach((response, index) => {
+    if (response.status === "fulfilled") {
+      finalList.push(...response.value);
+    } else {
+      console.log(
+        "Pending Fancy Error:",
+        FANCY_APIS[index],
+        response.reason?.message
+      );
+    }
+  });
+
+  return finalList;
 };
+
 
 const groupFancyByMatch = (list) => {
   return list.reduce((acc, item) => {
     if (!acc[item.matchId]) {
       acc[item.matchId] = [];
     }
+
     acc[item.matchId].push(item);
     return acc;
   }, {});
 };
+
 
 const getProviderResult = async (matchId) => {
   try {
@@ -759,6 +887,7 @@ const getProviderResult = async (matchId) => {
         },
       }
     );
+
     return data?.markets || [];
   } catch (e) {
     console.log("Provider Error", matchId, e.message);
@@ -766,19 +895,28 @@ const getProviderResult = async (matchId) => {
   }
 };
 
-const declareFancyResult = async (payload) => {
+
+const declareFancyResult = async (baseUrl, payload) => {
   try {
     await axios.post(
-      "https://api.a2zlive.shop/api/update-fancy-result",
+      `${baseUrl}/api/update-fancy-result`,
       payload
     );
   } catch (e) {
-    console.log("Declare Error", e.message);
+    console.log(
+      "Declare Error:",
+      baseUrl,
+      payload?.matchId,
+      payload?.runnerName,
+      e.message
+    );
   }
 };
 
+
 const processMatchResult = async (matchId, pendingFancy) => {
   const markets = await getProviderResult(matchId);
+
   if (!markets.length) return;
 
   const jobs = [];
@@ -786,40 +924,51 @@ const processMatchResult = async (matchId, pendingFancy) => {
   for (const fancy of pendingFancy) {
     const market = markets.find(
       (x) =>
-        x.marketName.trim().toLowerCase() ===
-        fancy.selectionName.trim().toLowerCase()
+        x.marketName?.trim().toLowerCase() ===
+        fancy.selectionName?.trim().toLowerCase()
     );
 
-    if (!market || market.status !== "SETTLE") continue;
+    if (!market || market.status !== "SETTLE") {
+      continue;
+    }
 
     jobs.push(
-      declareFancyResult({
-        message: "ok",
-        result: String(market.winnerId),
-        runnerName: fancy.selectionName,
-        matchId: fancy.matchId,
-        isRollback: false,
-      })
+      declareFancyResult(
+        fancy.__baseUrl,
+        {
+          message: "ok",
+          result: String(market.winnerId),
+          runnerName: fancy.selectionName,
+          matchId: fancy.matchId,
+          isRollback: false,
+        }
+      )
     );
   }
 
   await Promise.allSettled(jobs);
 };
 
+
 const processPendingFancyResult = async () => {
   const list = await getPendingFancyList();
+
   if (!list.length) return;
 
   const grouped = groupFancyByMatch(list);
   const jobs = [];
 
   for (const matchId in grouped) {
-    jobs.push(processMatchResult(Number(matchId), grouped[matchId]));
+    jobs.push(
+      processMatchResult(
+        Number(matchId),
+        grouped[matchId]
+      )
+    );
   }
 
   await Promise.allSettled(jobs);
 };
-
 // ---------------- Start App ----------------
 const start = async () => {
   await setConnection();

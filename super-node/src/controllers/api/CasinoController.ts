@@ -1212,7 +1212,7 @@ const sids = async (data: any, type: any) => {
     // Loop through market and runners to find the correct SelectionId
     cloneJsonDataOne.event_data.market.forEach((market: any) => {
       market.Runners.forEach((runner: any) => {
-        if (runner.RunnerName === item && market?.MarketName == item) {
+        if (runner.RunnerName === item || market?.MarketName == item) {
           console.log(item, runner.RunnerName, "ghjkcghjkghbjn");
           console.log(`SID: ${runner.SelectionId}`);
           sid = `SID${runner.SelectionId}`;
@@ -1309,6 +1309,11 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
       );
       await axios.post(
         "https://api.star-99.com/api/save-casino-match",
+        convertResult
+      );
+
+       await axios.post(
+        "https://sixapi.vkmster.com/api/save-casino-match",
         convertResult
       );
 
