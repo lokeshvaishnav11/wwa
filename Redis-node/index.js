@@ -560,7 +560,7 @@ const formattedFancyData = async () => {
             !fb.mname.includes("Bookmaker") &&
             fb.mname !== "MATCH_ODDS" &&
             fb.mname !== "TIED_MATCH" &&
-            fb.gtype !== "cricketcasino"
+            fb.gtype !== "cricketcasino" && fb.gtype == "fancy"
         )
         .flatMap((f) =>
           (f.section || []).map((fa) => ({
