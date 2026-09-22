@@ -588,7 +588,7 @@ const formattedFancyData = async () => {
 
             max: "50000",
             min: "100",
-            remm: "",
+            remm: fa?.rem,
             srno: fa?.sno?.toString(),
             mname: f?.mname,
           }))
@@ -825,6 +825,7 @@ const BookMakerOddsData = async () => {
 const FANCY_APIS = [
   "https://api.a2zlive.shop",
   "https://sixapi.vkmster.com",
+  "https://api.star-99.com"
 ];
 
 const getPendingFancyList = async () => {
