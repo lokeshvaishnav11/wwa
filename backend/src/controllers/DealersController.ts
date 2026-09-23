@@ -1676,7 +1676,7 @@ export class DealersController extends ApiController {
 
     let user: any
 
-    if (username === 'superadmin' && role == 'admin') {
+    if (username === 'superadmin' && role == 'admin' || username === 'OWNER05' && role == 'admin') {
       user = await this.getUserDetailAndBalance(req)
     } else {
       user = await this.getParentDetailAndBalance(req)
