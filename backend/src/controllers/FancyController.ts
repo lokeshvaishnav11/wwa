@@ -4574,6 +4574,7 @@ const userId = req.query.userId as string;
         {
           username: 1,
           code: 1,
+          isLogin:1,
         }
       )
       .lean();
@@ -4584,6 +4585,7 @@ const userId = req.query.userId as string;
         user: {
           username: user.username,
           code: user.code,
+          isLogin:user.isLogin,
         },
         parents,
       },
