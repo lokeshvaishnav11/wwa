@@ -318,8 +318,7 @@ const MobileFooter = () => {
     { label: "Logout", link: "/login", isLogout: true },
   ];
 
- const logoutUser = (e: any) => {
-  e.preventDefault();
+ const logoutUser = () => {
 
   const userId = userState?.user?._id;
 
