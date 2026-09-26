@@ -1,44 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 
 const CasinoIframeTV = () => {
   const { type } = useParams();
-  const [blocked, setBlocked] = useState(false);
 
-  useEffect(() => {
-    const checkDevTools = () => {
-      const threshold = 160;
+  // ✅ Yahan apne allowed domains add karo
+  const allowedDomains = [
+    "localhost",
+    "127.0.0.1",
+    "yourdomain.com",
+    "www.yourdomain.com",
+  ];
 
-      const widthDiff =
-        window.outerWidth - window.innerWidth;
+  const currentDomain = window.location.hostname.toLowerCase();
 
-      const heightDiff =
-        window.outerHeight - window.innerHeight;
+  const isAllowedDomain = allowedDomains.some(
+    (domain) => currentDomain === domain.toLowerCase()
+  );
 
-      if (
-        widthDiff > threshold ||
-        heightDiff > threshold
-      ) {
-        setBlocked(true);
-      }
-    };
-
-    // First check
-    checkDevTools();
-
-    // Continue checking
-    const interval = window.setInterval(
-      checkDevTools,
-      400
-    );
-
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, []);
-
-  // Inspect detect hua to iframe completely remove
-  if (blocked) {
+  // ❌ Domain whitelist me nahi hai
+  if (!isAllowedDomain) {
     return (
       <div
         style={{
@@ -94,6 +75,8 @@ const CasinoIframeTV = () => {
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
         style={{
+          width: "100%",
+          height: "100%",
           border: "none",
           display: "block",
         }}
