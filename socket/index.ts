@@ -627,18 +627,58 @@ io.on("connection", (socket: Socket) => {
       });
   });
 
-  socket.on("logout", (userId: string) => {
-    userId = `user-${userId}`;
-    // Set user online status to false in Redis
-    redisClient
-      .del(userId)
-      .then(() => {
-        console.log(`${userId} is now offline`);
-      }) 
-      .catch((err) => {
-        console.error(err);
-      });
-  });
+socket.on(
+  "logout",
+  async (
+    userId: string,
+    callback?: (data: any) => void
+  ) => {
+    try {
+      const redisKey = `user-${userId}`;
+
+      console.log(
+        "LOGOUT EVENT RECEIVED:",
+        redisKey
+      );
+
+      const deleted =
+        await redisClient.del(redisKey);
+
+      console.log(
+        "REDIS KEY DELETED:",
+        redisKey,
+        "RESULT:",
+        deleted
+      );
+
+      const check =
+        await redisClient.get(redisKey);
+
+      console.log(
+        "REDIS AFTER LOGOUT:",
+        check
+      );
+
+      if (callback) {
+        callback({
+          success: true,
+          deleted,
+        });
+      }
+    } catch (err) {
+      console.error(
+        "Logout Redis Error:",
+        err
+      );
+
+      if (callback) {
+        callback({
+          success: false,
+        });
+      }
+    }
+  }
+);
 
   socket.on("logoutAll", () => {
     redisClient

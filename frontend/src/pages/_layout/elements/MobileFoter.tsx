@@ -280,14 +280,20 @@
 import { useState } from "react";
 import { CustomLink, useNavigateCustom } from "./custom-link";
 import { useLocation } from "react-router-dom";
-import { useAppDispatch } from "../../../redux/hooks";
-import { logout } from "../../../redux/actions/login/loginSlice"; // 🔗 update this path/action name if different in your project
+import { logout,selectUserData } from "../../../redux/actions/login/loginSlice"; // 🔗 update this path/action name if different in your project
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import User from "../../../models/User";
+import { useWebsocketUser } from "../../../context/webSocketUser";
+
 
 const MobileFooter = () => {
   const location = useLocation();
   const navigate = useNavigateCustom();
   const dispatch = useAppDispatch();
   const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const userState = useAppSelector<{ user: User }>(selectUserData);
+    const { socketUser } = useWebsocketUser();
+  
 
   const menu = [
     { name: "In-Play", icon: "fas fa-running", link: "/match/4" },
@@ -312,10 +318,28 @@ const MobileFooter = () => {
     { label: "Logout", link: "/login", isLogout: true },
   ];
 
-  const logoutUser = () => {
+ const logoutUser = (e: any) => {
+  e.preventDefault();
+
+  const userId = userState?.user?._id;
+
+  if (!userId) {
     dispatch(logout());
     navigate.go("/login");
-  };
+    return;
+  }
+
+  socketUser.emit(
+    "logout",
+    userId,
+    (response: any) => {
+      console.log("Logout Redis Response:", response);
+
+      dispatch(logout());
+      navigate.go("/login");
+    }
+  );
+};
 
   const handleAccountItemClick = (item: (typeof accountMenuItems)[number]) => {
     setShowAccountMenu(false);
