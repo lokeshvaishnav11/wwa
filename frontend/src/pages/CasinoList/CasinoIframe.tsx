@@ -10,6 +10,10 @@ const CasinoIframeTV = () => {
     "127.0.0.1",
     "yourdomain.com",
     "www.yourdomain.com",
+    "six-run.com",
+    "sixrun.pro",
+    "admin.six-run.com",
+    "admin.sixrun.pro"
   ];
 
   const currentDomain = window.location.hostname.toLowerCase();

@@ -5,11 +5,15 @@ const SportIframeTV = () => {
   const { type } = useParams();
 
   // ✅ Yahan apne allowed domains add karo
-  const allowedDomains = [
+   const allowedDomains = [
     "localhost",
     "127.0.0.1",
     "yourdomain.com",
     "www.yourdomain.com",
+    "six-run.com",
+    "sixrun.pro",
+    "admin.six-run.com",
+    "admin.sixrun.pro"
   ];
 
   const currentDomain = window.location.hostname.toLowerCase();
