@@ -93,11 +93,23 @@ const Header = () => {
     setHideExpBal(selectHideBal);
   }, [selectHideBal]);
 
-  const logoutUser = (e: any) => {
-    e.preventDefault();
-    dispatch(logout());
-    navigate.go("/login");
-  };
+ const logoutUser = (e: any) => {
+  e.preventDefault();
+
+  // User ID Redux clear hone se pehle le lo
+  const userId = userState?.user?._id;
+
+  // Socket server ko batao ki user logout ho gaya
+  // Isse Redis ki user-{id} key delete hogi
+  if (userId) {
+    socketUser.emit("logout", userId);
+  }
+
+  // Existing logout
+  dispatch(logout());
+
+  navigate.go("/login");
+};
 
   const onChangeBalExp = (e: ChangeEvent<HTMLInputElement>) => {
     const expBal = { ...hideExpBal, [e.target.name]: e.target.checked };
