@@ -27,6 +27,7 @@ import Matkagames from "../models/Matkagames";
 import { useridno, UseridNo } from "../models/UserId";
 
 var ObjectId = require("mongoose").Types.ObjectId;
+import { createClient } from "redis";
 
 export class FancyController extends ApiController {
   // activeFancies = async (req: Request, res: Response): Promise<Response> => {
@@ -4535,14 +4536,82 @@ export class FancyController extends ApiController {
   };
 
   
- getUserDetaliswithParents = async (
+//  getUserDetaliswithParents = async (
+//   req: Request,
+//   res: Response
+// ) => {
+//   try {
+// const userId = req.query.userId as string;   
+//  console.log(userId,"useriiiiiid")
+
+
+//     if (!userId) {
+//       return res.status(400).json({
+//         status: false,
+//         msg: "Enter User ID",
+//       });
+//     }
+
+//     const formattedUserId = userId.toUpperCase();
+
+//     // User Find
+//     const user: any = await User.findOne({ username: formattedUserId });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         status: false,
+//         msg: "User not found",
+//       });
+//     }
+
+//     // Parent Details
+//     const parents = await User
+//       .find(
+//         {
+//           _id: {
+//             $in: user.parentStr.map((id: any) => ObjectId(id)),
+//           },
+//         },
+//         {
+//           username: 1,
+//           code: 1,
+//           isLogin:1,
+//         }
+//       )
+//       .lean();
+
+//     return res.json({
+//       status: true,
+//       data: {
+//         user: {
+//           username: user.username,
+//           code: user.code,
+//           isLogin:user.isLogin,
+//         },
+//         parents,
+//       },
+//     });
+//   } catch (error) {
+//     console.log(error);
+
+//     return res.status(500).json({
+//       status: false,
+//       msg: "Internal Server Error",
+//     });
+//   }
+// };
+
+
+getUserDetaliswithParents = async (
   req: Request,
   res: Response
 ) => {
-  try {
-const userId = req.query.userId as string;   
- console.log(userId,"useriiiiiid")
+  let redisClient: any;
 
+  try {
+    const userId = req.query.userId as string;
+
+    console.log(userId, "useriiiiiid");
 
     if (!userId) {
       return res.status(400).json({
@@ -4553,8 +4622,13 @@ const userId = req.query.userId as string;
 
     const formattedUserId = userId.toUpperCase();
 
-    // User Find
-    const user: any = await User.findOne({ username: formattedUserId });
+    // ==============================
+    // FIND USER
+    // ==============================
+
+    const user: any = await User.findOne({
+      username: formattedUserId,
+    }).lean();
 
     if (!user) {
       return res.status(404).json({
@@ -4563,35 +4637,128 @@ const userId = req.query.userId as string;
       });
     }
 
-    // Parent Details
-    const parents = await User
-      .find(
-        {
-          _id: {
-            $in: user.parentStr.map((id: any) => ObjectId(id)),
-          },
+    // ==============================
+    // FIND ALL PARENTS
+    // ==============================
+
+    const parents: any[] = await User.find(
+      {
+        _id: {
+          $in: (user.parentStr || []).map(
+            (id: any) => ObjectId(id)
+          ),
         },
-        {
-          username: 1,
-          code: 1,
-          isLogin:1,
-        }
-      )
-      .lean();
+      },
+      {
+        username: 1,
+        code: 1,
+        isLogin: 1,
+      }
+    ).lean();
+
+    // ==============================
+    // REDIS CONNECTION
+    // ==============================
+
+    redisClient = createClient({
+      socket: {
+        host: process.env.REDIS_QUEUE_HOST,
+        port: Number(process.env.REDIS_QUEUE_PORT),
+      },
+    });
+
+    redisClient.on("error", (err: any) => {
+      console.log("Redis Error:", err);
+    });
+
+    await redisClient.connect();
+
+    // ==============================
+    // USER + PARENTS REDIS KEYS
+    // ==============================
+
+    const redisKeys = [
+      `user-${user._id.toString()}`,
+
+      ...parents.map(
+        (parent: any) =>
+          `user-${parent._id.toString()}`
+      ),
+    ];
+
+    // Ek hi request me sab users check
+    const redisStatuses = await redisClient.mGet(
+      redisKeys
+    );
+
+    // ==============================
+    // CURRENT USER ONLINE STATUS
+    // ==============================
+
+    const userIsOnline =
+      redisStatuses[0] !== null;
+
+    // ==============================
+    // PARENTS ONLINE STATUS
+    // ==============================
+
+    const parentsWithStatus = parents.map(
+      (parent: any, index: number) => ({
+        ...parent,
+
+        // Existing DB field
+        isLogin: parent.isLogin,
+
+        // Actual online/offline from Redis
+        isOnline:
+          redisStatuses[index + 1] !== null,
+      })
+    );
+
+    // ==============================
+    // CLOSE REDIS CONNECTION
+    // ==============================
+
+    await redisClient.quit();
+    redisClient = null;
+
+    // ==============================
+    // RESPONSE
+    // ==============================
 
     return res.json({
       status: true,
+
       data: {
         user: {
           username: user.username,
           code: user.code,
-          isLogin:user.isLogin,
+
+          // Existing DB field
+          isLogin: user.isLogin,
+
+          // Actual online/offline
+          isOnline: userIsOnline,
         },
-        parents,
+
+        parents: parentsWithStatus,
       },
     });
+
   } catch (error) {
-    console.log(error);
+    console.log(
+      "getUserDetaliswithParents error:",
+      error
+    );
+
+    // Error aaye to connection close
+    if (redisClient?.isOpen) {
+      try {
+        await redisClient.quit();
+      } catch (e) {
+        console.log("Redis quit error:", e);
+      }
+    }
 
     return res.status(500).json({
       status: false,
@@ -4599,6 +4766,7 @@ const userId = req.query.userId as string;
     });
   }
 };
+
 }
 
 // import axios from "axios";

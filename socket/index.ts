@@ -612,7 +612,7 @@ io.on("connection", (socket: Socket) => {
             userId,
             JSON.stringify({ socketId: socket.id, loggedIn: true, user }),
             {
-              EX: 365 * 24 * 60 * 60, // 1 year in seconds (31,536,000)
+             EX: 2 * 60 * 60, // 2 hours = 7200 seconds
             }
           ) // 2 days expiry
           .then(() => {
