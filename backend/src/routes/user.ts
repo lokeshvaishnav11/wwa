@@ -102,8 +102,6 @@ export class UserRoutes {
 
      this.router.post(
       '/force-user-logout',
-      statusValidation,
-      Http.validateRequest,
       Passport.authenticateJWT,
       this.dealerController.forceUserLogout,
     )
