@@ -100,6 +100,14 @@ export class UserRoutes {
       this.dealerController.updateUserStatus,
     )
 
+     this.router.post(
+      '/force-user-logout',
+      statusValidation,
+      Http.validateRequest,
+      Passport.authenticateJWT,
+      this.dealerController.forceUserLogout,
+    )
+
     this.router.post(
       '/update-user-wallet',
       walletValidation,
