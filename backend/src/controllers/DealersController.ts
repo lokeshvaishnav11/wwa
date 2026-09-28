@@ -2233,6 +2233,79 @@ export class DealersController extends ApiController {
     }
   }
 
+
+  async forceUserLogout (req: Request, res: Response) : Promise<Response> {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        status: false,
+        message: "User ID required",
+      });
+    }
+
+    // 1. User nikalo
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+
+    /*
+     * 2. Existing socket login mechanism ko deliberately
+     *    different sessionId bhejo.
+     *
+     * Socket server dekhega:
+     *
+     * incoming sessionId !== old Redis sessionId
+     *
+     * aur existing socket ko "logout" event bhej dega.
+     */
+    UserSocket.logout({
+      role: user.role,
+      sessionId: `FORCE_LOGOUT_${Date.now()}`,
+      _id: user._id.toString(),
+    });
+
+    /*
+     * 3. JWT/session invalidate
+     *
+     * IMPORTANT:
+     * Is line ko tumhare actual auth system ke hisab se
+     * lagana hai.
+     *
+     * Agar Redis me session key hai:
+     *
+     * await redisClient.del(`session-${user._id}`);
+     *
+     * Ya DB me session/token store hai to usko yahan
+     * clear/revoke karo.
+     */
+
+    return res.status(200).json({
+      status: true,
+      success: true,
+      message: `${user.username} logged out successfully`,
+    });
+
+  } catch (error: any) {
+    console.error(
+      "FORCE USER LOGOUT ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      status: false,
+      success: false,
+      message: "Unable to logout user",
+    });
+  }
+};
+
   // async updateUserStatus(req: Request, res: Response): Promise<Response> {
   //   try {
   //     const { username, isUserActive, isUserBetActive,  isUserBet2Active, transactionPassword, single } = req.body

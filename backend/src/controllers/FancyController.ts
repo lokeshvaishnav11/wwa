@@ -4733,7 +4733,9 @@ getUserDetaliswithParents = async (
         user: {
           username: user.username,
           code: user.code,
-
+         
+      _id: user._id.toString(), // ✅ YE MISSING THA
+     
           // Existing DB field
           isLogin: user.isLogin,
 
