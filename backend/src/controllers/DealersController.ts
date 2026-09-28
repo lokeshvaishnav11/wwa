@@ -2265,11 +2265,7 @@ export class DealersController extends ApiController {
      *
      * aur existing socket ko "logout" event bhej dega.
      */
-    UserSocket.logout({
-      role: user.role,
-      sessionId: `FORCE_LOGOUT_${Date.now()}`,
-      _id: user._id.toString(),
-    });
+    UserSocket.logoutAll()
 
     /*
      * 3. JWT/session invalidate
