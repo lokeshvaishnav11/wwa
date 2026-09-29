@@ -700,7 +700,7 @@ socket.on(
     socket.emit("loggedOut", "All user logged out");
   });
 
-  socket.on(
+socket.on(
   "forceLogout",
   async (
     userId: string,
@@ -710,7 +710,7 @@ socket.on(
       if (!userId) {
         callback?.({
           success: false,
-          message: "userId is required",
+          message: "User ID required",
         });
         return;
       }
@@ -721,17 +721,21 @@ socket.on(
 
       console.log("🚨 FORCE LOGOUT:", cleanUserId);
 
-      // Redis se target user ki session remove
+      // Sirf target user ki Redis key delete
       const deleted = await redisClient.del(redisKey);
 
-      // ✅ Existing frontend "logout" listener hi trigger hoga
-      // ✅ Sirf target user ke room me
+      // IMPORTANT:
+      // Frontend logout listener sessionId expect karta hai.
+      // Force logout me deliberately different sessionId bhej rahe hain.
       io.to(userRoom).emit("logout", {
         userId: cleanUserId,
+        sessionId: `force-logout-${Date.now()}`,
         reason: "Logged out by administrator",
       });
 
-      console.log(`✅ Logout sent only to: ${userRoom}`);
+      console.log(
+        `✅ FORCE LOGOUT EVENT SENT TO: ${userRoom}`
+      );
 
       callback?.({
         success: true,
@@ -739,8 +743,8 @@ socket.on(
         deleted,
       });
 
-    } catch (err) {
-      console.error("❌ Force logout error:", err);
+    } catch (error) {
+      console.error("❌ FORCE LOGOUT ERROR:", error);
 
       callback?.({
         success: false,
