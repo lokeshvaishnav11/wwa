@@ -2234,53 +2234,55 @@ export class DealersController extends ApiController {
   }
 
 
-  async forceUserLogout (req: Request, res: Response) : Promise<Response> {
+async forceUserLogout(
+  req: Request,
+  res: Response
+): Promise<Response> {
   try {
     const { userId } = req.body;
 
     if (!userId) {
       return res.status(400).json({
         status: false,
+        success: false,
         message: "User ID required",
       });
     }
 
-    // 1. User nikalo
+    // 1. User check
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({
         status: false,
+        success: false,
         message: "User not found",
       });
     }
 
     /*
-     * 2. Existing socket login mechanism ko deliberately
-     *    different sessionId bhejo.
+     * 2. Sirf isi user ko force logout karna hai.
      *
-     * Socket server dekhega:
+     * Socket server par:
      *
-     * incoming sessionId !== old Redis sessionId
+     * socket.on("forceLogout", ...)
      *
-     * aur existing socket ko "logout" event bhej dega.
+     * receive karega aur:
+     *
+     * io.to(`user-${userId}`).emit("logout", ...)
+     *
+     * karega.
      */
-    UserSocket.logoutAll()
+    UserSocket.emit(
+      "forceLogout",
+      user._id.toString()
+    );
 
-    /*
-     * 3. JWT/session invalidate
-     *
-     * IMPORTANT:
-     * Is line ko tumhare actual auth system ke hisab se
-     * lagana hai.
-     *
-     * Agar Redis me session key hai:
-     *
-     * await redisClient.del(`session-${user._id}`);
-     *
-     * Ya DB me session/token store hai to usko yahan
-     * clear/revoke karo.
-     */
+    console.log(
+      "FORCE LOGOUT EMITTED:",
+      user._id.toString(),
+      user.username
+    );
 
     return res.status(200).json({
       status: true,
@@ -2300,7 +2302,7 @@ export class DealersController extends ApiController {
       message: "Unable to logout user",
     });
   }
-};
+}
 
   // async updateUserStatus(req: Request, res: Response): Promise<Response> {
   //   try {
