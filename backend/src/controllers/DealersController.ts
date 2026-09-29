@@ -2233,7 +2233,6 @@ export class DealersController extends ApiController {
     }
   }
 
-
 async forceUserLogout(
   req: Request,
   res: Response
@@ -2249,7 +2248,7 @@ async forceUserLogout(
       });
     }
 
-    // 1. User check
+    // User check
     const user = await User.findById(userId);
 
     if (!user) {
@@ -2260,28 +2259,20 @@ async forceUserLogout(
       });
     }
 
-    /*
-     * 2. Sirf isi user ko force logout karna hai.
-     *
-     * Socket server par:
-     *
-     * socket.on("forceLogout", ...)
-     *
-     * receive karega aur:
-     *
-     * io.to(`user-${userId}`).emit("logout", ...)
-     *
-     * karega.
-     */
-    UserSocket.emit(
-      "forceLogout",
-      user._id.toString()
+    const targetUserId = user._id.toString();
+
+    console.log(
+      "FORCE LOGOUT REQUEST:",
+      targetUserId,
+      user.username
     );
+
+    // ✅ Sirf target user ko logout event bhejna
+    UserSocket.forceLogout(targetUserId);
 
     console.log(
       "FORCE LOGOUT EMITTED:",
-      user._id.toString(),
-      user.username
+      targetUserId
     );
 
     return res.status(200).json({
