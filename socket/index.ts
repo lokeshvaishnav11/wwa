@@ -700,6 +700,56 @@ socket.on(
     socket.emit("loggedOut", "All user logged out");
   });
 
+  socket.on(
+  "forceLogout",
+  async (
+    userId: string,
+    callback?: (data: any) => void
+  ) => {
+    try {
+      if (!userId) {
+        callback?.({
+          success: false,
+          message: "userId is required",
+        });
+        return;
+      }
+
+      const cleanUserId = String(userId).replace(/^user-/, "");
+      const userRoom = `user-${cleanUserId}`;
+      const redisKey = `user-${cleanUserId}`;
+
+      console.log("🚨 FORCE LOGOUT:", cleanUserId);
+
+      // Redis se target user ki session remove
+      const deleted = await redisClient.del(redisKey);
+
+      // ✅ Existing frontend "logout" listener hi trigger hoga
+      // ✅ Sirf target user ke room me
+      io.to(userRoom).emit("logout", {
+        userId: cleanUserId,
+        reason: "Logged out by administrator",
+      });
+
+      console.log(`✅ Logout sent only to: ${userRoom}`);
+
+      callback?.({
+        success: true,
+        userId: cleanUserId,
+        deleted,
+      });
+
+    } catch (err) {
+      console.error("❌ Force logout error:", err);
+
+      callback?.({
+        success: false,
+        message: "Force logout failed",
+      });
+    }
+  }
+);
+
   socket.on("place-bet", (bet) => {
     if (bet.parentStr) {
       bet.parentStr.map((parent: any) => {
