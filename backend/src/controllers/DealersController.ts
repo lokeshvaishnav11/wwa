@@ -300,7 +300,7 @@ export class DealersController extends ApiController {
 
   async signUp(req: Request, res: Response): Promise<Response> {
     const session = await Database.getInstance().startSession()
-    let changePassAndTxn: any = false;
+    let changePassAndTxn: any = true;
     try {
       session.startTransaction()
       const {
@@ -411,7 +411,7 @@ export class DealersController extends ApiController {
         phone: phone,
         creditRefrences,
         exposerLimit,
-        changePassAndTxn,
+        changePassAndTxn:true,
         userSetting: updatedUserSetting,
         comm:newcomm
       }
