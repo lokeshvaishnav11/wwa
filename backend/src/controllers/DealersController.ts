@@ -2200,7 +2200,7 @@ export class DealersController extends ApiController {
         // const hash = bcrypt.hashSync(password, salt)
 
         let setData: any = { password }
-        if (user.role !== RoleType.admin) setData = { ...setData, changePassAndTxn: false }
+        // if (user.role !== RoleType.admin) setData = { ...setData, changePassAndTxn: false }
 
         await User.findOneAndUpdate({ _id: user._id }, { $set: setData })
         if (true) {
