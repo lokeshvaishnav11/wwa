@@ -1254,6 +1254,7 @@ export class FancyController extends ApiController {
           matchId: matchId,
           selectionId: marketId,
           bet_on: BetOn.FANCY,
+          status:"pending"
         },
         { $set: { status: "completed" } }
       );
