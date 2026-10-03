@@ -820,10 +820,10 @@ def checkMarketOddsConditions(market_id, market_name, selection_id, is_back, odd
                     print(maximum_odds)
                     minimumodds = min(odds_item['price']
                                       for odds_item in odds_data)
-                    if odds > maximum_odds and is_back:
-                        return f"{odds} is not valid."
-                    if odds < minimumodds and is_back is not True:
-                        return f"{odds} is not valid."
+                    # if odds > maximum_odds and is_back:
+                    #     return f"{odds} is not valid."
+                    # if odds < minimumodds and is_back is not True:
+                    #     return f"{odds} is not valid."
                 else:
                     return 'No available odds.'
             elif market_status == 'SUSPENDED':
