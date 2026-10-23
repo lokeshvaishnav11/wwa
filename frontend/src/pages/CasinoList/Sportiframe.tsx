@@ -17,6 +17,7 @@ const SportIframeTV = () => {
     "goexch9.uk",
     "star-99.com",
     "admin.star-99.com",
+    "gamesx777.com"
     // "tv.chidiyakabutar.com",
     // "leelabet.com"
 
