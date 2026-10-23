@@ -19,6 +19,7 @@ const CasinoIframeTV = () => {
     "admin.star-99.com",
     // "tv.chidiyakabutar.com",
     // "leelabet.com"
+    "gamesx777.com"
 
   ];
 
