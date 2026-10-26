@@ -1312,10 +1312,10 @@ const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
         convertResult
       );
 
-       await axios.post(
-        "https://sixapi.vkmster.com/api/save-casino-match",
-        convertResult
-      );
+      //  await axios.post(
+      //   "https://sixapi.vkmster.com/api/save-casino-match",
+      //   convertResult
+      // );
 
       return true;
     } else {

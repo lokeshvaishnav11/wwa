@@ -824,7 +824,6 @@ const BookMakerOddsData = async () => {
 
 const FANCY_APIS = [
   "https://api.a2zlive.shop",
-  "https://sixapi.vkmster.com",
   "https://api.star-99.com"
 ];
 

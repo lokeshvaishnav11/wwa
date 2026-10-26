@@ -19,7 +19,11 @@ const CasinoIframeTV = () => {
     "admin.star-99.com",
     // "tv.chidiyakabutar.com",
     // "leelabet.com"
-    "gamesx777.com"
+    "gamesx777.com",
+    "betx99.co",
+    "admin.betx99.co",
+    "theownerstory.online"
+
 
   ];
 

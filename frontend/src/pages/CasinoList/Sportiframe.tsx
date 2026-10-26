@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 const SportIframeTV = () => {
   const { type } = useParams();
 
-  // ✅ Yahan apne allowed domains add karo
    const allowedDomains = [
     "localhost",
     "127.0.0.1",
@@ -17,9 +16,13 @@ const SportIframeTV = () => {
     "goexch9.uk",
     "star-99.com",
     "admin.star-99.com",
-    "gamesx777.com"
     // "tv.chidiyakabutar.com",
     // "leelabet.com"
+    "gamesx777.com",
+    "betx99.co",
+    "admin.betx99.co",
+    "theownerstory.online"
+
 
   ];
 
