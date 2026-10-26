@@ -35,18 +35,18 @@ socket.on("newFancyAdded", async ({ fancy, matchId }) => {
     })
     .catch((e) => console.log(e.response));
 
-//      axios
-//     .post(`https://sixapi.vkmster.com/api/add-new-fancy`, {
-//       fancy: {
-//         ...fancy,
-//         matchId,
-//       },
-//     })
-//     .then((res) => {
-//       io.to(matchId).emit("addNewFancy", { newFancy: res.data.data, fancy });
-//     })
-//     .catch((e) => console.log(e.response));
-// });
+    //  axios
+    // .post(`https://sixapi.vkmster.com/api/add-new-fancy`, {
+    //   fancy: {
+    //     ...fancy,
+    //     matchId,
+    //   },
+    // })
+    // .then((res) => {
+    //   io.to(matchId).emit("addNewFancy", { newFancy: res.data.data, fancy });
+    // })
+    // .catch((e) => console.log(e.response));
+});
 
 socket.on("deactivateFancy", (fancy) => {
   if (Object.keys(fancy).length > 0) {
