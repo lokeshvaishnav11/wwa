@@ -5,7 +5,7 @@ const CasinoIframeTV = () => {
   const { type } = useParams();
 
   // ✅ Yahan apne allowed domains add karo
-  const allowedDomains = [
+ const allowedDomains = [
     "localhost",
     "127.0.0.1",
     "yourdomain.com",
@@ -22,7 +22,9 @@ const CasinoIframeTV = () => {
     "gamesx777.com",
     "betx99.co",
     "admin.betx99.co",
-    "theownerstory.online"
+    "theownerstory.online",
+    "81exch.site",
+    "nataraj9.com "
 
 
   ];
