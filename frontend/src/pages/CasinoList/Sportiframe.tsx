@@ -21,9 +21,9 @@ const SportIframeTV = () => {
     "gamesx777.com",
     "betx99.co",
     "admin.betx99.co",
-    "theownerstory.online",
-    "81exch.site",
-    "nataraj9.com "
+=    "81exch.site",
+    "nataraj9.com",
+    "allpanel6.app"
 
 
   ];
