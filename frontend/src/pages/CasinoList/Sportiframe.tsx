@@ -22,7 +22,7 @@ const SportIframeTV = () => {
     "betx99.co",
     "admin.betx99.co",
   //  "81exch.site",
-  //   "nataraj9.com",
+    "nataraj9.com",
     "allpanel6.app"
 
 
