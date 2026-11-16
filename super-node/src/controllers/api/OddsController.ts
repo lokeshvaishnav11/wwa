@@ -288,35 +288,169 @@ class OddsController {
     }
   };
 
-  public static async getSingleSessionMarket(
-    req: Request,
-    res: Response
-  ): Promise<Response> {
-    try {
-      const { MatchID, SelectionId }: any = req.query;
-      if (!MatchID) throw Error("MatchID is required field");
 
-      if (!SelectionId) throw Error("SelectionId is required field");
+public static async getSingleSessionMarket(
+  req: Request,
+  res: Response
+): Promise<Response> {
+  try {
+    const { MatchID, SelectionId } = req.query;
 
-      let response: any = await redisReplica.get(`fancy-${MatchID}`);
-      console.log(response,"ghjkhjklbjk")
-
-      response = response ? { data: JSON.parse(response) } : { data: [] };
-      const market = response.data
-        .filter((m: any) => m.SelectionId == SelectionId)
-        .filter((m: any) => m.gtype === "session" || m.gtype === "fancy1" || m.gtype == "fancy");
-
-        console.log(market,"markets hahahahh")
-
-      return res.json({
-        sports: market,
-      });
-    } catch (e: any) {
-      return res.json({
-        error: e.message,
-      });
+    // Required fields
+    if (!MatchID) {
+      throw new Error("MatchID is required field");
     }
+
+    if (!SelectionId) {
+      throw new Error("SelectionId is required field");
+    }
+
+    // Direct API call - Redis not required
+    const { data: response } = await axios.get(
+      "http://165.232.177.161:3088/data/v1",
+      {
+        params: {
+          sportsid: 4,
+          gmid: MatchID,
+        },
+        timeout: 5000,
+      }
+    );
+
+    // API UTC last updated time
+    const lastUpdatedAt = response?.lastUpdatedAt;
+
+    if (!lastUpdatedAt) {
+      return res.json({ sports: [] });
+    }
+
+    const lastUpdateTime = new Date(lastUpdatedAt).getTime();
+    const currentTime = Date.now();
+
+    const timeDifference = currentTime - lastUpdateTime;
+
+    // Reject invalid, future or stale data
+    if (
+      !Number.isFinite(lastUpdateTime) ||
+      timeDifference < 0 ||
+      timeDifference > 5000
+    ) {
+      console.log("Stale Fancy API Data:", {
+        MatchID,
+        SelectionId,
+        lastUpdatedAt,
+        timeDifference,
+      });
+
+      return res.json({ sports: [] });
+    }
+
+    // Extract markets
+    const markets = response?.data?.data;
+
+    if (!Array.isArray(markets)) {
+      return res.json({ sports: [] });
+    }
+
+    // Filter by gtype and section.sid
+    // Using reduce instead of flatMap
+    const sports = markets.reduce(
+      (acc: any[], m: any) => {
+
+        // Allowed fancy types
+        if (
+          ["session", "fancy1", "fancy"].indexOf(m?.gtype) === -1
+        ) {
+          return acc;
+        }
+
+        const sections = Array.isArray(m?.section)
+          ? m.section
+          : [];
+
+        sections.forEach((s: any) => {
+
+          // SelectionId = section.sid
+          if (
+            s?.sid == null ||
+            String(s.sid) !== String(SelectionId)
+          ) {
+            return;
+          }
+
+          // Original Back / Lay mapping
+          acc.push({
+            BackPrice1:
+              s?.odds?.[2]?.odds ||
+              s?.odds?.[0]?.odds ||
+              0,
+
+            BackPrice2: 0,
+            BackPrice3: 0,
+
+            BackSize1:
+              s?.odds?.[2]?.size ||
+              s?.odds?.[0]?.size ||
+              0,
+
+            BackSize2: 0,
+            BackSize3: 0,
+
+            LayPrice1:
+              s?.odds?.[4]?.odds ||
+              s?.odds?.[1]?.odds ||
+              0,
+
+            LayPrice2: 0,
+            LayPrice3: 0,
+
+            LaySize1:
+              s?.odds?.[4]?.size ||
+              s?.odds?.[1]?.size ||
+              0,
+
+            LaySize2: 0,
+            LaySize3: 0,
+
+            RunnerName: s?.nat,
+            SelectionId: s?.sid,
+
+            ballsess: "1",
+            gtype: m?.gtype,
+
+            GameStatus: s?.gstatus,
+            gtstatus: s?.gstatus,
+
+            max: "50000",
+            min: "100",
+
+            remm: s?.rem,
+            srno: s?.sno?.toString(),
+
+            mname: m?.mname,
+          });
+        });
+
+        return acc;
+      },
+      [] as any[]
+    );
+
+    return res.json({
+      sports: sports,
+    });
+
+  } catch (error: any) {
+    console.error(
+      "getSingleSessionMarket Error:",
+      error?.message || error
+    );
+
+    return res.json({
+      sports: [],
+    });
   }
+}
 
   public static async getSeries(
     req: Request,

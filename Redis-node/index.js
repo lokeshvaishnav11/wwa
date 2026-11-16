@@ -588,7 +588,7 @@ const formattedFancyData = async () => {
 
             max: "50000",
             min: "100",
-            remm: fa?.rem,
+            rem: fa?.rem,
             srno: fa?.sno?.toString(),
             mname: f?.mname,
           }))
