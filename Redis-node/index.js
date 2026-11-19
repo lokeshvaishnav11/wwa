@@ -530,6 +530,8 @@ const getFancyDataApi = async () => {
         }
           );
 
+          console.log (res?.data?.data?.data ,"FRGYHUJIOP")
+
           FancyData[m?.matchId] = res?.data?.data?.data || [];
         } catch (err) {
           console.log(
