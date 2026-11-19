@@ -1101,7 +1101,7 @@ const MAX_FANCY_CONCURRENCY = Math.max(1, Number(process.env.MAX_FANCY_CONCURREN
 const RESULT_404_RETRY_MS = Number(process.env.RESULT_404_RETRY_MS || 60000);
 const FANCY_FRESH_MS = Number(process.env.FANCY_FRESH_MS || 12000);
 // if (!process.env.SPORT_API_KEY || !process.env.SPORT_API_SECRET) { console.error('SPORT_API_KEY and SPORT_API_SECRET are required'); process.exit(1); }
-// const logError = (name, err) => console.error(`[${name}]`, err?.message || err);
+const logError = (name, err) => console.error(`[${name}]`, err?.message || err);
 
 app.get('/health', (_req, res) => {
   const now = Date.now();
