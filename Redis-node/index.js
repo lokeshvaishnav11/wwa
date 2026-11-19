@@ -879,7 +879,7 @@ const groupFancyByMatch = (list) => {
 const getProviderResult = async (matchId) => {
   try {
     const { data } = await axios.get(
-      `http://64.227.139.183:3088/sportapi/sportsResult?sportsid=4&gmid=${matchId}&key=lokesh8279`,
+      `http://165.232.177.161:3088/sportapi/sportsResult?sportsid=4&gmid=${matchId}&key=lokesh8279`,
       {
         headers: {
           "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",

@@ -6,7 +6,7 @@ import axios from "axios"
 const fetchDataFromApi = async (EventID: any, sportId: any, markettype: any) => {
   try {
  const res = await axios.get(
- `http://64.227.139.183:3088/sportapi/privateData?sportsid=4&gmid=${EventID}&marketId=${EventID}&key=lokesh8279`,        {
+ `http://165.232.177.161:3088/sportapi/privateData?sportsid=4&gmid=${EventID}&marketId=${EventID}&key=lokesh8279`,        {
           headers: {
             "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
             "x-api-secret":
@@ -156,7 +156,7 @@ const fetchBookMakerDataFromApi = async (EventID: any, sportId: any) => {
 const GetsessionFromApi = async (MatchId: any, sportId: any) => {
   try {
    const res = await axios.get(
-  `http://64.227.139.183:3088/sportapi/privateData?sportsid=4&gmid=${MatchId}&marketId=${MatchId}&key=lokesh8279`,        {
+  `http://165.232.177.161:3088/sportapi/privateData?sportsid=4&gmid=${MatchId}&marketId=${MatchId}&key=lokesh8279`,        {
           headers: {
             "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
             "x-api-secret":

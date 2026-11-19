@@ -1511,7 +1511,7 @@ class SportsController extends ApiController {
       const matchIds = alreadyAdded.map((match: any) => match.matchId)
 
       const response = await axios.get(
-       "http://64.227.139.183:3088/sportapi/match-list?sportsid=4&key=lokesh8279",
+       "http://165.232.177.161:3088/sportapi/match-list?sportsid=4&key=lokesh8279",
         {
           headers: {
             "x-api-key": "1cfdeb5a7b55d02111f3e2bd324f609f2330c928",
