@@ -1018,7 +1018,7 @@ const fetchData = async (type: string) => {
     // type = type ===  ""
 
     const tableDataResponse = await axios.get(
-      `http://64.227.139.183:3088/casinoapi/casinoData?gtype=${type}&key=lokesh8279`, {
+      `http://165.232.177.161:3088/casinoapi/casinoData?gtype=${type}&key=lokesh8279`, {
       headers: {
         "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
         "x-api-secret":
@@ -1236,7 +1236,7 @@ const sids = async (data: any, type: any) => {
 const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
   try {
     const res = await axios.get(
-      `http://64.227.139.183:3088/casinoapi/casinoResult?gtype=${slug}&mid=${mid}&key=lokesh8279`, {
+      `http://165.232.177.161:3088/casinoapi/casinoResult?gtype=${slug}&mid=${mid}&key=lokesh8279`, {
       headers: {
         "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
         "x-api-secret":
@@ -2003,7 +2003,7 @@ export default class CasinoController extends ApiController {
       if (type === "AAA") type = "aaa";
 
       let response =await axios.get(
-      `http://64.227.139.183:3088/casinoapi/casinoData?gtype=${type}&key=lokesh8279`, {
+      `http://165.232.177.161:3088/casinoapi/casinoData?gtype=${type}&key=lokesh8279`, {
       headers: {
         "x-api-key": "a3f41cc1eff0e0609f70b738d9e9d6cfda7b7465",
         "x-api-secret":
