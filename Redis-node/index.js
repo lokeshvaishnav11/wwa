@@ -973,24 +973,62 @@ const processPendingFancyResult = async () => {
   await Promise.allSettled(jobs);
 };
 // ---------------- Start App ----------------
+
 const start = async () => {
-  await setConnection();
+  const PORT = Number(process.env.PORT || 3031);
 
-  // Initial Boot Fetch
-  await getMatches();
-  await getFancyDataApi();
-
-  // 🔥 Intervals Execution
-  setInterval(getMatches, 5000);                // Matches sync every 5s
-  setInterval(getFancyDataApi, 1000);           // API Polling every 1s
-  setInterval(formattedFancyData, 1000);        // Redis Sync every 1s
-  setInterval(BookMakerOddsData, 900);          // Odds Publishing every 900ms
-  setInterval(processPendingFancyResult, 2000); // Result Declarations every 2s
-
-  const PORT = process.env.PORT || 3031;
+  // 1. Server sabse pehle start karo
   server.listen(PORT, () => {
-    console.log(`🚀 High-Throughput Socket & Redis Engine running on port ${PORT}`);
+    console.log(`🚀 Socket & Redis Engine running on port ${PORT}`);
   });
+
+  server.on("error", (err) => {
+    console.error("❌ Server Error:", err.message);
+  });
+
+  // 2. MongoDB connection
+  console.log("⏳ Connecting MongoDB...");
+  await setConnection();
+  console.log("✅ MongoDB connected");
+
+  // 3. Active matches fetch
+  console.log("⏳ Fetching matches...");
+  await getMatches();
+  console.log(`✅ Active matches: ${matches.length}`);
+
+  // 4. Prevent overlapping jobs
+  const runJob = (name, fn, interval) => {
+    let running = false;
+
+    const execute = async () => {
+      if (running) return;
+
+      running = true;
+
+      try {
+        await fn();
+      } catch (err) {
+        console.error(`❌ ${name}:`, err.message);
+      } finally {
+        running = false;
+      }
+    };
+
+    execute();
+    setInterval(execute, interval);
+  };
+
+  // 5. Start background jobs
+  runJob("Matches", getMatches, 5000);
+  runJob("Fancy API", getFancyDataApi, 1000);
+  runJob("Fancy Redis", formattedFancyData, 1000);
+  runJob("Bookmaker", BookMakerOddsData, 900);
+  runJob("Results", processPendingFancyResult, 2000);
+
+  console.log("✅ All background jobs started");
 };
 
-start();
+start().catch((err) => {
+  console.error("❌ Startup failed:", err.message);
+});
+
