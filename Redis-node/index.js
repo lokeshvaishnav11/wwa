@@ -1509,6 +1509,127 @@ const processPendingFancyResult = async () => {
 
   await Promise.allSettled(jobs);
 };
+
+
+// ---------------- BOOKMAKER RESULT PROCESSOR ----------------
+
+// Successfully sent results ko repeat nahi karenge
+const bookmakerResultSent = new Set();
+
+// Ek time par duplicate processing avoid
+let bookmakerResultRunning = false;
+
+const processBookmakerResult = async () => {
+  if (bookmakerResultRunning) return;
+
+  bookmakerResultRunning = true;
+
+  try {
+    // Existing active matches
+    const currentMatches = [...matches];
+
+    // Limited concurrency - low server load
+    const concurrency = 3;
+    let cursor = 0;
+
+    const worker = async () => {
+      while (cursor < currentMatches.length) {
+        const match = currentMatches[cursor++];
+        const matchId = String(match.matchId);
+
+        try {
+          // Existing result provider API reuse
+          const markets = await getProviderResult(matchId);
+
+          if (!Array.isArray(markets) || !markets.length) {
+            continue;
+          }
+
+          const bookmakerResults = markets.filter((market) => {
+            return (
+              String(market.mname || "").trim().toUpperCase() ===
+                "BOOKMAKER" &&
+              String(market.status || "").trim().toUpperCase() ===
+                "SETTLE" &&
+              market.rollback !== true &&
+              typeof market.winnerName === "string" &&
+              market.winnerName.trim().length > 0
+            );
+          });
+
+          for (const result of bookmakerResults) {
+            const winner = result.winnerName.trim();
+            const resultMatchId = String(result.gmid || matchId);
+
+            // Same match ka result usi match ke against
+            if (resultMatchId !== matchId) continue;
+
+            for (const baseUrl of FANCY_APIS) {
+              const resultKey =
+                `${baseUrl}:${resultMatchId}:${result.stdtro_id || "BOOKMAKER"}:${winner}`;
+
+              if (bookmakerResultSent.has(resultKey)) {
+                continue;
+              }
+
+              try {
+                await axios.get(
+                  `${baseUrl}/api/match-result-by-redis`,
+                  {
+                    params: {
+                      matchid: resultMatchId,
+                      winner: winner,
+                    },
+                    timeout: RESULT_TIMEOUT_MS,
+                  }
+                );
+
+                // Mark sent only after successful API response
+                bookmakerResultSent.add(resultKey);
+
+                console.log(
+                  `[BOOKMAKER RESULT] Success match=${resultMatchId} winner=${winner} backend=${baseUrl}`
+                );
+
+              } catch (err) {
+                console.error(
+                  `[BOOKMAKER RESULT] Failed match=${resultMatchId} backend=${baseUrl}:`,
+                  err.message
+                );
+              }
+            }
+          }
+
+        } catch (err) {
+          console.error(
+            `[BOOKMAKER RESULT] Match ${matchId} error:`,
+            err.message
+          );
+        }
+      }
+    };
+
+    await Promise.all(
+      Array.from(
+        { length: Math.min(concurrency, currentMatches.length) },
+        worker
+      )
+    );
+
+  } catch (err) {
+    console.error("[BOOKMAKER RESULT] Error:", err.message);
+  } finally {
+    bookmakerResultRunning = false;
+  }
+};
+
+
+
+
+
+
+
+
 // ---------------- Start App ----------------
 const runJob = (name, fn, ms) => {
   let running = false;
@@ -1548,6 +1669,11 @@ const start = async () => {
     await BookMakerOddsData();
   }, Number(process.env.FANCY_POLL_MS || 1000));
   runJob('results', processPendingFancyResult, Number(process.env.RESULT_POLL_MS || 5000));
+  runJob(
+  'bookmakerResults',
+  processBookmakerResult,
+  2 * 60 * 1000
+);
   console.log('All background jobs started');
 };
 
